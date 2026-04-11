@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="tournamentRoot" id="tournamentRoot" prefHeight="960.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.Controller.AfficherPersonne2Controller">
+   <top>
+      <HBox fx:id="hubHeader" id="hubHeader" spacing="16.0" BorderPane.alignment="CENTER_LEFT">
+         <padding>
+            <Insets bottom="20.0" left="24.0" right="24.0" top="22.0" />
+         </padding>
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backToDashboard" text="← Back to Arena" />
+            <VBox spacing="2.0">
+               <children>
+                  <Label fx:id="hubTitle" id="hubTitle" text="Tournament Hub" />
+                  <Label fx:id="hubSubtitle" id="hubSubtitle" text="Choose a bracket and register your roster" />
+               </children>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="userModeButton" mnemonicParsing="false" onAction="#showUserMode" text="User mode" />
+            <ToggleButton fx:id="adminModeButton" mnemonicParsing="false" onAction="#showAdminMode" text="Admin mode" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <ScrollPane fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="hubContent" spacing="22.0">
+               <padding>
+                  <Insets bottom="30.0" left="28.0" right="28.0" top="18.0" />
+               </padding>
+               <children>
+                  <VBox spacing="8.0">
+                     <children>
+                        <Label text="Join the action" />
+                        <Label text="Open slots, prize pools, and bracket status at a glance" />
+                     </children>
+                  </VBox>
+                  <FlowPane fx:id="tournamentCardsHost" hgap="18.0" prefWrapLength="1200.0" vgap="18.0" />
+                  <HBox spacing="18.0">
+                     <children>
+                        <VBox fx:id="joinCardHost" prefWidth="420.0" spacing="14.0" HBox.hgrow="ALWAYS" />
+                        <VBox fx:id="roleCardHost" prefWidth="420.0" spacing="14.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <Separator />
+                  <Label fx:id="feedbackLabel" text="Ready to register a roster?" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootPane" id="rootPane" prefHeight="960.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.Controller.AjouterPersonneController">
+   <left>
+      <VBox fx:id="sidebar" id="sidebar" prefWidth="280.0" spacing="18.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="28.0" left="24.0" right="24.0" top="28.0" />
+         </padding>
+         <children>
+            <VBox spacing="4.0">
+               <children>
+                  <Label fx:id="brandTitle" id="brandTitle" text="EsportDev" />
+                  <Label fx:id="brandSubtitle" id="brandSubtitle" text="Arena Control" />
+               </children>
+            </VBox>
+            <Separator />
+            <Button fx:id="dashboardButton" mnemonicParsing="false" onAction="#showDashboard" text="Dashboard" />
+            <Button fx:id="matchesButton" mnemonicParsing="false" onAction="#showMatches" text="Matches" />
+            <Button fx:id="tournamentsButton" mnemonicParsing="false" onAction="#openTournamentHub" text="Tournaments" />
+            <Button fx:id="teamsButton" mnemonicParsing="false" onAction="#showTeams" text="Teams" />
+            <Button fx:id="userButton" mnemonicParsing="false" onAction="#showUserArea" text="User Area" />
+            <Button fx:id="adminButton" mnemonicParsing="false" onAction="#showAdminArea" text="Admin Area" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Label text="Built with JavaFX" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <HBox fx:id="headerBar" id="headerBar" spacing="16.0" BorderPane.alignment="CENTER_LEFT">
+         <padding>
+            <Insets bottom="18.0" left="24.0" right="24.0" top="22.0" />
+         </padding>
+         <children>
+            <VBox spacing="2.0">
+               <children>
+                  <Label fx:id="pageTitle" id="pageTitle" text="Esports Dashboard" />
+                  <Label fx:id="pageSubtitle" id="pageSubtitle" text="Matches, tournaments, teams, and admin control in one sleek hub" />
+               </children>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="userModeButton" mnemonicParsing="false" onAction="#showUserArea" text="User mode" />
+            <ToggleButton fx:id="adminModeButton" mnemonicParsing="false" onAction="#showAdminArea" text="Admin mode" />
+            <Button fx:id="openTournamentButton" mnemonicParsing="false" onAction="#openTournamentHub" text="Join Tournament" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <ScrollPane fx:id="contentScroll" id="contentScroll" fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
+         <content>
+            <StackPane fx:id="contentHost" id="contentHost" prefHeight="760.0" prefWidth="1080.0">
+               <padding>
+                  <Insets bottom="28.0" left="28.0" right="28.0" top="18.0" />
+               </padding>
+            </StackPane>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

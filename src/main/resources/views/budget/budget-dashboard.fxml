@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.SimpleActionsController" spacing="12" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <Label text="Budget Dashboard" styleClass="page-title" />
+        <VBox spacing="8" styleClass="card"><padding><Insets top="12" right="12" bottom="12" left="12"/></padding><children>
+            <Label text="Budget Overview: $20,000 total | $15,200 spent | $4,800 remaining" />
+            <ProgressBar progress="0.76" prefWidth="500" />
+            <Label text="Alert: WARNING threshold exceeded (75%)" styleClass="warning-text" />
+        </children></VBox>
+        <Label text="Recent Expenses" styleClass="section-title" />
+        <TableView VBox.vgrow="ALWAYS" styleClass="card"><columns>
+            <TableColumn text="Date" prefWidth="120" />
+            <TableColumn text="Category" prefWidth="180" />
+            <TableColumn text="Amount" prefWidth="120" />
+            <TableColumn text="Notes" prefWidth="320" />
+        </columns></TableView>
+        <Button text="Add Expense" onAction="#onCreate" styleClass="btn-primary" />
+    </children>
+</VBox>
+

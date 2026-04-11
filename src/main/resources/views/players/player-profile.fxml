@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.SimpleActionsController" spacing="12" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <HBox spacing="12" styleClass="card"><padding><Insets top="12" right="12" bottom="12" left="12"/></padding><children>
+            <Label text="[Avatar]" styleClass="avatar-placeholder" />
+            <VBox spacing="4"><children>
+                <Label text="Ahmed Ben Ali" styleClass="page-title" />
+                <Label text="Nickname: FalconX | Role: ADC | Joined: 2025-02-01"/>
+            </children></VBox>
+        </children></HBox>
+
+        <GridPane hgap="12" vgap="12">
+            <children>
+                <VBox styleClass="stat-card" GridPane.columnIndex="0"><children><Label text="84" styleClass="stat-value"/><Label text="Total Matches"/></children></VBox>
+                <VBox styleClass="stat-card" GridPane.columnIndex="1"><children><Label text="62%" styleClass="stat-value"/><Label text="Win Rate"/></children></VBox>
+                <VBox styleClass="stat-card" GridPane.columnIndex="2"><children><Label text="3.8" styleClass="stat-value"/><Label text="Average KDA"/></children></VBox>
+                <VBox styleClass="stat-card" GridPane.columnIndex="3"><children><Label text="12" styleClass="stat-value"/><Label text="MVP Count"/></children></VBox>
+            </children>
+        </GridPane>
+
+        <Label text="Recent Matches" styleClass="section-title" />
+        <TableView VBox.vgrow="ALWAYS" styleClass="card"><columns>
+            <TableColumn text="Match" prefWidth="280" />
+            <TableColumn text="Result" prefWidth="120" />
+            <TableColumn text="KDA" prefWidth="120" />
+            <TableColumn text="Points" prefWidth="120" />
+        </columns></TableView>
+
+        <Label text="Teams Joined" styleClass="section-title" />
+        <ListView prefHeight="100" styleClass="card"><items /></ListView>
+        <Button text="Edit Profile" onAction="#onEdit" styleClass="btn-primary" />
+    </children>
+</VBox>
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" spacing="4" styleClass="card">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <children>
+        <Label text="[Logo]" />
+        <Label text="Falcons" styleClass="section-title" />
+        <Label text="Members: 6" />
+        <Label text="Budget: $12,000" />
+    </children>
+</VBox>
+

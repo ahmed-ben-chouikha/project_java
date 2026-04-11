@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" spacing="4" styleClass="card">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <children>
+        <Label text="Team 1 2 - 1 Team 2" styleClass="section-title" />
+        <Label text="2026-04-15 20:00" />
+        <Label text="Status: Ongoing" />
+    </children>
+</VBox>
+
