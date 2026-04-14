@@ -1,7 +1,9 @@
 package edu.connexion3a36.rankup.app;
 
 import edu.connexion3a36.rankup.controllers.BaseController;
+import edu.connexion3a36.rankup.session.SessionContext;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,6 +33,10 @@ public final class RankUpApp {
         setRoot("/views/auth/login.fxml", 1100, 760);
     }
 
+    public static void showRegister() {
+        setRoot("/views/auth/register.fxml", 1100, 820);
+    }
+
     public static void showBase() {
         setRoot("/views/base.fxml", 1400, 900);
     }
@@ -41,8 +47,15 @@ public final class RankUpApp {
         }
     }
 
+    public static void loadInBase(Node viewNode) {
+        if (baseController != null) {
+            baseController.loadCenter(viewNode);
+        }
+    }
+
     public static void logout() {
         baseController = null;
+        SessionContext.clear();
         showLogin();
     }
 
@@ -51,7 +64,10 @@ public final class RankUpApp {
             FXMLLoader loader = new FXMLLoader(RankUpApp.class.getResource(fxml));
             Parent root = loader.load();
             Scene scene = new Scene(root, width, height);
-            scene.getStylesheets().add(RankUpApp.class.getResource("/styles.css").toExternalForm());
+            var stylesheet = RankUpApp.class.getResource("/styles.css");
+            if (stylesheet != null) {
+                scene.getStylesheets().add(stylesheet.toExternalForm());
+            }
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

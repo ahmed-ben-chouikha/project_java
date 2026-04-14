@@ -135,7 +135,7 @@ public class DemandeRecompenseController {
         alert.setTitle("Confirmation");
         alert.setHeaderText("Supprimer la demande");
         alert.setContentText("Êtes-vous sûr de vouloir supprimer cette demande?");
-        if (alert.showAndWait().orElse(Alert.ButtonType.CANCEL) == Alert.ButtonType.OK) {
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             if (service.delete(selected.getId())) {
                 showInfo("Succès", "Demande supprimée avec succès");
                 loadData();

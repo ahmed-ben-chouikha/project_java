@@ -27,5 +27,9 @@ public class BaseController {
             throw new RuntimeException("Cannot load content: " + fxmlPath, e);
         }
     }
+
+    public void loadCenter(Node view) {
+        contentPane.getChildren().setAll(view);
+    }
 }
 

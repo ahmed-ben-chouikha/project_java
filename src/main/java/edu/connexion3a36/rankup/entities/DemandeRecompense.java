@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class DemandeRecompense {
     private int id;
+    private Integer userId;
     private String nomDemandeur;
     private String email;
     private String motif;
@@ -20,6 +21,14 @@ public class DemandeRecompense {
         this.motif = motif;
         this.dateDemande = dateDemande;
         this.statut = statut;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public int getId() {

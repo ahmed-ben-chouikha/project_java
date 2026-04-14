@@ -4,13 +4,11 @@ import edu.connexion3a36.rankup.entities.DemandeRecompense;
 import edu.connexion3a36.tools.MyConnection;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DemandeRecompenseService {
-    private Connection cnx;
+    private final Connection cnx;
 
     public DemandeRecompenseService() {
         cnx = MyConnection.getInstance().getCnx();
@@ -20,14 +18,19 @@ public class DemandeRecompenseService {
      * Ajouter une nouvelle demande de récompense
      */
     public boolean add(DemandeRecompense demande) {
-        String sql = "INSERT INTO demande_recompense (nom_demandeur, email, motif, date_demande, statut) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO demande_recompense (user_id, nom_demandeur, email, motif, date_demande, statut) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setString(1, demande.getNomDemandeur());
-            pst.setString(2, demande.getEmail());
-            pst.setString(3, demande.getMotif());
-            pst.setTimestamp(4, Timestamp.valueOf(demande.getDateDemande()));
-            pst.setString(5, demande.getStatut());
+            if (demande.getUserId() == null) {
+                pst.setNull(1, Types.INTEGER);
+            } else {
+                pst.setInt(1, demande.getUserId());
+            }
+            pst.setString(2, demande.getNomDemandeur());
+            pst.setString(3, demande.getEmail());
+            pst.setString(4, demande.getMotif());
+            pst.setTimestamp(5, Timestamp.valueOf(demande.getDateDemande()));
+            pst.setString(6, demande.getStatut());
             return pst.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Erreur lors de l'ajout: " + e.getMessage());
@@ -39,15 +42,20 @@ public class DemandeRecompenseService {
      * Modifier une demande existante
      */
     public boolean update(DemandeRecompense demande) {
-        String sql = "UPDATE demande_recompense SET nom_demandeur=?, email=?, motif=?, date_demande=?, statut=? " +
+        String sql = "UPDATE demande_recompense SET user_id=?, nom_demandeur=?, email=?, motif=?, date_demande=?, statut=? " +
                 "WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setString(1, demande.getNomDemandeur());
-            pst.setString(2, demande.getEmail());
-            pst.setString(3, demande.getMotif());
-            pst.setTimestamp(4, Timestamp.valueOf(demande.getDateDemande()));
-            pst.setString(5, demande.getStatut());
-            pst.setInt(6, demande.getId());
+            if (demande.getUserId() == null) {
+                pst.setNull(1, Types.INTEGER);
+            } else {
+                pst.setInt(1, demande.getUserId());
+            }
+            pst.setString(2, demande.getNomDemandeur());
+            pst.setString(3, demande.getEmail());
+            pst.setString(4, demande.getMotif());
+            pst.setTimestamp(5, Timestamp.valueOf(demande.getDateDemande()));
+            pst.setString(6, demande.getStatut());
+            pst.setInt(7, demande.getId());
             return pst.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Erreur lors de la modification: " + e.getMessage());
@@ -146,6 +154,8 @@ public class DemandeRecompenseService {
     private DemandeRecompense mapResultSetToDemandeRecompense(ResultSet rs) throws SQLException {
         DemandeRecompense demande = new DemandeRecompense();
         demande.setId(rs.getInt("id"));
+        Object userId = rs.getObject("user_id");
+        demande.setUserId(userId == null ? null : ((Number) userId).intValue());
         demande.setNomDemandeur(rs.getString("nom_demandeur"));
         demande.setEmail(rs.getString("email"));
         demande.setMotif(rs.getString("motif"));

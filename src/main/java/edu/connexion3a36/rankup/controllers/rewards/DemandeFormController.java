@@ -3,6 +3,7 @@ package edu.connexion3a36.rankup.controllers.rewards;
 import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.rankup.entities.DemandeRecompense;
 import edu.connexion3a36.rankup.services.DemandeRecompenseService;
+import edu.connexion3a36.rankup.session.SessionContext;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -44,6 +45,11 @@ public class DemandeFormController {
             formTitle.setText("Créer une nouvelle demande");
             currentDemande = new DemandeRecompense();
             statutCombo.setValue("En attente");
+            if (SessionContext.isLoggedIn()) {
+                currentDemande.setUserId(SessionContext.getCurrentUser().getId());
+                nomField.setText(SessionContext.getCurrentUser().getFullName());
+                emailField.setText(SessionContext.getCurrentUser().getEmail());
+            }
         } else {
             formTitle.setText("Modifier la demande");
             loadFormData();
@@ -68,6 +74,9 @@ public class DemandeFormController {
             currentDemande.setStatut(statutCombo.getValue());
             if (mode.equals("CREATE")) {
                 currentDemande.setDateDemande(LocalDateTime.now());
+                if (SessionContext.isLoggedIn()) {
+                    currentDemande.setUserId(SessionContext.getCurrentUser().getId());
+                }
             }
 
             boolean success;

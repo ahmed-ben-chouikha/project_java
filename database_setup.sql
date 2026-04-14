@@ -1,11 +1,29 @@
--- =====================================================
--- Base de données: esportdevvv
+    -- =====================================================
+-- Base de données: esportdevvvvvv
 -- =====================================================
 
 -- Créer la base de données si elle n'existe pas
-CREATE DATABASE IF NOT EXISTS esportdevvv CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS esportdevvvvvv CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-USE esportdevvv;
+USE esportdevvvvvv;
+
+-- =====================================================
+-- Table: user
+-- =====================================================
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash CHAR(64) NOT NULL,
+    role VARCHAR(30) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `user` (full_name, email, password_hash, role) VALUES
+('Admin RankUp', 'admin@rankup.local', SHA2('admin123', 256), 'ADMIN'),
+('Player Demo', 'player@rankup.local', SHA2('player123', 256), 'PLAYER');
 
 -- =====================================================
 -- Table: recompense
@@ -28,13 +46,15 @@ CREATE TABLE recompense (
 DROP TABLE IF EXISTS demande_recompense;
 CREATE TABLE demande_recompense (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NULL,
     nom_demandeur VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     motif LONGTEXT,
     date_demande DATETIME NOT NULL,
     statut VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_demande_user FOREIGN KEY (user_id) REFERENCES `user`(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =====================================================
@@ -52,12 +72,12 @@ INSERT INTO recompense (recompense, type, classement, description, tournament_id
 -- =====================================================
 -- Données d'exemple: demande_recompense
 -- =====================================================
-INSERT INTO demande_recompense (nom_demandeur, email, motif, date_demande, statut) VALUES
-('Jean Dupont', 'jean.dupont@example.com', 'Demande de récompense pour participation excellente à la finale du tournoi CS:GO. J''ai obtenu le meilleur score de mon équipe avec 45 kills et 12 morts.', '2024-04-10 14:30:00', 'En attente'),
-('Marie Martin', 'marie.martin@example.com', 'Demande de récompense pour victoire au tournoi valorant. Notre équipe a remporté le titre avec une victoire 3-0 en finale.', '2024-04-08 10:15:00', 'Approuvée'),
-('Pierre Durand', 'pierre.durand@example.com', 'Demande de récompense pour le meilleur score individuel en matches de poule. J''ai maintenu une moyenne de 1.5 K/D ratio.', '2024-04-09 16:45:00', 'En attente'),
-('Sophie Bernard', 'sophie.bernard@example.com', 'Demande de récompense pour avoir remporté le prix du joueur le plus prometteur du tournoi League of Legends.', '2024-04-07 09:20:00', 'Rejetée'),
-('Thomas Lefevre', 'thomas.lefevre@example.com', 'Demande de récompense spéciale pour sponsoring et support du tournoi esports régional.', '2024-04-06 11:00:00', 'Approuvée');
+INSERT INTO demande_recompense (user_id, nom_demandeur, email, motif, date_demande, statut) VALUES
+(2, 'Player Demo', 'player@rankup.local', 'Demande de récompense de démonstration envoyée après connexion joueur.', '2024-04-10 14:30:00', 'En attente'),
+(2, 'Player Demo', 'player@rankup.local', 'Deuxième demande de test pour vérifier le flux login → demande.', '2024-04-08 10:15:00', 'Approuvée'),
+(NULL, 'Pierre Durand', 'pierre.durand@example.com', 'Demande de récompense pour le meilleur score individuel en matches de poule. J''ai maintenu une moyenne de 1.5 K/D ratio.', '2024-04-09 16:45:00', 'En attente'),
+(NULL, 'Sophie Bernard', 'sophie.bernard@example.com', 'Demande de récompense pour avoir remporté le prix du joueur le plus prometteur du tournoi League of Legends.', '2024-04-07 09:20:00', 'Rejetée'),
+(NULL, 'Thomas Lefevre', 'thomas.lefevre@example.com', 'Demande de récompense spéciale pour sponsoring et support du tournoi esports régional.', '2024-04-06 11:00:00', 'Approuvée');
 
 -- =====================================================
 -- Vérification des données
