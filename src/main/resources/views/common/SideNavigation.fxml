@@ -9,6 +9,7 @@
     <children>
         <Button text="Dashboard" onAction="#goHome" styleClass="nav-btn" />
         <Button text="Matches" onAction="#goMatches" styleClass="nav-btn" />
+        <Button text="Tickets" onAction="#goTickets" styleClass="nav-btn" />
         <Button text="Teams" onAction="#goTeams" styleClass="nav-btn" />
         <Button text="Players" onAction="#goPlayers" styleClass="nav-btn" />
         <Button text="Tournaments" onAction="#goTournaments" styleClass="nav-btn" />

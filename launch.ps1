@@ -13,10 +13,10 @@ $env:PATH = "$env:JAVA_HOME\bin;C:\Apache\apache-maven-3.9.6\bin;" + $env:PATH
 Write-Host "[1/3] Checking Maven installation..." -ForegroundColor Yellow
 $mavenCheck = & mvn --version 2>&1
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "✓ Maven found" -ForegroundColor Green
+    Write-Host "[OK] Maven found" -ForegroundColor Green
     Write-Host $mavenCheck[0] -ForegroundColor Gray
 } else {
-    Write-Host "✗ Maven not found at C:\Apache\apache-maven-3.9.6\bin" -ForegroundColor Red
+    Write-Host "[ERROR] Maven not found at C:\Apache\apache-maven-3.9.6\bin" -ForegroundColor Red
     Write-Host "Please ensure Maven is installed correctly." -ForegroundColor Red
     exit 1
 }
@@ -24,7 +24,7 @@ if ($LASTEXITCODE -eq 0) {
 Write-Host ""
 Write-Host "[2/3] Navigating to project..." -ForegroundColor Yellow
 cd "C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36"
-Write-Host "✓ Project directory ready" -ForegroundColor Green
+Write-Host "[OK] Project directory ready" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "[3/3] Building and launching application..." -ForegroundColor Yellow
@@ -36,10 +36,10 @@ Write-Host ""
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host ""
-    Write-Host "✗ Launch failed. Check the output above for errors." -ForegroundColor Red
+    Write-Host "[ERROR] Launch failed. Check the output above for errors." -ForegroundColor Red
     exit 1
 } else {
     Write-Host ""
-    Write-Host "✓ Application completed successfully" -ForegroundColor Green
+    Write-Host "[OK] Application completed successfully" -ForegroundColor Green
 }
 
