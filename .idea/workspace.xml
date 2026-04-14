@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/project_java/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/RUN.bat" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/RUN.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/launch.bat" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/launch.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/launch.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/launch.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/entities/Personne.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/entities/Personne.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/services/PersonneService.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/services/PersonneService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/tools/MyConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/tools/MyConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/common/SideNavigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/common/SideNavigation.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/matches/matches.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/matches/matches.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/players/player-profile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/players/player-profile.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-details.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-details.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/teams.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/teams.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournament-details.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournament-details.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournaments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournaments.fxml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/project_java" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="" />
+      <created>1776201103115</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1776201103115</updated>
+      <workItem from="1776201104121" duration="28000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
