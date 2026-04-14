@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.connexion3a36.rankup.controllers.AdminReviewModerationController"
+            styleClass="root" stylesheets="@../styles/esports.css">
+
+    <!-- Top Navigation -->
+    <top>
+        <VBox id="headerBar" spacing="10" style="-fx-padding: 15 20 15 20;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Review Moderation" id="pageTitle" />
+            </HBox>
+            <Label text="Approve or reject user reviews" id="pageSubtitle" />
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <ScrollPane style="-fx-background: transparent; -fx-fit-to-width: true;">
+            <VBox spacing="20" style="-fx-padding: 30 30 30 30;">
+
+                <!-- Success/Error Messages -->
+                <VBox fx:id="messageContainer" spacing="10" style="-fx-padding: 15; -fx-border-radius: 12; -fx-background-color: transparent;">
+                </VBox>
+
+                <!-- Filter/Stats Bar -->
+                <HBox spacing="20" alignment="CENTER_LEFT"
+                      style="-fx-padding: 15; -fx-background-color: rgba(30, 35, 50, 0.5); -fx-border-radius: 10; -fx-border-color: rgba(0, 188, 212, 0.1); -fx-border-width: 1;">
+                    <VBox spacing="5">
+                        <Label text="Pending Reviews" style="-fx-text-fill: #8899bb; -fx-font-size: 12px;" />
+                        <Label fx:id="pendingCountLabel" text="0" style="-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;" />
+                    </VBox>
+                    <Separator orientation="VERTICAL" />
+                    <VBox spacing="5">
+                        <Label text="Approved" style="-fx-text-fill: #8899bb; -fx-font-size: 12px;" />
+                        <Label fx:id="approvedCountLabel" text="0" style="-fx-text-fill: #34A853; -fx-font-size: 18px; -fx-font-weight: bold;" />
+                    </VBox>
+                    <Separator orientation="VERTICAL" />
+                    <VBox spacing="5">
+                        <Label text="Rejected" style="-fx-text-fill: #8899bb; -fx-font-size: 12px;" />
+                        <Label fx:id="rejectedCountLabel" text="0" style="-fx-text-fill: #ff6b6b; -fx-font-size: 18px; -fx-font-weight: bold;" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button fx:id="refreshButton" text="Refresh" style="-fx-background-color: rgba(148, 163, 184, 0.15); -fx-text-fill: #d7e3f0; -fx-padding: 8 16 8 16; -fx-background-radius: 8; -fx-font-size: 12px; -fx-cursor: hand;" />
+                </HBox>
+
+                <!-- Reviews TableView -->
+                <TableView fx:id="reviewsTableView"
+                           style="-fx-background-color: rgba(30, 35, 50, 0.5); -fx-border-color: rgba(0, 188, 212, 0.1); -fx-border-width: 1; -fx-border-radius: 10; -fx-padding: 1;"
+                           prefHeight="500">
+
+                    <columns>
+                        <!-- Player Name Column -->
+                        <TableColumn text="Player" prefWidth="120">
+                            <cellValueFactory property="playerName" />
+                        </TableColumn>
+
+                        <!-- Tournament Column -->
+                        <TableColumn text="Tournament" prefWidth="150">
+                            <cellValueFactory property="tournamentName" />
+                        </TableColumn>
+
+                        <!-- Rating Column (Stars) -->
+                        <TableColumn text="Rating" prefWidth="80">
+                        </TableColumn>
+
+                        <!-- Comment Column -->
+                        <TableColumn text="Comment" prefWidth="250">
+                            <cellValueFactory property="comment" />
+                        </TableColumn>
+
+                        <!-- Date Column -->
+                        <TableColumn text="Submitted" prefWidth="100">
+                            <cellValueFactory property="reviewDate" />
+                        </TableColumn>
+
+                        <!-- Current Status Column -->
+                        <TableColumn text="Status" prefWidth="100">
+                            <cellValueFactory property="status" />
+                        </TableColumn>
+
+                        <!-- Actions Column -->
+                        <TableColumn text="Actions" prefWidth="200">
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <!-- Empty State -->
+                <VBox fx:id="emptyStateContainer" alignment="CENTER" spacing="10"
+                      style="-fx-padding: 80; -fx-background-color: rgba(30, 35, 50, 0.5); -fx-border-radius: 10; -fx-border-color: rgba(0, 188, 212, 0.1); -fx-border-width: 1;">
+                    <Label text="No pending reviews" style="-fx-text-fill: #9fb1c7; -fx-font-size: 18px; -fx-font-weight: bold;" />
+                    <Label text="All reviews have been processed" style="-fx-text-fill: #8899bb; -fx-font-size: 13px;" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
