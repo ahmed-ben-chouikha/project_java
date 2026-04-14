@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane" id="rootPane" prefHeight="960.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.Controller.AjouterPersonneController">
+<BorderPane fx:id="rootPane" id="rootPane" prefHeight="960.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.Controller.AjouterPersonneController">
    <left>
       <VBox fx:id="sidebar" id="sidebar" prefWidth="280.0" spacing="18.0" BorderPane.alignment="CENTER">
          <padding>
@@ -70,3 +70,4 @@
       </ScrollPane>
    </center>
 </BorderPane>
+

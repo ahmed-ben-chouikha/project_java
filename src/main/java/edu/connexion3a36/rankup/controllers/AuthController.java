@@ -17,7 +17,9 @@ public class AuthController {
 
     @FXML
     void onSignIn(ActionEvent event) {
-        if (emailField.getText().isBlank() || passwordField.getText().isBlank()) {
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             showInfo("Validation", "Email and password are required.");
             return;
         }

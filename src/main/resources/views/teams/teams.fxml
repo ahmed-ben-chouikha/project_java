@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Priority?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.teams.TeamsController" spacing="12" styleClass="page-root">
-    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
-    <children>
-        <Label text="Teams" styleClass="page-title" />
-        <HBox spacing="8">
-            <children>
-                <TextField fx:id="searchField" promptText="Search by team or country" HBox.hgrow="ALWAYS" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Button text="Create Team" onAction="#onCreateTeam" styleClass="btn-primary" />
-            </children>
-        </HBox>
-        <TableView fx:id="teamsTable" VBox.vgrow="ALWAYS" styleClass="card">
-            <columns>
-                <TableColumn fx:id="nameCol" text="Team Name" prefWidth="190" />
-                <TableColumn fx:id="countryCol" text="Country" prefWidth="160" />
-                <TableColumn fx:id="membersCol" text="Members" prefWidth="100" />
-                <TableColumn fx:id="budgetCol" text="Budget" prefWidth="140" />
-            </columns>
-        </TableView>
-        <HBox spacing="8">
-            <children>
-                <Button text="View" onAction="#onViewTeam" />
-                <Button text="Edit" onAction="#onEditTeam" />
-                <Button text="Delete" onAction="#onDeleteTeam" styleClass="btn-danger" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Pagination fx:id="pagination" prefWidth="220" />
-            </children>
-        </HBox>
-    </children>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.TeamsController" spacing="15" style="-fx-padding: 20px; -fx-background-color: #1a1a2e;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="⚔️ Gestion des Équipes" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #00d4ff;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="➕ Nouvelle Équipe" onAction="#onAddTeam" style="-fx-padding: 8px 15px; -fx-font-size: 12px; -fx-background-color: #00d4ff; -fx-text-fill: #1a1a2e; -fx-cursor: hand; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- Search and Filter Bar -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Rechercher par nom d'équipe..." style="-fx-padding: 8px; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="filterCombo" promptText="Filtrer par statut" style="-fx-padding: 8px; -fx-font-size: 12px;" onAction="#onFilterByStatus"/>
+        <Button text="🔍 Rechercher" onAction="#onSearchTeams" style="-fx-padding: 8px 15px; -fx-font-size: 12px; -fx-cursor: hand;"/>
+        <Button text="🔄 Actualiser" onAction="#onRefresh" style="-fx-padding: 8px 15px; -fx-font-size: 12px; -fx-cursor: hand;"/>
+    </HBox>
+
+    <!-- Table -->
+    <TableView fx:id="teamTable" style="-fx-control-inner-background: #16213e; -fx-text-fill: #ffffff;" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="40"/>
+            <TableColumn fx:id="nameColumn" text="Nom" prefWidth="130"/>
+            <TableColumn fx:id="countryColumn" text="Pays" prefWidth="100"/>
+            <TableColumn fx:id="jeuColumn" text="Jeu" prefWidth="120"/>
+            <TableColumn fx:id="niveauColumn" text="Niveau" prefWidth="100"/>
+            <TableColumn fx:id="statutColumn" text="Statut" prefWidth="100"/>
+            <TableColumn fx:id="scoreColumn" text="Score" prefWidth="80"/>
+            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
+        </columns>
+    </TableView>
+
 </VBox>
+
+
 

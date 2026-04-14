@@ -65,7 +65,10 @@ public class AfficherPersonne2Controller {
         tournamentCardsHost.getChildren().clear();
         catalog.getUpcomingTournaments().forEach(tournament -> tournamentCardsHost.getChildren().add(createTournamentCard(tournament)));
 
-        tournamentChoice.setItems(FXCollections.observableArrayList(catalog.getUpcomingTournaments().stream().map(TournamentCard::name).toList()));
+        java.util.List<String> tournamentNames = catalog.getUpcomingTournaments().stream()
+                .map(t -> t.name)
+                .collect(java.util.stream.Collectors.toList());
+        tournamentChoice.setItems(FXCollections.observableArrayList(tournamentNames));
         if (!tournamentChoice.getItems().isEmpty()) {
             tournamentChoice.setValue(tournamentChoice.getItems().get(0));
         }
@@ -110,7 +113,7 @@ public class AfficherPersonne2Controller {
         String gamerTag = gamerTagField.getText().trim();
         String team = teamField.getText().trim();
 
-        if (tournament == null || tournament.isBlank()) {
+        if (tournament == null || tournament.trim().isEmpty()) {
             showMessage("Join tournament", "Please choose a tournament first.");
             return;
         }
@@ -160,15 +163,15 @@ public class AfficherPersonne2Controller {
 
     private VBox createTournamentCard(TournamentCard tournament) {
         VBox card = createCard();
-        Label title = createTitle(tournament.name());
-        Label subtitle = createSubtitle(tournament.game());
-        Label details = new Label(tournament.date() + " • " + tournament.prizePool() + " • " + tournament.slots());
+        Label title = createTitle(tournament.name);
+        Label subtitle = createSubtitle(tournament.game);
+        Label details = new Label(tournament.date + " • " + tournament.prizePool + " • " + tournament.slots);
         details.getStyleClass().add("card-detail");
-        Button action = createPrimaryButton(tournament.openForJoin() ? "Join" : "Waitlist", e -> {
-            tournamentChoice.setValue(tournament.name());
-            showMessage("Tournament hub", tournament.name() + " selected. Complete the form to join.");
+        Button action = createPrimaryButton(tournament.openForJoin ? "Join" : "Waitlist", e -> {
+            tournamentChoice.setValue(tournament.name);
+            showMessage("Tournament hub", tournament.name + " selected. Complete the form to join.");
         });
-        if (!tournament.openForJoin()) {
+        if (!tournament.openForJoin) {
             action.getStyleClass().add("secondary-action");
         }
         card.getChildren().addAll(title, subtitle, details, action);
@@ -209,8 +212,8 @@ public class AfficherPersonne2Controller {
         HBox wrapper = new HBox(box);
         wrapper.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(box, javafx.scene.layout.Priority.ALWAYS);
-        if (field instanceof Region region) {
-            region.setPrefWidth(360);
+        if (field instanceof Region) {
+            ((Region) field).setPrefWidth(360);
         }
         return wrapper;
     }

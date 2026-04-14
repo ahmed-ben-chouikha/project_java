@@ -179,3 +179,39 @@
     -fx-text-fill: #e7edf8;
 }
 
+.table-view {
+    -fx-background-color: rgba(16, 24, 39, 0.98);
+    -fx-table-cell-border-color: rgba(148, 163, 184, 0.18);
+    -fx-border-color: rgba(148, 163, 184, 0.26);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: rgba(16, 24, 39, 0.98);
+}
+
+.table-view .column-header, .table-view .column-header .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e7edf8;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #e7edf8;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-row-cell:filled:selected, .table-view .table-row-cell:focused:selected {
+    -fx-background-color: linear-gradient(to right, #38bdf8, #8b5cf6);
+    -fx-text-fill: white;
+}

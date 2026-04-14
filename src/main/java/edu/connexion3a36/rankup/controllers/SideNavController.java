@@ -22,7 +22,10 @@ public class SideNavController {
     void goTournaments(ActionEvent event) { RankUpApp.loadInBase("/views/tournaments/tournaments.fxml"); }
 
     @FXML
-    void goBudget(ActionEvent event) { RankUpApp.loadInBase("/views/budget/budget-dashboard.fxml"); }
+    void goBudget(ActionEvent event) { RankUpApp.loadInBase("/views/budget/budget-list.fxml"); }
+
+    @FXML
+    void goDepense(ActionEvent event) { RankUpApp.loadInBase("/views/depense/depense-list.fxml"); }
 
     @FXML
     void goNotifications(ActionEvent event) { RankUpApp.loadInBase("/views/notifications/notifications.fxml"); }

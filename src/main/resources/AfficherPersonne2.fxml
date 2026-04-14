@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="tournamentRoot" id="tournamentRoot" prefHeight="960.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.Controller.AfficherPersonne2Controller">
+<BorderPane fx:id="tournamentRoot" id="tournamentRoot" prefHeight="960.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.Controller.AfficherPersonne2Controller">
    <top>
       <HBox fx:id="hubHeader" id="hubHeader" spacing="16.0" BorderPane.alignment="CENTER_LEFT">
          <padding>
@@ -64,3 +64,4 @@
       </ScrollPane>
    </center>
 </BorderPane>
+
