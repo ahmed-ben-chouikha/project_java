@@ -10,25 +10,45 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.SimpleActionsController" spacing="12" styleClass="page-root">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.matches.MatchFormController" spacing="12" styleClass="page-root matches-page">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
-        <Label text="Create / Edit Match" styleClass="page-title" />
+        <Label fx:id="titleLabel" text="Create Match" styleClass="page-title" />
         <GridPane hgap="10" vgap="10" styleClass="card">
             <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
             <children>
-                <Label text="Team 1" GridPane.rowIndex="0" GridPane.columnIndex="0"/><ComboBox GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="220"/>
-                <Label text="Team 2" GridPane.rowIndex="1" GridPane.columnIndex="0"/><ComboBox GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="220"/>
-                <Label text="Match Date" GridPane.rowIndex="2" GridPane.columnIndex="0"/><DatePicker GridPane.rowIndex="2" GridPane.columnIndex="1" />
-                <Label text="Match Time" GridPane.rowIndex="3" GridPane.columnIndex="0"/><TextField GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="HH:mm"/>
-                <Label text="Status" GridPane.rowIndex="4" GridPane.columnIndex="0"/><ComboBox GridPane.rowIndex="4" GridPane.columnIndex="1" prefWidth="220"/>
-                <Label text="Tournament" GridPane.rowIndex="5" GridPane.columnIndex="0"/><ComboBox GridPane.rowIndex="5" GridPane.columnIndex="1" prefWidth="220"/>
-                <Label text="Location" GridPane.rowIndex="6" GridPane.columnIndex="0"/><TextField GridPane.rowIndex="6" GridPane.columnIndex="1" promptText="Arena name"/>
-                <Label text="Validation messages will appear here" styleClass="muted" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                <Label text="Team 1" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="team1Combo" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="240"/>
+
+                <Label text="Team 2" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="team2Combo" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="240"/>
+
+                <Label text="Match Date" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="matchDatePicker" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                <Label text="Match Time" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="matchTimeField" GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="HH:mm:ss"/>
+
+                <Label text="Score 1" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="score1Field" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="0"/>
+
+                <Label text="Score 2" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="score2Field" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="0"/>
+
+                <Label text="Status" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="statusCombo" GridPane.rowIndex="6" GridPane.columnIndex="1" prefWidth="240"/>
+
+                <Label text="Tournament ID" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <TextField fx:id="tournamentIdField" GridPane.rowIndex="7" GridPane.columnIndex="1" promptText="Optional"/>
+
+                <Label fx:id="feedbackLabel" text="" styleClass="muted" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
             </children>
         </GridPane>
-        <HBox spacing="8"><children><Button text="Save" onAction="#onSave" styleClass="btn-primary"/><Button text="Cancel" onAction="#goBackMatches"/></children></HBox>
+        <HBox spacing="8">
+            <children>
+                <Button text="Save" onAction="#onSave" styleClass="btn-primary"/>
+                <Button text="Cancel" onAction="#onCancel" styleClass="btn-secondary"/>
+            </children>
+        </HBox>
     </children>
 </VBox>
-
-

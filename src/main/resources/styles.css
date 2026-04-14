@@ -12,6 +12,19 @@
     -fx-background-color: transparent;
 }
 
+.app-root,
+.content-pane {
+    -fx-background-color: linear-gradient(to bottom right, #070d1a, #0d1325 45%, #111827 100%);
+}
+
+.content-pane > * {
+    -fx-background-color: transparent;
+}
+
+.matches-page {
+    -fx-background-color: linear-gradient(to bottom right, #070d1a, #0d1325 45%, #111827 100%);
+}
+
 .admin-page,
 .login-root {
     -fx-background-color: linear-gradient(to bottom right, #070d1a, #0d1325 45%, #111827 100%);
@@ -141,6 +154,19 @@
     -fx-font-weight: 700;
 }
 
+.btn-secondary {
+    -fx-background-color: linear-gradient(to right, #1e293b, #334155);
+    -fx-text-fill: #f8fbff;
+    -fx-background-radius: 9;
+    -fx-border-color: rgba(125, 211, 252, 0.35);
+    -fx-border-radius: 9;
+    -fx-font-weight: 700;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: linear-gradient(to right, #334155, #475569);
+}
+
 .admin-actions-panel .button {
     -fx-background-color: rgba(148, 163, 184, 0.14);
     -fx-text-fill: #e7edf8;
@@ -214,4 +240,142 @@
 .table-view .table-row-cell:filled:selected, .table-view .table-row-cell:focused:selected {
     -fx-background-color: linear-gradient(to right, #38bdf8, #8b5cf6);
     -fx-text-fill: white;
+}
+
+.matches-page .label,
+.matches-page .button,
+.matches-page .hyperlink,
+.matches-page .combo-box,
+.matches-page .text-field,
+.matches-page .pagination,
+.matches-page .table-view {
+    -fx-text-fill: #e7edf8;
+}
+
+.matches-page .text-field,
+.matches-page .combo-box,
+.matches-page .button {
+    -fx-background-color: rgba(15, 23, 42, 0.96);
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(99, 179, 255, 0.24);
+    -fx-border-radius: 10;
+}
+
+.matches-page .button:hover,
+.matches-page .text-field:focused,
+.matches-page .combo-box:focused {
+    -fx-border-color: rgba(56, 189, 248, 0.65);
+    -fx-background-color: rgba(20, 30, 48, 0.98);
+}
+
+.matches-page .table-view .column-header-background .label {
+    -fx-text-fill: #eaf2ff;
+}
+
+.matches-page .table-view .column-header-background,
+.matches-page .table-view .column-header,
+.matches-page .table-view .filler,
+.matches-page .table-view .virtual-flow,
+.matches-page .table-view .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Matches page table readability fix (dark theme, high contrast) */
+.matches-page .table-view {
+    -fx-background-color: rgba(9, 15, 30, 0.98);
+    -fx-control-inner-background: rgba(9, 15, 30, 0.98);
+    -fx-table-cell-border-color: rgba(148, 163, 184, 0.18);
+    -fx-selection-bar: #3b82f6;
+    -fx-selection-bar-non-focused: #334155;
+    -fx-border-color: rgba(99, 179, 255, 0.25);
+}
+
+.matches-page .table-view .corner,
+.matches-page .table-view .placeholder {
+    -fx-background-color: rgba(9, 15, 30, 0.98);
+}
+
+.matches-page .table-view .column-header-background {
+    -fx-background-color: linear-gradient(to right, rgba(30, 41, 59, 0.95), rgba(51, 65, 85, 0.95));
+    -fx-background-radius: 8 8 0 0;
+}
+
+.matches-page .table-view .column-header,
+.matches-page .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(148, 163, 184, 0.22);
+    -fx-border-width: 0 0 1 0;
+}
+
+.matches-page .table-view .column-header .label {
+    -fx-text-fill: #dbeafe;
+    -fx-font-weight: 700;
+}
+
+.matches-page .table-view .table-row-cell {
+    -fx-background-color: rgba(15, 23, 42, 0.94);
+}
+
+.matches-page .table-view .table-row-cell:odd {
+    -fx-background-color: rgba(18, 29, 52, 0.94);
+}
+
+.matches-page .table-view .table-cell {
+    -fx-text-fill: #e6edf8;
+    -fx-border-color: transparent transparent rgba(148, 163, 184, 0.14) transparent;
+}
+
+.matches-page .table-view .table-row-cell:selected {
+    -fx-background-color: rgba(37, 99, 235, 0.72);
+}
+
+.matches-page .table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: #ffffff;
+}
+
+.matches-page .pagination .button,
+.matches-page .pagination .label {
+    -fx-background-color: rgba(15, 23, 42, 0.96);
+    -fx-text-fill: #e7edf8;
+    -fx-border-color: rgba(99, 179, 255, 0.24);
+}
+
+/* Final override: keep the entire column-title band dark, no white/gray bleed */
+.matches-page .table-view .column-header-background,
+.matches-page .table-view .nested-column-header-background {
+    -fx-background-color: #0f172a;
+}
+
+.matches-page .table-view .column-header,
+.matches-page .table-view .filler {
+    -fx-background-color: #0f172a;
+    -fx-border-color: rgba(148, 163, 184, 0.24);
+    -fx-border-width: 0 0 1 0;
+}
+
+.matches-page .table-view .column-header .label {
+    -fx-text-fill: #e6f1ff;
+    -fx-font-weight: 700;
+}
+
+/* Hard override using page id to beat Modena defaults for header band */
+#matchesPage .table-view .table-header-row,
+#matchesPage .table-view .column-header-background,
+#matchesPage .table-view .nested-column-header-background,
+#matchesPage .table-view .column-header,
+#matchesPage .table-view .filler,
+#matchesPage .table-view .show-hide-columns-button {
+    -fx-background-color: #0f172a;
+}
+
+#matchesPage .table-view .column-header,
+#matchesPage .table-view .filler,
+#matchesPage .table-view .show-hide-columns-button {
+    -fx-border-color: rgba(148, 163, 184, 0.26);
+    -fx-border-width: 0 0 1 0;
+}
+
+#matchesPage .table-view .column-header .label {
+    -fx-text-fill: #eaf2ff;
+    -fx-font-weight: 700;
 }
