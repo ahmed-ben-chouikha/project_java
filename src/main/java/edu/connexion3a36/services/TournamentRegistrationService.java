@@ -13,6 +13,10 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public void addEntity(TournamentRegistration registration) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String tournamentTable = resolveTournamentTable(cnx);
+
         if (registration == null || registration.getPlayerName() == null ||
             registration.getPlayerName().trim().isEmpty()) {
             throw new SQLException("Player name cannot be empty");
@@ -39,7 +43,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
         }
 
         // Insert registration with pending status
-        String query = "INSERT INTO tournament_registrations (player_name, team_name, tournament_id, status) " +
+        String query = "INSERT INTO " + registrationTable + " (player_name, team_name, tournament_id, status) " +
                 "VALUES (?, ?, ?, ?)";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
@@ -54,6 +58,9 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public void deleteEntity(TournamentRegistration registration) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+
         if (registration == null || registration.getId() <= 0) {
             throw new SQLException("Invalid registration for deletion");
         }
@@ -64,8 +71,8 @@ public class TournamentRegistrationService implements ITournamentRegistration {
             throw new SQLException("Can only cancel pending registrations");
         }
 
-        String query = "DELETE FROM tournament_registrations WHERE id = ?";
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        String query = "DELETE FROM " + registrationTable + " WHERE id = ?";
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setInt(1, registration.getId());
 
         int result = pst.executeUpdate();
@@ -78,13 +85,16 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public void updateEntity(int id, TournamentRegistration registration) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+
         if (registration == null) {
             throw new SQLException("Registration cannot be null");
         }
 
-        String query = "UPDATE tournament_registrations SET team_name = ?, status = ? WHERE id = ?";
+        String query = "UPDATE " + registrationTable + " SET team_name = ?, status = ? WHERE id = ?";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setString(1, registration.getTeamName().trim());
         pst.setString(2, registration.getStatus() != null ? registration.getStatus() : "pending");
         pst.setInt(3, id);
@@ -104,12 +114,15 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public List<TournamentRegistration> getPlayerRegistrations(String playerName) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String tournamentTable = resolveTournamentTable(cnx);
         List<TournamentRegistration> registrations = new ArrayList<>();
-        String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
+        String query = "SELECT tr.*, t.name as tournament_name FROM " + registrationTable + " tr " +
+                "LEFT JOIN " + tournamentTable + " t ON tr.tournament_id = t.id " +
                 "WHERE tr.player_name = ? ORDER BY tr.registration_date DESC";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setString(1, playerName.trim());
         ResultSet rs = pst.executeQuery();
 
@@ -121,10 +134,12 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public boolean isDuplicateRegistration(String playerName, int tournamentId) throws SQLException {
-        String query = "SELECT COUNT(*) as count FROM tournament_registrations " +
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String query = "SELECT COUNT(*) as count FROM " + registrationTable + " " +
                 "WHERE player_name = ? AND tournament_id = ?";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setString(1, playerName.trim());
         pst.setInt(2, tournamentId);
         ResultSet rs = pst.executeQuery();
@@ -137,12 +152,15 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public List<TournamentRegistration> getAllRegistrations() throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String tournamentTable = resolveTournamentTable(cnx);
         List<TournamentRegistration> registrations = new ArrayList<>();
-        String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
+        String query = "SELECT tr.*, t.name as tournament_name FROM " + registrationTable + " tr " +
+                "LEFT JOIN " + tournamentTable + " t ON tr.tournament_id = t.id " +
                 "ORDER BY tr.registration_date DESC";
 
-        Statement st = MyConnection.getInstance().getCnx().createStatement();
+        Statement st = cnx.createStatement();
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
@@ -153,12 +171,15 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public List<TournamentRegistration> getRegistrationsByStatus(String status) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String tournamentTable = resolveTournamentTable(cnx);
         List<TournamentRegistration> registrations = new ArrayList<>();
-        String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
+        String query = "SELECT tr.*, t.name as tournament_name FROM " + registrationTable + " tr " +
+                "LEFT JOIN " + tournamentTable + " t ON tr.tournament_id = t.id " +
                 "WHERE tr.status = ? ORDER BY tr.registration_date DESC";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setString(1, status);
         ResultSet rs = pst.executeQuery();
 
@@ -170,12 +191,15 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public List<TournamentRegistration> getRegistrationsByTournament(int tournamentId) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String tournamentTable = resolveTournamentTable(cnx);
         List<TournamentRegistration> registrations = new ArrayList<>();
-        String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
+        String query = "SELECT tr.*, t.name as tournament_name FROM " + registrationTable + " tr " +
+                "LEFT JOIN " + tournamentTable + " t ON tr.tournament_id = t.id " +
                 "WHERE tr.tournament_id = ? ORDER BY tr.registration_date DESC";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setInt(1, tournamentId);
         ResultSet rs = pst.executeQuery();
 
@@ -187,6 +211,9 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public void acceptRegistration(int registrationId) throws SQLException {
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+
         // Get the registration
         TournamentRegistration registration = getRegistrationById(registrationId);
         if (registration == null) {
@@ -194,8 +221,8 @@ public class TournamentRegistrationService implements ITournamentRegistration {
         }
 
         // Update status to confirmed
-        String updateQuery = "UPDATE tournament_registrations SET status = 'confirmed' WHERE id = ?";
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(updateQuery);
+        String updateQuery = "UPDATE " + registrationTable + " SET status = 'confirmed' WHERE id = ?";
+        PreparedStatement pst = cnx.prepareStatement(updateQuery);
         pst.setInt(1, registrationId);
         pst.executeUpdate();
 
@@ -215,8 +242,10 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public void rejectRegistration(int registrationId, String reason) throws SQLException {
-        String updateQuery = "UPDATE tournament_registrations SET status = 'rejected', rejection_reason = ? WHERE id = ?";
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(updateQuery);
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String updateQuery = "UPDATE " + registrationTable + " SET status = 'rejected', rejection_reason = ? WHERE id = ?";
+        PreparedStatement pst = cnx.prepareStatement(updateQuery);
         pst.setString(1, reason != null ? reason : "");
         pst.setInt(2, registrationId);
 
@@ -230,8 +259,10 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public long getPendingCount() throws SQLException {
-        String query = "SELECT COUNT(*) as count FROM tournament_registrations WHERE status = 'pending'";
-        Statement st = MyConnection.getInstance().getCnx().createStatement();
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String query = "SELECT COUNT(*) as count FROM " + registrationTable + " WHERE status = 'pending'";
+        Statement st = cnx.createStatement();
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) {
@@ -242,10 +273,13 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public TournamentRegistration getRegistrationById(int id) throws SQLException {
-        String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournaments t ON tr.tournament_id = t.id WHERE tr.id = ?";
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String tournamentTable = resolveTournamentTable(cnx);
+        String query = "SELECT tr.*, t.name as tournament_name FROM " + registrationTable + " tr " +
+                "LEFT JOIN " + tournamentTable + " t ON tr.tournament_id = t.id WHERE tr.id = ?";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setInt(1, id);
         ResultSet rs = pst.executeQuery();
 
@@ -257,10 +291,12 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public long getConfirmedCountForTournament(int tournamentId) throws SQLException {
-        String query = "SELECT COUNT(*) as count FROM tournament_registrations " +
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String query = "SELECT COUNT(*) as count FROM " + registrationTable + " " +
                 "WHERE tournament_id = ? AND status = 'confirmed'";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setInt(1, tournamentId);
         ResultSet rs = pst.executeQuery();
 
@@ -272,11 +308,13 @@ public class TournamentRegistrationService implements ITournamentRegistration {
 
     @Override
     public void autoRejectRemaining(int tournamentId, String reason) throws SQLException {
-        String query = "UPDATE tournament_registrations " +
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String registrationTable = resolveRegistrationTable(cnx);
+        String query = "UPDATE " + registrationTable + " " +
                 "SET status = 'rejected', rejection_reason = ? " +
                 "WHERE tournament_id = ? AND status = 'pending'";
 
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setString(1, reason);
         pst.setInt(2, tournamentId);
 
@@ -295,11 +333,36 @@ public class TournamentRegistrationService implements ITournamentRegistration {
     }
 
     private void closeTournament(int tournamentId) throws SQLException {
-        String query = "UPDATE tournaments SET status = 'closed' WHERE id = ?";
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        Connection cnx = MyConnection.getInstance().getCnx();
+        String query = "UPDATE " + resolveTournamentTable(cnx) + " SET status = 'closed' WHERE id = ?";
+        PreparedStatement pst = cnx.prepareStatement(query);
         pst.setInt(1, tournamentId);
         pst.executeUpdate();
         System.out.println("Tournament closed due to max_teams reached");
+    }
+
+    private String resolveRegistrationTable(Connection cnx) throws SQLException {
+        SQLException last = null;
+        for (String table : new String[]{"tournament_registrations", "tournament_registration"}) {
+            try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery("SELECT 1 FROM " + table + " LIMIT 1")) {
+                return table;
+            } catch (SQLException e) {
+                last = e;
+            }
+        }
+        throw new SQLException("Could not find tournament registration table", last);
+    }
+
+    private String resolveTournamentTable(Connection cnx) throws SQLException {
+        SQLException last = null;
+        for (String table : new String[]{"tournaments", "tournament"}) {
+            try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery("SELECT 1 FROM " + table + " LIMIT 1")) {
+                return table;
+            } catch (SQLException e) {
+                last = e;
+            }
+        }
+        throw new SQLException("Could not find tournaments table", last);
     }
 
     private boolean isOpenStatus(String status) {

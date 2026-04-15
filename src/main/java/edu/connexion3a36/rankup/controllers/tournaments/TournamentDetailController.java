@@ -73,8 +73,8 @@ public class TournamentDetailController {
         }
 
         try {
+            Tournament tournament = currentTournament != null ? currentTournament : new Tournament();
             String rules = normalizeRules(rulesField.getText());
-            Tournament tournament = new Tournament();
             tournament.setName(safeText(tournamentNameField.getText()));
             tournament.setGameType(safeText(gameTypeField.getText()));
             tournament.setStartDate(startDatePicker.getValue());

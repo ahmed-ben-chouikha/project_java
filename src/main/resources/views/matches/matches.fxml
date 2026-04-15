@@ -13,19 +13,24 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.matches.MatchesController" spacing="12" styleClass="page-root">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.matches.MatchesController" spacing="16" styleClass="page-root matches-page">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
-        <Label text="Matches" styleClass="page-title" />
-        <HBox spacing="8">
+        <VBox spacing="10" styleClass="card matches-hero">
             <children>
-                <TextField fx:id="searchField" promptText="Search by team or date" HBox.hgrow="ALWAYS" />
-                <ComboBox fx:id="statusFilter" prefWidth="160" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Button text="➕ New Match" onAction="#onCreateMatch" styleClass="btn-primary" />
+                <Label text="Matches" styleClass="page-title" />
+                <Label text="Track live results, upcoming games, and finished match history in one sleek view." styleClass="muted" wrapText="true" />
+                <HBox spacing="10" styleClass="matches-toolbar">
+                    <children>
+                        <TextField fx:id="searchField" promptText="Search by team or date" HBox.hgrow="ALWAYS" styleClass="matches-search" />
+                        <ComboBox fx:id="statusFilter" prefWidth="160" styleClass="matches-filter" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="➕ New Match" onAction="#onCreateMatch" styleClass="btn-primary matches-create-btn" />
+                    </children>
+                </HBox>
             </children>
-        </HBox>
-        <TableView fx:id="matchesTable" VBox.vgrow="ALWAYS" styleClass="card">
+        </VBox>
+        <TableView fx:id="matchesTable" VBox.vgrow="ALWAYS" styleClass="card matches-table">
             <columns>
                 <TableColumn fx:id="team1Col" text="Team 1" prefWidth="170" />
                 <TableColumn fx:id="scoreCol" text="Score" prefWidth="90" />
@@ -34,13 +39,13 @@
                 <TableColumn fx:id="statusCol" text="Status" prefWidth="120" />
             </columns>
         </TableView>
-        <HBox spacing="8">
+        <HBox spacing="10" styleClass="matches-footer">
             <children>
-                <Button text="👁️" onAction="#onViewMatch" />
-                <Button text="✏️" onAction="#onEditMatch" />
-                <Button text="🗑️" onAction="#onDeleteMatch" styleClass="btn-danger" />
+                <Button text="View" onAction="#onViewMatch" styleClass="btn-secondary action-btn-view" />
+                <Button text="Edit" onAction="#onEditMatch" styleClass="btn-secondary action-btn-edit" />
+                <Button text="Delete" onAction="#onDeleteMatch" styleClass="btn-danger action-btn-delete" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Pagination fx:id="pagination" prefWidth="220" />
+                <Pagination fx:id="pagination" prefWidth="260" styleClass="matches-pagination" />
             </children>
         </HBox>
     </children>

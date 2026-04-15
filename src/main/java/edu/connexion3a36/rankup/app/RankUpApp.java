@@ -30,6 +30,26 @@ public final class RankUpApp {
         baseController = controller;
     }
 
+    public static void setCurrentPlayerName(String playerName) {
+        SessionManager.setCurrentPlayerName(playerName);
+    }
+
+    public static String getCurrentPlayerName() {
+        return SessionManager.getCurrentPlayerName();
+    }
+
+    public static void setCurrentRole(String role) {
+        SessionManager.setCurrentRole(role);
+    }
+
+    public static String getCurrentRole() {
+        return SessionManager.getCurrentRole();
+    }
+
+    public static boolean isAdmin() {
+        return SessionManager.isAdmin();
+    }
+
     public static void showLogin() {
         setRoot("/views/auth/login.fxml", 1100, 760);
     }
@@ -76,6 +96,7 @@ public final class RankUpApp {
 
     public static void logout() {
         baseController = null;
+        SessionManager.clear();
         showLogin();
     }
 

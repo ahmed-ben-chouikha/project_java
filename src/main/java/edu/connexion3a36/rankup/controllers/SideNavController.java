@@ -1,8 +1,10 @@
 package edu.connexion3a36.rankup.controllers;
 
 import edu.connexion3a36.rankup.app.RankUpApp;
+import edu.connexion3a36.rankup.app.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
 public class SideNavController {
 
@@ -20,6 +22,9 @@ public class SideNavController {
 
     @FXML
     void goTournaments(ActionEvent event) { RankUpApp.loadInBase("/views/tournaments/tournaments.fxml"); }
+
+    @FXML
+    void goTournamentReviews(ActionEvent event) { RankUpApp.loadInBase("/views/tournaments/tournament-reviews.fxml"); }
 
     @FXML
     void goBudget(ActionEvent event) { RankUpApp.loadInBase("/views/budget/budget-list.fxml"); }
@@ -43,6 +48,30 @@ public class SideNavController {
     void goPunitions(ActionEvent event) { RankUpApp.loadInBase("/views/punitions/punitions.fxml"); }
 
     @FXML
-    void goAdmin(ActionEvent event) { RankUpApp.loadInBase("/views/admin/admin-dashboard.fxml"); }
+    void goAdmin(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-dashboard.fxml");
+    }
+
+    @FXML
+    void goReviewModeration(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-review-moderation.fxml");
+    }
+
+    private void showAccessDenied() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Access denied");
+        alert.setHeaderText(null);
+        alert.setContentText("Admin access is required for this section.");
+        alert.showAndWait();
+    }
+
 }
 

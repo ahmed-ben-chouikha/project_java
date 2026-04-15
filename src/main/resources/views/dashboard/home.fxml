@@ -4,31 +4,47 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.dashboard.HomeController" spacing="14" styleClass="page-root">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.dashboard.HomeController" spacing="16" styleClass="page-root dashboard-page">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
-        <Label text="Welcome to RankUp Dashboard" styleClass="page-title" />
-
-        <GridPane hgap="12" vgap="12">
+        <VBox spacing="14" styleClass="card dashboard-hero">
             <children>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="0"><children><Label text="27" styleClass="stat-value"/><Label text="Total matches this week"/></children></VBox>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="1"><children><Label text="6" styleClass="stat-value"/><Label text="Upcoming tournaments"/></children></VBox>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="2"><children><Label text="58" styleClass="stat-value"/><Label text="Team members"/></children></VBox>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="3"><children><Label text="14" styleClass="stat-value"/><Label text="Recent notifications"/></children></VBox>
+                <Label text="Welcome to RankUp Dashboard" styleClass="page-title" />
+                <Label text="Monitor matches, tournaments, teams, and announcements in a sleek esports command center." styleClass="muted" wrapText="true" />
+                <HBox spacing="10" styleClass="dashboard-hero-actions">
+                    <children>
+                        <Label text="27 live matches" styleClass="badge" />
+                        <Label text="6 tournaments open" styleClass="badge" />
+                        <Label text="14 alerts" styleClass="badge" />
+                        <Region HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <GridPane hgap="12" vgap="12" styleClass="dashboard-stats-grid">
+            <children>
+                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="0"><children><Label text="27" styleClass="stat-value"/><Label text="Total matches this week" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="1"><children><Label text="6" styleClass="stat-value"/><Label text="Upcoming tournaments" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="2"><children><Label text="58" styleClass="stat-value"/><Label text="Team members" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="3"><children><Label text="14" styleClass="stat-value"/><Label text="Recent notifications" styleClass="muted"/></children></VBox>
             </children>
         </GridPane>
 
-        <GridPane hgap="12" vgap="12">
+        <GridPane hgap="12" vgap="12" styleClass="dashboard-panels">
             <children>
-                <VBox spacing="8" styleClass="card" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <VBox spacing="8" styleClass="card dashboard-panel" GridPane.rowIndex="0" GridPane.columnIndex="0">
                     <children><Label text="Recent Matches" styleClass="section-title"/><ListView fx:id="recentMatchesList" prefHeight="180"/></children>
                 </VBox>
-                <VBox spacing="8" styleClass="card" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <VBox spacing="8" styleClass="card dashboard-panel" GridPane.rowIndex="0" GridPane.columnIndex="1">
                     <children><Label text="Upcoming Matches" styleClass="section-title"/><ListView fx:id="upcomingMatchesList" prefHeight="180"/></children>
                 </VBox>
-                <VBox spacing="8" styleClass="card" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                <VBox spacing="8" styleClass="card dashboard-panel" GridPane.rowIndex="0" GridPane.columnIndex="2">
                     <children><Label text="Announcements" styleClass="section-title"/><ListView fx:id="announcementsList" prefHeight="180"/></children>
                 </VBox>
             </children>

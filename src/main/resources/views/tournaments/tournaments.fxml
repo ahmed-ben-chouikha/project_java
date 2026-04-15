@@ -22,23 +22,25 @@
                 <TextField fx:id="searchField" promptText="Search tournament" HBox.hgrow="ALWAYS" />
                 <ComboBox fx:id="statusFilter" prefWidth="160" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="➕ New Tournament" onAction="#onCreateTournament" styleClass="btn-primary" />
+                <Button text="Create Tournament" onAction="#onCreateTournament" styleClass="btn-primary" />
             </children>
         </HBox>
         <TableView fx:id="tournamentsTable" VBox.vgrow="ALWAYS" styleClass="card">
             <columns>
-                <TableColumn fx:id="nameCol" text="Tournament Name" prefWidth="220" />
-                <TableColumn fx:id="gameTypeCol" text="Game Type" prefWidth="150" />
-                <TableColumn fx:id="startDateCol" text="Start Date" prefWidth="120" />
-                <TableColumn fx:id="endDateCol" text="End Date" prefWidth="120" />
-                <TableColumn fx:id="maxTeamsCol" text="Max Teams" prefWidth="100" />
-                <TableColumn fx:id="statusCol" text="Status" prefWidth="120" />
+                <TableColumn fx:id="nameCol" text="Tournament Name" prefWidth="150" />
+                <TableColumn fx:id="descriptionCol" text="Description" prefWidth="180" />
+                <TableColumn fx:id="startDateCol" text="Start Date" prefWidth="110" />
+                <TableColumn fx:id="endDateCol" text="End Date" prefWidth="110" />
+                <TableColumn fx:id="locationCol" text="Location" prefWidth="120" />
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="100" />
+                <TableColumn fx:id="ratingsCol" text="Your Rating" prefWidth="120" />
+                <TableColumn fx:id="reviewCol" text="Review" prefWidth="90" />
             </columns>
         </TableView>
         <HBox spacing="8">
             <children>
-                <Button text="👁️" onAction="#onViewTournament" />
-                <Button text="✏️" onAction="#onEditTournament" />
+                <Button text="View" onAction="#onViewTournament" />
+                <Button text="Edit" onAction="#onEditTournament" />
                 <Button text="🗑️" onAction="#onDeleteTournament" styleClass="btn-danger" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Pagination fx:id="pagination" prefWidth="220" />

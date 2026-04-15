@@ -6,31 +6,84 @@ Write-Host "   RankUp E-Sports Platform" -ForegroundColor Cyan
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host ""
 
-$JAVA_HOME = "C:\Java\jdk-17.0.12"
-$M2_HOME = "C:\Program Files\apache-maven-3.9.9"
-$classworlds = (Get-ChildItem "$M2_HOME\boot\plexus-classworlds-*.jar" | Select-Object -First 1).FullName
+$javaExe = $null
+function Resolve-JavaHome {
+    $candidates = @()
 
-if (-not $classworlds) {
-    Write-Host "ERREUR: Impossible de trouver plexus-classworlds-*.jar" -ForegroundColor Red
+    if ($env:JAVA_HOME) {
+        $candidates += $env:JAVA_HOME
+    }
+
+    $searchRoots = @(
+        'C:\Program Files\Java',
+        'C:\Program Files\Eclipse Adoptium',
+        'C:\Program Files\Microsoft\jdk',
+        'C:\Program Files\Zulu',
+        'C:\Program Files\Amazon Corretto',
+        'C:\Java'
+    )
+
+    foreach ($root in $searchRoots) {
+        if (Test-Path $root) {
+            Get-ChildItem $root -Directory | ForEach-Object { $candidates += $_.FullName }
+        }
+    }
+
+    foreach ($candidate in $candidates | Select-Object -Unique) {
+        $javaPath = Join-Path $candidate 'bin\java.exe'
+        if (Test-Path $javaPath) {
+            return $candidate
+        }
+    }
+
+    return $null
+}
+
+$detectedJavaHome = Resolve-JavaHome
+if ($detectedJavaHome) {
+    $env:JAVA_HOME = $detectedJavaHome
+    if ($env:Path -notlike "$detectedJavaHome\bin*") {
+        $env:Path = "$detectedJavaHome\bin;" + $env:Path
+    }
+    $javaExe = Join-Path $detectedJavaHome 'bin\java.exe'
+}
+
+if (-not $javaExe) {
+    Write-Host "ERREUR: Java introuvable. Installez un JDK 17+ ou definissez JAVA_HOME." -ForegroundColor Red
     exit 1
 }
 
-Write-Host "[1/2] Verification de Java 17..." -ForegroundColor Yellow
-& "$JAVA_HOME\bin\java" -version
-Write-Host "[OK] Java 17 pret" -ForegroundColor Green
+Write-Host "[1/2] Verification de Java..." -ForegroundColor Yellow
+& $javaExe -version 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERREUR: Impossible de verifier Java." -ForegroundColor Red
+    exit 1
+}
+
+$javaVersionText = (& $javaExe -version 2>&1 | Select-Object -First 1)
+if ($javaVersionText -match 'version "([0-9]+)(?:\.([0-9]+))?') {
+    $major = [int]$Matches[1]
+    if ($major -eq 1 -or $major -lt 17) {
+        Write-Host "ERREUR: Java 17+ requis. La version detectee est: $javaVersionText" -ForegroundColor Red
+        Write-Host "Installez un JDK 17 ou 21, puis relancez le script." -ForegroundColor Yellow
+        exit 1
+    }
+}
+
+Write-Host "[OK] Java pret" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "[2/2] Lancement de l'application JavaFX..." -ForegroundColor Yellow
 Write-Host "Le projet $((Get-Location).Path)" -ForegroundColor Gray
 Write-Host ""
 
-& "$JAVA_HOME\bin\java" `
-  -classpath "$classworlds" `
-  "-Dclassworlds.conf=$M2_HOME\bin\m2.conf" `
-  "-Dmaven.home=$M2_HOME" `
-  "-Dmaven.multiModuleProjectDirectory=$(Get-Location)" `
-  org.codehaus.plexus.classworlds.launcher.Launcher `
-  javafx:run
+& "$PSScriptRoot\mvn.ps1" javafx:run
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host ""
+    Write-Host "ERREUR: Le lancement Maven a echoue." -ForegroundColor Red
+    exit $LASTEXITCODE
+}
 
 Write-Host ""
 Write-Host "Application fermee." -ForegroundColor Yellow

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
@@ -37,6 +38,7 @@
                         <Label text="Player Name" style="-fx-text-fill: #e5eefb; -fx-font-size: 13px; -fx-font-weight: bold;" />
                         <TextField fx:id="playerNameField"
                                    promptText="Enter your player name"
+                                   editable="false"
                                    style="-fx-control-inner-background: rgba(200, 220, 240, 0.08); -fx-text-fill: #e5eefb; -fx-prompt-text-fill: #8899bb; -fx-padding: 12; -fx-font-size: 13px; -fx-background-radius: 10;" />
                         <Label fx:id="playerNameError" text="" style="-fx-text-fill: #ff6b6b; -fx-font-size: 11px;" />
                     </VBox>
@@ -110,7 +112,9 @@
                         <columns>
                             <!-- Tournament Column -->
                             <TableColumn text="Tournament" prefWidth="150">
-                                <cellValueFactory property="tournamentName" />
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="tournamentName" />
+                                </cellValueFactory>
                             </TableColumn>
 
                             <!-- Rating Column (Stars) -->
@@ -119,22 +123,30 @@
 
                             <!-- Comment Column -->
                             <TableColumn text="Comment" prefWidth="200">
-                                <cellValueFactory property="comment" />
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="comment" />
+                                </cellValueFactory>
                             </TableColumn>
 
                             <!-- Date Column -->
                             <TableColumn text="Date" prefWidth="100">
-                                <cellValueFactory property="reviewDate" />
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="reviewDate" />
+                                </cellValueFactory>
                             </TableColumn>
 
                             <!-- Status Column -->
                             <TableColumn text="Status" prefWidth="100">
-                                <cellValueFactory property="status" />
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="status" />
+                                </cellValueFactory>
                             </TableColumn>
 
                             <!-- Rejection Reason Column -->
                             <TableColumn text="Rejection Reason" prefWidth="150">
-                                <cellValueFactory property="rejectionReason" />
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="rejectionReason" />
+                                </cellValueFactory>
                             </TableColumn>
 
                             <!-- Actions Column -->

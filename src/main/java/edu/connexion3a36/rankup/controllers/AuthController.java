@@ -21,6 +21,9 @@ public class AuthController {
             showInfo("Validation", "Email and password are required.");
             return;
         }
+        String email = emailField.getText().trim();
+        RankUpApp.setCurrentPlayerName(extractPlayerName(email));
+        RankUpApp.setCurrentRole(inferRole(email));
         RankUpApp.showBase();
     }
 
@@ -40,6 +43,20 @@ public class AuthController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private String extractPlayerName(String email) {
+        if (email == null || email.isBlank()) {
+            return "DefaultPlayer";
+        }
+        String normalized = email.trim();
+        int at = normalized.indexOf('@');
+        return at > 0 ? normalized.substring(0, at) : normalized;
+    }
+
+    private String inferRole(String email) {
+        String normalized = email == null ? "" : email.trim().toLowerCase();
+        return normalized.startsWith("admin") || normalized.contains("admin") ? "admin" : "player";
     }
 }
 

@@ -63,8 +63,8 @@ public class TicketFormController {
             return;
         }
 
-        Integer quantity = parsePositiveInteger(quantityField.getText(), "Quantity");
         Integer sold = parseNonNegativeInteger(soldField.getText(), "Sold");
+        Integer quantity = parsePositiveInteger(quantityField.getText(), "Quantity");
         Double price = parsePositiveDouble(priceField.getText(), "Price");
 
         if (quantity == null || sold == null || price == null) {

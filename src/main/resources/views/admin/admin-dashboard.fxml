@@ -23,6 +23,7 @@
                 </VBox>
                 <Region HBox.hgrow="ALWAYS" />
                 <Button text="Open User Management" onAction="#openUserManagement" styleClass="btn-primary" />
+                <Button text="Review Moderation" onAction="#openReviewModeration" styleClass="btn-secondary" />
             </children>
             <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
         </HBox>
@@ -54,6 +55,7 @@
                     <children>
                         <Label text="Quick Actions" styleClass="section-title" />
                         <Button text="User Management" onAction="#openUserManagement" styleClass="btn-primary" maxWidth="1.7976931348623157E308" />
+                        <Button text="Review Moderation" onAction="#openReviewModeration" maxWidth="1.7976931348623157E308" />
                         <Button text="Team Management" onAction="#placeholder" maxWidth="1.7976931348623157E308" />
                         <Button text="Tournament Management" onAction="#placeholder" maxWidth="1.7976931348623157E308" />
                         <Button text="System Settings" onAction="#placeholder" maxWidth="1.7976931348623157E308" />

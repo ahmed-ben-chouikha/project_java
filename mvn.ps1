@@ -1,29 +1,96 @@
-# Script PowerShell pour lancer Maven avec Java 17
+# Script PowerShell pour lancer Maven de manière portable sous Windows
 param(
-    [Parameter(ValueFromRemainingArguments=$true)]
+    [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$MavenArgs
 )
 
-$javaCmd = Get-Command java.exe -ErrorAction Stop
-$JAVA_HOME = Split-Path (Split-Path $javaCmd.Source -Parent) -Parent
+function Resolve-MavenCmd {
+    $wrapper = Join-Path $PSScriptRoot 'mvnw.cmd'
+    if (Test-Path $wrapper) {
+        return $wrapper
+    }
 
-$mavenCmd = Get-Command mvn.cmd -ErrorAction Stop
-$M2_HOME = Split-Path (Split-Path $mavenCmd.Source -Parent) -Parent
-$classworlds = (Get-ChildItem "$M2_HOME\boot\plexus-classworlds-*.jar" | Select-Object -First 1).FullName
+    $mavenCmd = Get-Command mvn.cmd -ErrorAction SilentlyContinue
+    if ($mavenCmd) {
+        return $mavenCmd.Source
+    }
 
-if (-not $classworlds) {
-  throw "Impossible de trouver plexus-classworlds dans $M2_HOME\boot"
+    if ($env:M2_HOME) {
+        $candidate = Join-Path $env:M2_HOME 'bin\mvn.cmd'
+        if (Test-Path $candidate) {
+            return $candidate
+        }
+    }
+
+    $searchRoots = @(
+        'C:\Apache',
+        'C:\Program Files',
+        'C:\Program Files (x86)',
+        'C:\Tools'
+    )
+
+    $localMavenHomes = foreach ($root in $searchRoots) {
+        if (Test-Path $root) {
+            Get-ChildItem $root -Directory -ErrorAction SilentlyContinue |
+                Where-Object { $_.Name -match 'maven' } |
+                ForEach-Object { $_.FullName }
+        }
+    }
+
+    foreach ($mavenHome in $localMavenHomes | Select-Object -Unique) {
+        $candidate = Join-Path $mavenHome 'bin\mvn.cmd'
+        if (Test-Path $candidate) {
+            return $candidate
+        }
+    }
+
+    return $null
 }
 
-# Construire le répertoire courant
-$projectDir = Get-Location
+function Resolve-JavaHome {
+    $candidates = @()
 
-# Appeler Maven via Java directement
-& "$JAVA_HOME\bin\java" `
-  -classpath "$classworlds" `
-  "-Dclassworlds.conf=$M2_HOME\bin\m2.conf" `
-  "-Dmaven.home=$M2_HOME" `
-  "-Dmaven.multiModuleProjectDirectory=$projectDir" `
-  org.codehaus.plexus.classworlds.launcher.Launcher `
-  @MavenArgs
+    if ($env:JAVA_HOME) {
+        $candidates += $env:JAVA_HOME
+    }
+
+    $searchRoots = @(
+        'C:\Program Files\Java',
+        'C:\Program Files\Eclipse Adoptium',
+        'C:\Program Files\Microsoft\jdk',
+        'C:\Program Files\Zulu',
+        'C:\Program Files\Amazon Corretto',
+        'C:\Java'
+    )
+
+    foreach ($root in $searchRoots) {
+        if (Test-Path $root) {
+            Get-ChildItem $root -Directory | ForEach-Object { $candidates += $_.FullName }
+        }
+    }
+
+    foreach ($candidate in $candidates | Select-Object -Unique) {
+        $javaPath = Join-Path $candidate 'bin\java.exe'
+        if (Test-Path $javaPath) {
+            return $candidate
+        }
+    }
+
+    return $null
+}
+
+$mavenExecutable = Resolve-MavenCmd
+if (-not $mavenExecutable) {
+    throw "Maven introuvable. Installez Maven et ajoutez `mvn.cmd` au PATH, ou définissez M2_HOME vers votre installation Maven."
+}
+
+$detectedJavaHome = Resolve-JavaHome
+if ($detectedJavaHome) {
+    $env:JAVA_HOME = $detectedJavaHome
+    if ($env:Path -notlike "$detectedJavaHome\bin*") {
+        $env:Path = "$detectedJavaHome\bin;" + $env:Path
+    }
+}
+
+& $mavenExecutable @MavenArgs
 

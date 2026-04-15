@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
@@ -57,12 +58,16 @@
                     <columns>
                         <!-- Player Name Column -->
                         <TableColumn text="Player" prefWidth="120">
-                            <cellValueFactory property="playerName" />
+                            <cellValueFactory>
+                                <PropertyValueFactory property="playerName" />
+                            </cellValueFactory>
                         </TableColumn>
 
                         <!-- Tournament Column -->
                         <TableColumn text="Tournament" prefWidth="150">
-                            <cellValueFactory property="tournamentName" />
+                            <cellValueFactory>
+                                <PropertyValueFactory property="tournamentName" />
+                            </cellValueFactory>
                         </TableColumn>
 
                         <!-- Rating Column (Stars) -->
@@ -71,17 +76,23 @@
 
                         <!-- Comment Column -->
                         <TableColumn text="Comment" prefWidth="250">
-                            <cellValueFactory property="comment" />
+                            <cellValueFactory>
+                                <PropertyValueFactory property="comment" />
+                            </cellValueFactory>
                         </TableColumn>
 
                         <!-- Date Column -->
                         <TableColumn text="Submitted" prefWidth="100">
-                            <cellValueFactory property="reviewDate" />
+                            <cellValueFactory>
+                                <PropertyValueFactory property="reviewDate" />
+                            </cellValueFactory>
                         </TableColumn>
 
                         <!-- Current Status Column -->
                         <TableColumn text="Status" prefWidth="100">
-                            <cellValueFactory property="status" />
+                            <cellValueFactory>
+                                <PropertyValueFactory property="status" />
+                            </cellValueFactory>
                         </TableColumn>
 
                         <!-- Actions Column -->

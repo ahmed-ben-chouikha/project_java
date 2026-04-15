@@ -4,16 +4,20 @@ import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.entities.Match;
 import edu.connexion3a36.services.MatchService;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class MatchesController {
+
+    private static final int PAGE_SIZE = 8;
 
     @FXML private TextField searchField;
     @FXML private ComboBox<String> statusFilter;
@@ -26,6 +30,7 @@ public class MatchesController {
     @FXML private Pagination pagination;
 
     private final MatchService matchService = new MatchService();
+    private final ObservableList<Match> pageItems = FXCollections.observableArrayList();
     private FilteredList<Match> filtered;
 
     @FXML
@@ -37,6 +42,12 @@ public class MatchesController {
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         filtered = new FilteredList<>(FXCollections.observableArrayList());
+        matchesTable.setItems(pageItems);
+        pagination.setMaxPageIndicatorCount(5);
+        pagination.setPageFactory(pageIndex -> {
+            updateVisibleRows(pageIndex);
+            return new Region();
+        });
 
         statusFilter.setItems(FXCollections.observableArrayList("All", "Pending", "Ongoing", "Finished"));
         statusFilter.setValue("All");
@@ -45,8 +56,6 @@ public class MatchesController {
         statusFilter.valueProperty().addListener((obs, oldVal, newVal) -> applyFilter());
 
         loadMatches();
-        matchesTable.setItems(filtered);
-        pagination.setPageCount(1);
     }
 
     @FXML
@@ -112,19 +121,48 @@ public class MatchesController {
                     || row.getDate().toLowerCase().contains(q);
             return statusOk && searchOk;
         });
+
+        refreshPagination(true);
     }
 
     private void loadMatches() {
         try {
             List<Match> rows = matchService.getAllMatches();
             filtered = new FilteredList<>(FXCollections.observableArrayList(rows));
-            matchesTable.setItems(filtered);
             applyFilter();
         } catch (SQLException e) {
             filtered = new FilteredList<>(FXCollections.observableArrayList());
-            matchesTable.setItems(filtered);
+            refreshPagination(true);
             showError("Database Error", "Could not load matches from the database.\n" + e.getMessage());
         }
+    }
+
+    private void refreshPagination(boolean resetToFirstPage) {
+        int totalItems = filtered == null ? 0 : filtered.size();
+        int pageCount = Math.max(1, (int) Math.ceil(totalItems / (double) PAGE_SIZE));
+        pagination.setPageCount(pageCount);
+
+        int targetPage = resetToFirstPage ? 0 : Math.min(pagination.getCurrentPageIndex(), pageCount - 1);
+        if (pagination.getCurrentPageIndex() != targetPage) {
+            pagination.setCurrentPageIndex(targetPage);
+        }
+        updateVisibleRows(targetPage);
+    }
+
+    private void updateVisibleRows(int pageIndex) {
+        if (filtered == null) {
+            pageItems.clear();
+            return;
+        }
+
+        int fromIndex = Math.max(0, pageIndex) * PAGE_SIZE;
+        if (fromIndex >= filtered.size()) {
+            pageItems.clear();
+            return;
+        }
+
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, filtered.size());
+        pageItems.setAll(filtered.subList(fromIndex, toIndex));
     }
 
     private void showInfo(String title, String message) {
