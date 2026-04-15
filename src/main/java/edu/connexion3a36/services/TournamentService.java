@@ -17,8 +17,8 @@ public class TournamentService implements IService<Tournament> {
             throw new SQLException("Tournament name cannot be empty");
         }
 
-        String query = "INSERT INTO tournaments (name, description, start_date, end_date, status, location, prize_pool, rules) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tournament (name, description, start_date, end_date, status, location, prize_pool, rules, created_at, updated_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setString(1, tournament.getName().trim());
@@ -28,7 +28,7 @@ public class TournamentService implements IService<Tournament> {
         pst.setString(5, tournament.getStatus() != null ? tournament.getStatus() : "pending");
         pst.setString(6, tournament.getLocation() != null ? tournament.getLocation().trim() : "");
         pst.setDouble(7, tournament.getPrizePool());
-        pst.setString(8, tournament.getRules() != null ? tournament.getRules().trim() : "");
+        pst.setString(8, normalizeRulesJson(tournament.getRules()));
 
         pst.executeUpdate();
         System.out.println("Tournament added successfully");
@@ -40,7 +40,7 @@ public class TournamentService implements IService<Tournament> {
             throw new SQLException("Invalid tournament for deletion");
         }
 
-        String query = "DELETE FROM tournaments WHERE id = ?";
+        String query = "DELETE FROM tournament WHERE id = ?";
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setInt(1, tournament.getId());
 
@@ -59,8 +59,8 @@ public class TournamentService implements IService<Tournament> {
             throw new SQLException("Tournament name cannot be empty");
         }
 
-        String query = "UPDATE tournaments SET name = ?, description = ?, start_date = ?, " +
-                "end_date = ?, status = ?, location = ?, prize_pool = ?, rules = ? WHERE id = ?";
+        String query = "UPDATE tournament SET name = ?, description = ?, start_date = ?, " +
+                "end_date = ?, status = ?, location = ?, prize_pool = ?, rules = ?, updated_at = NOW() WHERE id = ?";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setString(1, tournament.getName().trim());
@@ -70,7 +70,7 @@ public class TournamentService implements IService<Tournament> {
         pst.setString(5, tournament.getStatus() != null ? tournament.getStatus() : "pending");
         pst.setString(6, tournament.getLocation() != null ? tournament.getLocation().trim() : "");
         pst.setDouble(7, tournament.getPrizePool());
-        pst.setString(8, tournament.getRules() != null ? tournament.getRules().trim() : "");
+        pst.setString(8, normalizeRulesJson(tournament.getRules()));
         pst.setInt(9, id);
 
         int result = pst.executeUpdate();
@@ -84,7 +84,7 @@ public class TournamentService implements IService<Tournament> {
     @Override
     public List<Tournament> getData() throws SQLException {
         List<Tournament> tournaments = new ArrayList<>();
-        String query = "SELECT * FROM tournaments ORDER BY created_at DESC";
+        String query = "SELECT * FROM tournament ORDER BY created_at DESC";
 
         Statement st = MyConnection.getInstance().getCnx().createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -109,7 +109,7 @@ public class TournamentService implements IService<Tournament> {
 
     public List<Tournament> getTournamentsByStatus(String status) throws SQLException {
         List<Tournament> tournaments = new ArrayList<>();
-        String query = "SELECT * FROM tournaments WHERE status = ? ORDER BY created_at DESC";
+        String query = "SELECT * FROM tournament WHERE status = ? ORDER BY created_at DESC";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setString(1, status);
@@ -134,7 +134,7 @@ public class TournamentService implements IService<Tournament> {
     }
 
     public Tournament getTournamentById(int id) throws SQLException {
-        String query = "SELECT * FROM tournaments WHERE id = ?";
+        String query = "SELECT * FROM tournament WHERE id = ?";
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setInt(1, id);
         ResultSet rs = pst.executeQuery();
@@ -158,7 +158,7 @@ public class TournamentService implements IService<Tournament> {
     }
 
     public boolean isTournamentOpen(int tournamentId) throws SQLException {
-        String query = "SELECT status FROM tournaments WHERE id = ?";
+        String query = "SELECT status FROM tournament WHERE id = ?";
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setInt(1, tournamentId);
         ResultSet rs = pst.executeQuery();
@@ -171,5 +171,28 @@ public class TournamentService implements IService<Tournament> {
 
     public List<Tournament> getOpenTournaments() throws SQLException {
         return getTournamentsByStatus("pending");
+    }
+
+    private String normalizeRulesJson(String rawRules) {
+        String rules = rawRules != null ? rawRules.trim() : "";
+        if (rules.isEmpty()) {
+            return "{}";
+        }
+
+        // Keep valid-looking JSON object/array as-is; otherwise store plain text in a JSON object.
+        if ((rules.startsWith("{") && rules.endsWith("}")) || (rules.startsWith("[") && rules.endsWith("]"))) {
+            return rules;
+        }
+
+        return "{\"text\":\"" + escapeJson(rules) + "\"}";
+    }
+
+    private String escapeJson(String value) {
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 }

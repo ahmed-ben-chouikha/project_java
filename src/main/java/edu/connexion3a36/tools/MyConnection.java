@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class MyConnection {
 
-    private String url="jdbc:mysql://localhost:3306/esportdevvvvvv?useSSL=false&serverTimezone=UTC";
+    // Keep short DB timeouts to avoid long UI hangs during synchronous page loads.
+    private String url="jdbc:mysql://localhost:3306/esportdevvvvvv?useSSL=false&serverTimezone=UTC&connectTimeout=5000&socketTimeout=5000";
     private String login="root";
     private String pwd="";
 

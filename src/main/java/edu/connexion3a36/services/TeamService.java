@@ -21,7 +21,8 @@ public class TeamService {
 
     // CREATE
     public boolean addTeam(Team team) {
-        String sql = "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, statut, score) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Explicit timestamps avoid failures when DB columns are NOT NULL without defaults.
+        String sql = "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, statut, score, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
             pst.setString(1, team.getName());
             pst.setString(2, team.getCountry());
@@ -265,4 +266,3 @@ public class TeamService {
         }
     }
 }
-
