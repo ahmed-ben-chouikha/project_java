@@ -74,7 +74,14 @@ public class AjouterPersonneController {
 
     @FXML
     void initialize() {
-        navButtons = List.of(dashboardButton, matchesButton, tournamentsButton, teamsButton, userButton, adminButton);
+        java.util.List<javafx.scene.control.Button> buttons = new java.util.ArrayList<>();
+        buttons.add(dashboardButton);
+        buttons.add(matchesButton);
+        buttons.add(tournamentsButton);
+        buttons.add(teamsButton);
+        buttons.add(userButton);
+        buttons.add(adminButton);
+        navButtons = buttons;
         navButtons.forEach(button -> button.getStyleClass().add("nav-button"));
         openTournamentButton.getStyleClass().add("primary-action");
         userModeButton.getStyleClass().add("role-toggle");
@@ -235,7 +242,7 @@ public class AjouterPersonneController {
 
     private HBox createStatsRow() {
         HBox row = new HBox(18);
-        row.getChildren().addAll(catalog.getOverviewStats().stream().map(this::createStatCard).toList());
+        row.getChildren().addAll(catalog.getOverviewStats().stream().map(this::createStatCard).collect(java.util.stream.Collectors.toList()));
         return row;
     }
 

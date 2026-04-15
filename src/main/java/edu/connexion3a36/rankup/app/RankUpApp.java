@@ -84,12 +84,19 @@ public final class RankUpApp {
             FXMLLoader loader = new FXMLLoader(RankUpApp.class.getResource(fxml));
             Parent root = loader.load();
             Scene scene = new Scene(root, width, height);
-            scene.getStylesheets().add(RankUpApp.class.getResource("/styles.css").toExternalForm());
+            addStylesheetIfPresent(scene, "/styles.css");
+            addStylesheetIfPresent(scene, "/styles/esports.css");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load view: " + fxml, e);
         }
     }
-}
 
+    private static void addStylesheetIfPresent(Scene scene, String path) {
+        java.net.URL css = RankUpApp.class.getResource(path);
+        if (css != null) {
+            scene.getStylesheets().add(css.toExternalForm());
+        }
+    }
+}

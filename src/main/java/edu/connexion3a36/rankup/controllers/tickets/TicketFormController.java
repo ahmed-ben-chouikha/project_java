@@ -50,6 +50,7 @@ public class TicketFormController {
 
     @FXML
     void onSave(ActionEvent event) {
+        feedbackLabel.setText("");
         TicketService.GameOption game = gameCombo.getValue();
         if (game == null) {
             feedbackLabel.setText("Please select a game.");
@@ -62,12 +63,16 @@ public class TicketFormController {
             return;
         }
 
-        int quantity = parseIntSafe(quantityField.getText());
-        int sold = parseIntSafe(soldField.getText());
-        double price = parseDoubleSafe(priceField.getText());
+        Integer quantity = parsePositiveInteger(quantityField.getText(), "Quantity");
+        Integer sold = parseNonNegativeInteger(soldField.getText(), "Sold");
+        Double price = parsePositiveDouble(priceField.getText(), "Price");
 
-        if (quantity < 0 || sold < 0 || sold > quantity) {
-            feedbackLabel.setText("Quantity/sold values are invalid.");
+        if (quantity == null || sold == null || price == null) {
+            return;
+        }
+
+        if (sold > quantity) {
+            feedbackLabel.setText("Sold cannot be greater than quantity.");
             return;
         }
 
@@ -95,6 +100,8 @@ public class TicketFormController {
             }
             TicketFormState.clear();
             RankUpApp.loadInBase("/views/tickets/tickets.fxml");
+        } catch (IllegalArgumentException e) {
+            feedbackLabel.setText(e.getMessage());
         } catch (SQLException e) {
             feedbackLabel.setText("Could not save ticket: " + e.getMessage());
         }
@@ -131,19 +138,60 @@ public class TicketFormController {
         }
     }
 
-    private int parseIntSafe(String value) {
+    private Integer parsePositiveInteger(String value, String fieldName) {
+        String normalized = valueOrEmpty(value);
+        if (normalized.isEmpty()) {
+            feedbackLabel.setText(fieldName + " is required.");
+            return null;
+        }
         try {
-            return Integer.parseInt(valueOrEmpty(value));
+            int parsed = Integer.parseInt(normalized);
+            if (parsed <= 0) {
+                feedbackLabel.setText(fieldName + " must be greater than 0.");
+                return null;
+            }
+            return parsed;
         } catch (NumberFormatException e) {
-            return 0;
+            feedbackLabel.setText(fieldName + " must be a valid integer.");
+            return null;
         }
     }
 
-    private double parseDoubleSafe(String value) {
+    private Integer parseNonNegativeInteger(String value, String fieldName) {
+        String normalized = valueOrEmpty(value);
+        if (normalized.isEmpty()) {
+            feedbackLabel.setText(fieldName + " is required.");
+            return null;
+        }
         try {
-            return Double.parseDouble(valueOrEmpty(value));
+            int parsed = Integer.parseInt(normalized);
+            if (parsed < 0) {
+                feedbackLabel.setText(fieldName + " must be 0 or greater.");
+                return null;
+            }
+            return parsed;
         } catch (NumberFormatException e) {
-            return 0;
+            feedbackLabel.setText(fieldName + " must be a valid integer.");
+            return null;
+        }
+    }
+
+    private Double parsePositiveDouble(String value, String fieldName) {
+        String normalized = valueOrEmpty(value);
+        if (normalized.isEmpty()) {
+            feedbackLabel.setText(fieldName + " is required.");
+            return null;
+        }
+        try {
+            double parsed = Double.parseDouble(normalized);
+            if (parsed <= 0) {
+                feedbackLabel.setText(fieldName + " must be greater than 0.");
+                return null;
+            }
+            return parsed;
+        } catch (NumberFormatException e) {
+            feedbackLabel.setText(fieldName + " must be a valid number.");
+            return null;
         }
     }
 

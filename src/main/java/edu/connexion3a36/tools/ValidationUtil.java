@@ -100,5 +100,101 @@ public class ValidationUtil {
         }
         return 0;
     }
+
+    // Validate team form fields and return a user-friendly message when invalid.
+    public static String validateTeam(String name,
+                                      String country,
+                                      String jeu,
+                                      String niveau,
+                                      String description,
+                                      String detailedDescription,
+                                      int score) {
+        if (name == null || name.trim().isEmpty()) {
+            return "Team name is required.";
+        }
+        if (name.trim().length() < 2 || name.trim().length() > 100) {
+            return "Team name must be between 2 and 100 characters.";
+        }
+        if (country == null || country.trim().isEmpty()) {
+            return "Country is required.";
+        }
+        if (country.trim().length() < 2 || country.trim().length() > 100) {
+            return "Country must be between 2 and 100 characters.";
+        }
+        if (jeu == null || jeu.trim().isEmpty()) {
+            return "Game is required.";
+        }
+        if (niveau == null || niveau.trim().isEmpty()) {
+            return "Level is required.";
+        }
+        if (description != null && description.length() > 500) {
+            return "Description must be 500 characters or less.";
+        }
+        if (detailedDescription != null && detailedDescription.length() > 5000) {
+            return "Detailed description must be 5000 characters or less.";
+        }
+        if (score < 0 || score > 1000000) {
+            return "Score must be between 0 and 1000000.";
+        }
+        return "";
+    }
+
+    // Validate tournament form fields and return a user-friendly error message.
+    public static String validateTournament(String name,
+                                            String gameType,
+                                            java.time.LocalDate startDate,
+                                            java.time.LocalDate endDate,
+                                            String status,
+                                            int maxTeams,
+                                            String description,
+                                            String location,
+                                            String rules,
+                                            double prizePool) {
+        if (name == null || name.trim().isEmpty()) {
+            return "Tournament name is required.";
+        }
+        if (name.trim().length() < 2 || name.trim().length() > 255) {
+            return "Tournament name must be between 2 and 255 characters.";
+        }
+        if (gameType == null || gameType.trim().isEmpty()) {
+            return "Game type is required.";
+        }
+        if (startDate == null) {
+            return "Start date is required.";
+        }
+        if (endDate == null) {
+            return "End date is required.";
+        }
+        if (endDate.isBefore(startDate)) {
+            return "End date must be on or after start date.";
+        }
+        if (status == null || status.trim().isEmpty()) {
+            return "Status is required.";
+        }
+        String normalized = status.trim().toLowerCase();
+        if (!("open".equals(normalized) || "closed".equals(normalized) || "finished".equals(normalized)
+                || "pending".equals(normalized) || "ongoing".equals(normalized))) {
+            return "Status must be open, closed, finished, pending, or ongoing.";
+        }
+        if (maxTeams <= 0) {
+            return "Max teams must be greater than 0.";
+        }
+        if (description != null && description.length() > 5000) {
+            return "Description must be 5000 characters or less.";
+        }
+        if (rules == null || rules.trim().isEmpty()) {
+            return "Rules are required.";
+        }
+        if (location != null && location.length() > 255) {
+            return "Location must be 255 characters or less.";
+        }
+        if (rules != null && rules.length() > 5000) {
+            return "Rules must be 5000 characters or less.";
+        }
+        if (prizePool < 0) {
+            return "Prize pool cannot be negative.";
+        }
+        return "";
+    }
 }
 

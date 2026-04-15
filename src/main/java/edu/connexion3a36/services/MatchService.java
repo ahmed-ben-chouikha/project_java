@@ -13,15 +13,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class MatchService {
 
-    /**
-     * Inner class to represent a team option for ComboBox binding.
-     */
     public static class TeamOption {
         private final int id;
         private final String label;
@@ -77,7 +75,8 @@ public class MatchService {
             throw new SQLException("Database connection is not available.");
         }
 
-        try (PreparedStatement pst = connection.prepareStatement("DELETE FROM game WHERE id = ?")) {
+        String tableName = resolveMatchTable(connection);
+        try (PreparedStatement pst = connection.prepareStatement("DELETE FROM " + tableName + " WHERE id = ?")) {
             pst.setInt(1, matchId);
             pst.executeUpdate();
         }
@@ -89,7 +88,8 @@ public class MatchService {
             throw new SQLException("Database connection is not available.");
         }
 
-        String query = "UPDATE game SET team1_id = ?, team2_id = ?, score1 = ?, score2 = ?, matchdate = ?, status = ?, tournament_id = ? WHERE id = ?";
+        String tableName = resolveMatchTable(connection);
+        String query = "UPDATE " + tableName + " SET team1_id = ?, team2_id = ?, score1 = ?, score2 = ?, matchdate = ?, status = ?, updated_at = ?, tournament_id = ? WHERE id = ?";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setInt(1, match.getTeam1Id());
             pst.setInt(2, match.getTeam2Id());
@@ -97,73 +97,75 @@ public class MatchService {
             pst.setInt(4, match.getScore2());
             pst.setTimestamp(5, Timestamp.valueOf(match.getMatchDate()));
             pst.setString(6, match.getStatus());
+            pst.setTimestamp(7, Timestamp.valueOf(java.time.LocalDateTime.now()));
             if (match.getTournamentId() > 0) {
-                pst.setInt(7, match.getTournamentId());
+                pst.setInt(8, match.getTournamentId());
             } else {
-                pst.setNull(7, java.sql.Types.INTEGER);
+                pst.setNull(8, java.sql.Types.INTEGER);
             }
-            pst.setInt(8, match.getId());
+            pst.setInt(9, match.getId());
             pst.executeUpdate();
         }
     }
 
-    /**
-     * Create a new match in the database.
-     */
     public void createMatch(Match match) throws SQLException {
         Connection connection = MyConnection.getInstance().getCnx();
         if (connection == null) {
             throw new SQLException("Database connection is not available.");
         }
 
-        String query = "INSERT INTO game (team1_id, team2_id, score1, score2, matchdate, status, tournament_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String tableName = resolveMatchTable(connection);
+        String query = "INSERT INTO " + tableName + " (score1, score2, matchdate, status, created_at, updated_at, team1_id, team2_id, tournament_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Timestamp now = Timestamp.valueOf(java.time.LocalDateTime.now());
         try (PreparedStatement pst = connection.prepareStatement(query)) {
-            pst.setInt(1, match.getTeam1Id());
-            pst.setInt(2, match.getTeam2Id());
-            pst.setInt(3, match.getScore1());
-            pst.setInt(4, match.getScore2());
-            pst.setTimestamp(5, Timestamp.valueOf(match.getMatchDate()));
-            pst.setString(6, match.getStatus());
+            pst.setInt(1, match.getScore1());
+            pst.setInt(2, match.getScore2());
+            pst.setTimestamp(3, Timestamp.valueOf(match.getMatchDate()));
+            pst.setString(4, match.getStatus());
+            pst.setTimestamp(5, now);
+            pst.setTimestamp(6, now);
+            pst.setInt(7, match.getTeam1Id());
+            pst.setInt(8, match.getTeam2Id());
             if (match.getTournamentId() > 0) {
-                pst.setInt(7, match.getTournamentId());
+                pst.setInt(9, match.getTournamentId());
             } else {
-                pst.setNull(7, java.sql.Types.INTEGER);
+                pst.setNull(9, java.sql.Types.INTEGER);
             }
             pst.executeUpdate();
         }
     }
 
-    /**
-     * Get all teams as TeamOption objects for populating ComboBox.
-     */
     public List<TeamOption> getTeamOptions() throws SQLException {
-        List<TeamOption> options = new ArrayList<>();
         Connection connection = MyConnection.getInstance().getCnx();
         if (connection == null) {
             throw new SQLException("Database connection is not available.");
         }
 
-        // Try to fetch from team, equipe, or teams table
-        for (String tableName : new String[]{"team", "equipe", "teams"}) {
-            String query = "SELECT id, name FROM " + tableName + " ORDER BY name";
-            try (Statement statement = connection.createStatement();
-                 ResultSet rs = statement.executeQuery(query)) {
+        Map<String, String> tableQueries = new LinkedHashMap<>();
+        tableQueries.put("team", "SELECT id, name AS label FROM team ORDER BY id");
+        tableQueries.put("equipe", "SELECT id, nom AS label FROM equipe ORDER BY id");
+        tableQueries.put("teams", "SELECT id, name AS label FROM teams ORDER BY id");
+
+        SQLException lastError = null;
+        for (String query : tableQueries.values()) {
+            List<TeamOption> options = new ArrayList<>();
+            try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(query)) {
                 while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String name = rs.getString("name");
-                    options.add(new TeamOption(id, name != null && !name.isBlank() ? name : "Team #" + id));
+                    options.add(new TeamOption(rs.getInt("id"), rs.getString("label")));
                 }
                 if (!options.isEmpty()) {
                     return options;
                 }
-            } catch (SQLException ignored) {
-                // Try next table
+            } catch (SQLException e) {
+                lastError = e;
             }
         }
 
-        return options;
+        if (lastError != null) {
+            throw lastError;
+        }
+        return new ArrayList<>();
     }
-
 
     private Match mapRow(Connection connection, ResultSet rs, Map<Integer, String> teamCache) throws SQLException {
         Set<String> columns = getColumnNames(rs);
@@ -338,6 +340,19 @@ public class MatchService {
             return new int[]{0, 0};
         }
         return new int[]{parseInt(parts[0].trim(), 0), parseInt(parts[1].trim(), 0)};
+    }
+
+    private String resolveMatchTable(Connection connection) throws SQLException {
+        SQLException lastError = null;
+        for (String tableName : new String[]{"game", "matches"}) {
+            try (PreparedStatement pst = connection.prepareStatement("SELECT id FROM " + tableName + " LIMIT 1")) {
+                pst.executeQuery();
+                return tableName;
+            } catch (SQLException e) {
+                lastError = e;
+            }
+        }
+        throw new SQLException("Could not find match table 'game' or 'matches'.", lastError);
     }
 }
 

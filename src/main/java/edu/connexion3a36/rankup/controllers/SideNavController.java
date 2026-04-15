@@ -28,6 +28,9 @@ public class SideNavController {
     void goNotifications(ActionEvent event) { RankUpApp.loadInBase("/views/notifications/notifications.fxml"); }
 
     @FXML
+    void goTickets(ActionEvent event) { RankUpApp.loadInBase("/views/tickets/tickets.fxml"); }
+
+    @FXML
     void goReclamations(ActionEvent event) { RankUpApp.loadInBase("/views/reclamations/reclamations.fxml"); }
 
     @FXML

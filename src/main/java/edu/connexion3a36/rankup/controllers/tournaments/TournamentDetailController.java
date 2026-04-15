@@ -3,23 +3,26 @@ package edu.connexion3a36.rankup.controllers.tournaments;
 import edu.connexion3a36.entities.Tournament;
 import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.services.TournamentService;
+import edu.connexion3a36.tools.ValidationUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class TournamentDetailController {
 
+    @FXML private Label titleLabel;
     @FXML private TextField tournamentNameField;
-    @FXML private TextArea descriptionField;
+    @FXML private TextField gameTypeField;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
+    @FXML private TextField maxTeamsField;
+    @FXML private ComboBox<String> statusComboBox;
+    @FXML private TextArea descriptionField;
     @FXML private TextField locationField;
     @FXML private TextField prizePoolField;
     @FXML private TextArea rulesField;
-    @FXML private ComboBox<String> statusComboBox;
     @FXML private Label errorLabel;
 
     private TournamentService tournamentService;
@@ -29,22 +32,34 @@ public class TournamentDetailController {
     @FXML
     void initialize() {
         tournamentService = new TournamentService();
-        statusComboBox.getItems().addAll("pending", "ongoing", "finished");
+        statusComboBox.getItems().addAll("open", "closed", "finished");
         errorLabel.setStyle("-fx-text-fill: #ef4444;");
+
+        Tournament stateTournament = TournamentFormState.getEditingTournament();
+        if (stateTournament != null) {
+            setTournament(stateTournament);
+        } else {
+            isEditMode = false;
+            titleLabel.setText("Create Tournament");
+            clearForm();
+        }
     }
 
     public void setTournament(Tournament tournament) {
         this.currentTournament = tournament;
         if (tournament != null) {
             isEditMode = true;
+            titleLabel.setText("Edit Tournament");
             tournamentNameField.setText(tournament.getName());
-            descriptionField.setText(tournament.getDescription());
+            gameTypeField.setText(tournament.getGameType());
             startDatePicker.setValue(tournament.getStartDate());
             endDatePicker.setValue(tournament.getEndDate());
+            maxTeamsField.setText(String.valueOf(tournament.getMaxTeams() <= 0 ? 8 : tournament.getMaxTeams()));
+            statusComboBox.setValue(tournament.getStatus() == null || tournament.getStatus().isBlank() ? "open" : tournament.getStatus());
+            descriptionField.setText(tournament.getDescription() == null ? "" : tournament.getDescription());
             locationField.setText(tournament.getLocation());
             prizePoolField.setText(String.valueOf(tournament.getPrizePool()));
             rulesField.setText(tournament.getRules());
-            statusComboBox.setValue(tournament.getStatus());
         } else {
             isEditMode = false;
             clearForm();
@@ -53,33 +68,39 @@ public class TournamentDetailController {
 
     @FXML
     void onSave(ActionEvent event) {
-        if (validateForm()) {
-            try {
-                Tournament tournament = new Tournament();
-                tournament.setName(tournamentNameField.getText().trim());
-                tournament.setDescription(descriptionField.getText().trim());
-                tournament.setStartDate(startDatePicker.getValue());
-                tournament.setEndDate(endDatePicker.getValue());
-                tournament.setLocation(locationField.getText().trim());
-                tournament.setPrizePool(Double.parseDouble(prizePoolField.getText().trim()));
-                tournament.setRules(rulesField.getText().trim());
-                tournament.setStatus(statusComboBox.getValue());
+        if (!validateForm()) {
+            return;
+        }
 
-                if (isEditMode) {
-                    tournament.setId(currentTournament.getId());
-                    tournamentService.updateEntity(tournament.getId(), tournament);
-                    showSuccess("Tournament updated successfully");
-                } else {
-                    tournamentService.addEntity(tournament);
-                    showSuccess("Tournament created successfully");
-                }
+        try {
+            String rules = normalizeRules(rulesField.getText());
+            Tournament tournament = new Tournament();
+            tournament.setName(safeText(tournamentNameField.getText()));
+            tournament.setGameType(safeText(gameTypeField.getText()));
+            tournament.setStartDate(startDatePicker.getValue());
+            tournament.setEndDate(endDatePicker.getValue());
+            tournament.setMaxTeams(parseIntSafe(maxTeamsField.getText()));
+            tournament.setStatus(statusComboBox.getValue());
+            tournament.setDescription(safeText(descriptionField.getText()));
+            tournament.setLocation(safeText(locationField.getText()));
+            tournament.setPrizePool(parseDoubleSafe(prizePoolField.getText()));
+            tournament.setRules(rules);
 
-                RankUpApp.loadInBase("/views/tournaments/tournaments.fxml");
-            } catch (SQLException e) {
-                showError("Database error: " + e.getMessage());
-            } catch (NumberFormatException e) {
-                showError("Prize pool must be a valid number");
+            if (isEditMode && currentTournament != null) {
+                tournament.setId(currentTournament.getId());
+                tournamentService.updateEntity(tournament.getId(), tournament);
+                showSuccess("Tournament updated successfully");
+            } else {
+                tournamentService.addEntity(tournament);
+                showSuccess("Tournament created successfully");
             }
+
+            TournamentFormState.clear();
+            RankUpApp.loadInBase("/views/tournaments/tournaments.fxml");
+        } catch (SQLException e) {
+            showError("Database error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            showError("Numeric fields must contain valid numbers");
         }
     }
 
@@ -90,60 +111,30 @@ public class TournamentDetailController {
 
     private boolean validateForm() {
         errorLabel.setText("");
-
-        if (tournamentNameField.getText().trim().isEmpty()) {
-            errorLabel.setText("Tournament name cannot be empty");
-            return false;
-        }
-
-        if (startDatePicker.getValue() == null) {
-            errorLabel.setText("Start date cannot be empty");
-            return false;
-        }
-
-        if (endDatePicker.getValue() == null) {
-            errorLabel.setText("End date cannot be empty");
-            return false;
-        }
-
-        LocalDate today = LocalDate.now();
-        if (startDatePicker.getValue().isBefore(today)) {
-            errorLabel.setText("Start date cannot be in the past");
-            return false;
-        }
-
-        if (!endDatePicker.getValue().isAfter(startDatePicker.getValue())) {
-            errorLabel.setText("End date must be after start date");
-            return false;
-        }
-
-        if (locationField.getText().trim().isEmpty()) {
-            errorLabel.setText("Location cannot be empty");
-            return false;
-        }
-
-        if (prizePoolField.getText().trim().isEmpty()) {
-            errorLabel.setText("Prize pool cannot be empty");
-            return false;
-        }
-
         try {
-            double prizePool = Double.parseDouble(prizePoolField.getText().trim());
-            if (prizePool < 0) {
-                errorLabel.setText("Prize pool must be a non-negative number");
+            double prizePool = parseDoubleSafe(prizePoolField.getText());
+            String rules = normalizeRules(rulesField.getText());
+            String validation = ValidationUtil.validateTournament(
+                    safeText(tournamentNameField.getText()),
+                    safeText(gameTypeField.getText()),
+                    startDatePicker.getValue(),
+                    endDatePicker.getValue(),
+                    statusComboBox.getValue(),
+                    parseIntSafe(maxTeamsField.getText()),
+                    safeText(descriptionField.getText()),
+                    safeText(locationField.getText()),
+                    rules,
+                    prizePool
+            );
+            if (!validation.isEmpty()) {
+                errorLabel.setText(validation);
                 return false;
             }
+            return true;
         } catch (NumberFormatException e) {
-            errorLabel.setText("Prize pool must be a valid number");
+            errorLabel.setText("Max teams and prize pool must be numeric.");
             return false;
         }
-
-        if (statusComboBox.getValue() == null || statusComboBox.getValue().isEmpty()) {
-            errorLabel.setText("Status must be selected");
-            return false;
-        }
-
-        return true;
     }
 
     private void showSuccess(String message) {
@@ -164,13 +155,32 @@ public class TournamentDetailController {
 
     private void clearForm() {
         tournamentNameField.clear();
+        gameTypeField.clear();
         descriptionField.clear();
         startDatePicker.setValue(null);
         endDatePicker.setValue(null);
+        maxTeamsField.setText("8");
+        statusComboBox.setValue("open");
         locationField.clear();
         prizePoolField.clear();
         rulesField.clear();
-        statusComboBox.setValue(null);
         errorLabel.setText("");
+    }
+
+    private int parseIntSafe(String value) {
+        return Integer.parseInt(value == null || value.trim().isEmpty() ? "0" : value.trim());
+    }
+
+    private double parseDoubleSafe(String value) {
+        return Double.parseDouble(value == null || value.trim().isEmpty() ? "0" : value.trim());
+    }
+
+    private String safeText(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    private String normalizeRules(String value) {
+        String normalized = safeText(value);
+        return normalized.isEmpty() ? "standard" : normalized;
     }
 }

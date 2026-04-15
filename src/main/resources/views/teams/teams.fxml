@@ -27,8 +27,8 @@
             <columns>
                 <TableColumn fx:id="nameCol" text="Team Name" prefWidth="190" />
                 <TableColumn fx:id="countryCol" text="Country" prefWidth="160" />
-                <TableColumn fx:id="membersCol" text="Members" prefWidth="100" />
-                <TableColumn fx:id="budgetCol" text="Budget" prefWidth="140" />
+                <TableColumn fx:id="gameCol" text="Game" prefWidth="160" />
+                <TableColumn fx:id="scoreCol" text="Score" prefWidth="120" />
             </columns>
         </TableView>
         <HBox spacing="8">

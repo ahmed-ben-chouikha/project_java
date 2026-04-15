@@ -34,7 +34,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
         // Check if tournament is open
         TournamentService tournamentService = new TournamentService();
         Tournament tournament = tournamentService.getTournamentById(registration.getTournamentId());
-        if (tournament == null || !"pending".equalsIgnoreCase(tournament.getStatus())) {
+        if (tournament == null || !isOpenStatus(tournament.getStatus())) {
             throw new SQLException("Cannot register for a closed or finished tournament");
         }
 
@@ -300,6 +300,14 @@ public class TournamentRegistrationService implements ITournamentRegistration {
         pst.setInt(1, tournamentId);
         pst.executeUpdate();
         System.out.println("Tournament closed due to max_teams reached");
+    }
+
+    private boolean isOpenStatus(String status) {
+        if (status == null) {
+            return false;
+        }
+        String normalized = status.trim().toLowerCase();
+        return "pending".equals(normalized) || "open".equals(normalized) || "ongoing".equals(normalized);
     }
 
     private TournamentRegistration mapResultSetToEntity(ResultSet rs) throws SQLException {
