@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainFx extends Application {
 
@@ -19,7 +20,7 @@ public class MainFx extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterPersonne.fxml"));
         Parent root = loader.load();
         Scene sc =new Scene(root, 1440, 960);
-        sc.getStylesheets().add(getClass().getResource("/styles/esports.css").toExternalForm());
+        sc.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
         primaryStage.setTitle("EsportDev Arena");
         primaryStage.setMinWidth(1200);
         primaryStage.setMinHeight(820);
