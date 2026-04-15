@@ -22,7 +22,6 @@ public class TeamFormController {
     @FXML private TextField logoField;
     @FXML private ComboBox<String> gameCombo;
     @FXML private ComboBox<String> levelCombo;
-    @FXML private ComboBox<String> statusCombo;
     @FXML private TextField scoreField;
     @FXML private Label feedbackLabel;
 
@@ -33,8 +32,6 @@ public class TeamFormController {
     void initialize() {
         gameCombo.setItems(FXCollections.observableArrayList("League of Legends", "Valorant", "CS2", "Dota 2", "Rocket League", "Other"));
         levelCombo.setItems(FXCollections.observableArrayList("Beginner", "Intermediate", "Pro"));
-        statusCombo.setItems(FXCollections.observableArrayList("en attente", "approuve", "refuse"));
-        statusCombo.setValue("en attente");
 
         editingTeam = TeamFormState.getEditingTeam();
         if (editingTeam != null) {
@@ -54,7 +51,6 @@ public class TeamFormController {
         String country = safe(countryField.getText());
         String game = gameCombo.getValue();
         String level = levelCombo.getValue();
-        String status = statusCombo.getValue() == null ? "en attente" : statusCombo.getValue();
         String description = safe(descriptionArea.getText());
         String detailedDescription = safe(detailedDescriptionArea.getText());
         String logo = safe(logoField.getText());
@@ -78,7 +74,7 @@ public class TeamFormController {
         payload.setLogo(logo);
         payload.setJeu(game);
         payload.setNiveau(level);
-        payload.setStatut(status);
+        payload.setStatut("en attente");
         payload.setScore(score);
 
         boolean ok = editingTeam == null ? teamService.addTeam(payload) : teamService.updateTeam(payload);
@@ -105,7 +101,6 @@ public class TeamFormController {
         logoField.setText(safe(team.getLogo()));
         gameCombo.setValue(team.getJeu());
         levelCombo.setValue(team.getNiveau());
-        statusCombo.setValue(team.getStatut() == null || team.getStatut().isBlank() ? "en attente" : team.getStatut());
         scoreField.setText(String.valueOf(team.getScore()));
     }
 

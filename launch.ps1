@@ -1,45 +1,37 @@
-# EsportDev Arena Launcher
-# This script sets up Maven PATH and runs the app
+# RankUp E-Sports Launcher
+# Script pour lancer l'application avec Java 17 et Maven
 
 Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host "   EsportDev Arena - JavaFX Esports Dashboard" -ForegroundColor Cyan
+Write-Host "   RankUp E-Sports Platform" -ForegroundColor Cyan
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Use JDK (not JRE) and Maven extracted folder
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-22"
-$env:PATH = "$env:JAVA_HOME\bin;C:\Apache\apache-maven-3.9.6\bin;" + $env:PATH
+$JAVA_HOME = "C:\Java\jdk-17.0.12"
+$M2_HOME = "C:\Program Files\apache-maven-3.9.9"
+$classworlds = (Get-ChildItem "$M2_HOME\boot\plexus-classworlds-*.jar" | Select-Object -First 1).FullName
 
-Write-Host "[1/3] Checking Maven installation..." -ForegroundColor Yellow
-$mavenCheck = & mvn --version 2>&1
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "[OK] Maven found" -ForegroundColor Green
-    Write-Host $mavenCheck[0] -ForegroundColor Gray
-} else {
-    Write-Host "[ERROR] Maven not found at C:\Apache\apache-maven-3.9.6\bin" -ForegroundColor Red
-    Write-Host "Please ensure Maven is installed correctly." -ForegroundColor Red
+if (-not $classworlds) {
+    Write-Host "ERREUR: Impossible de trouver plexus-classworlds-*.jar" -ForegroundColor Red
     exit 1
 }
 
-Write-Host ""
-Write-Host "[2/3] Navigating to project..." -ForegroundColor Yellow
-cd "C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36"
-Write-Host "[OK] Project directory ready" -ForegroundColor Green
+Write-Host "[1/2] Verification de Java 17..." -ForegroundColor Yellow
+& "$JAVA_HOME\bin\java" -version
+Write-Host "[OK] Java 17 pret" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "[3/3] Building and launching application..." -ForegroundColor Yellow
-Write-Host "This may take a few moments on first run..." -ForegroundColor Gray
+Write-Host "[2/2] Lancement de l'application JavaFX..." -ForegroundColor Yellow
+Write-Host "Le projet $((Get-Location).Path)" -ForegroundColor Gray
 Write-Host ""
 
-# Run Maven
-& mvn clean javafx:run
+& "$JAVA_HOME\bin\java" `
+  -classpath "$classworlds" `
+  "-Dclassworlds.conf=$M2_HOME\bin\m2.conf" `
+  "-Dmaven.home=$M2_HOME" `
+  "-Dmaven.multiModuleProjectDirectory=$(Get-Location)" `
+  org.codehaus.plexus.classworlds.launcher.Launcher `
+  javafx:run
 
-if ($LASTEXITCODE -ne 0) {
-    Write-Host ""
-    Write-Host "[ERROR] Launch failed. Check the output above for errors." -ForegroundColor Red
-    exit 1
-} else {
-    Write-Host ""
-    Write-Host "[OK] Application completed successfully" -ForegroundColor Green
-}
+Write-Host ""
+Write-Host "Application fermee." -ForegroundColor Yellow
 

@@ -2,6 +2,8 @@ package edu.connexion3a36.tools;
 
 public class ValidationUtil {
 
+    private static final String LETTERS_PATTERN = "^[\\p{L}][\\p{L}\\s'’-]*$";
+
     // Validation for Budget
     public static boolean validateBudget(float montantAlloue, int teamId, String statut) {
         if (montantAlloue <= 0) {
@@ -99,6 +101,15 @@ public class ValidationUtil {
             return montantUtilise - montantAlloue;
         }
         return 0;
+    }
+
+    // Validate that a text contains letters (and optional spaces/apostrophes/hyphens) only.
+    public static boolean isLettersOnly(String value) {
+        if (value == null) {
+            return false;
+        }
+        String trimmed = value.trim();
+        return !trimmed.isEmpty() && trimmed.matches(LETTERS_PATTERN);
     }
 
     // Validate team form fields and return a user-friendly message when invalid.

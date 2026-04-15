@@ -9,11 +9,13 @@
             <HBox spacing="10">
                 <Label text="Budget Management" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
                 <Region HBox.hgrow="ALWAYS"/>
+                <Button text="📤 Export CSV" onAction="#onExportBudgets" styleClass="btn-secondary"/>
                 <Button text="➕ Ajouter Budget" onAction="#onAddBudget" style="-fx-padding: 8px 15px; -fx-font-size: 12px;"/>
             </HBox>
             <HBox spacing="10">
                 <TextField fx:id="searchField" promptText="Rechercher..." HBox.hgrow="ALWAYS"/>
-                <ComboBox fx:id="filterCombo" style="-fx-min-width: 150px;"/>
+                <ComboBox fx:id="teamFilterCombo" promptText="Filtrer équipe" prefWidth="180"/>
+                <ComboBox fx:id="sortCombo" promptText="Trier" prefWidth="220"/>
                 <Button text="🔄 Rafraîchir" onAction="#onRefresh" style="-fx-padding: 5px 10px;"/>
             </HBox>
         </VBox>
@@ -27,7 +29,6 @@
                 <TableColumn fx:id="montantAlloueColumn" text="Montant Alloué" prefWidth="120"/>
                 <TableColumn fx:id="montantUtiliseColumn" text="Montant Utilisé" prefWidth="120"/>
                 <TableColumn fx:id="restantColumn" text="Restant" prefWidth="100"/>
-                <TableColumn fx:id="statutColumn" text="Statut" prefWidth="100"/>
                 <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
             </columns>
         </TableView>
@@ -35,9 +36,9 @@
 
     <bottom>
         <HBox style="-fx-padding: 10px; -fx-background-color: transparent;" spacing="10">
-            <Label text="© 2026 Budget Management System" style="-fx-text-fill: #666;"/>
+            <Label text="© 2026 Budget Management System" styleClass="muted"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="statusLabel" text="Chargé"/>
+            <Label fx:id="statusLabel" text="Chargé" styleClass="muted"/>
         </HBox>
     </bottom>
 </BorderPane>

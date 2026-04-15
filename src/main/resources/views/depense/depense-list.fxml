@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.DepenseController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.DepenseController" style="-fx-background-color: linear-gradient(to bottom right, #070d1a, #0d1325 45%, #111827 100%);">
     <top>
-        <VBox style="-fx-padding: 15px; -fx-spacing: 10px; -fx-background-color: #f5f5f5;">
+        <VBox style="-fx-padding: 15px; -fx-spacing: 10px; -fx-background-color: transparent;">
             <HBox spacing="10">
                 <Label text="Expense Management" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
                 <Region HBox.hgrow="ALWAYS"/>
@@ -13,7 +13,9 @@
             </HBox>
             <HBox spacing="10">
                 <TextField fx:id="searchField" promptText="Rechercher..." HBox.hgrow="ALWAYS"/>
-                <ComboBox fx:id="filterCombo" style="-fx-min-width: 150px;"/>
+                <ComboBox fx:id="teamFilterCombo" promptText="Filtrer équipe" prefWidth="170"/>
+                <ComboBox fx:id="categoryFilterCombo" promptText="Filtrer catégorie" prefWidth="180"/>
+                <ComboBox fx:id="sortCombo" promptText="Trier" prefWidth="220"/>
                 <Button text="🔄 Rafraîchir" onAction="#onRefresh" style="-fx-padding: 5px 10px;"/>
             </HBox>
         </VBox>
@@ -25,8 +27,8 @@
                 <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
                 <TableColumn fx:id="titreColumn" text="Titre" prefWidth="150"/>
                 <TableColumn fx:id="montantColumn" text="Montant (€)" prefWidth="100"/>
+                <TableColumn fx:id="montantRestantColumn" text="Montant Restant (€)" prefWidth="140"/>
                 <TableColumn fx:id="categorieColumn" text="Catégorie" prefWidth="100"/>
-                <TableColumn fx:id="statutColumn" text="Statut" prefWidth="100"/>
                 <TableColumn fx:id="teamNameColumn" text="Équipe" prefWidth="120"/>
                 <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
             </columns>
@@ -34,10 +36,10 @@
     </center>
 
     <bottom>
-        <HBox style="-fx-padding: 10px; -fx-background-color: #f5f5f5;" spacing="10">
-            <Label text="© 2026 Expense Management System" style="-fx-text-fill: #666;"/>
+        <HBox style="-fx-padding: 10px; -fx-background-color: transparent;" spacing="10">
+            <Label text="© 2026 Expense Management System" styleClass="muted"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="statusLabel" text="Chargé"/>
+            <Label fx:id="statusLabel" text="Chargé" styleClass="muted"/>
         </HBox>
     </bottom>
 </BorderPane>

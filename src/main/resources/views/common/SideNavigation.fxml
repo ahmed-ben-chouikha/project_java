@@ -13,6 +13,7 @@
         <Button text="Players" onAction="#goPlayers" styleClass="nav-btn" />
         <Button text="Tournaments" onAction="#goTournaments" styleClass="nav-btn" />
         <Button text="Budget" onAction="#goBudget" styleClass="nav-btn" />
+        <Button text="Depenses" onAction="#goDepenses" styleClass="nav-btn" />
         <Button text="Notifications" onAction="#goNotifications" styleClass="nav-btn" />
         <Button text="Tickets" onAction="#goTickets" styleClass="nav-btn" />
         <Button text="Reclamations" onAction="#goReclamations" styleClass="nav-btn" />

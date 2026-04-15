@@ -17,6 +17,11 @@ public class BudgetService {
 
     // CREATE
     public boolean addBudget(Budget budget) {
+        if (hasBudgetForTeam(budget.getTeamId())) {
+            System.err.println("Error adding budget: this team already has a budget");
+            return false;
+        }
+
         String sql = "INSERT INTO budget (montant_alloue, montant_utilise, date_allocation, team_id, notes, justificatif) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
             pst.setFloat(1, budget.getMontantAlloue());
@@ -25,13 +30,58 @@ public class BudgetService {
             pst.setInt(4, budget.getTeamId());
             pst.setString(5, budget.getNotes());
             pst.setString(6, budget.getJustificatif());
-            pst.executeUpdate();
-            System.out.println("Budget added successfully!");
-            return true;
+            int affected = pst.executeUpdate();
+            if (affected > 0) {
+                System.out.println("Budget added successfully!");
+                return true;
+            }
+            System.err.println("Error adding budget: no row inserted");
+            return false;
         } catch (SQLException e) {
             System.err.println("Error adding budget: " + e.getMessage());
             return false;
         }
+    }
+
+    public boolean hasBudgetForTeam(int teamId) {
+        String sql = "SELECT COUNT(*) FROM budget WHERE team_id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setInt(1, teamId);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking budget by team: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public Budget getBudgetByTeamId(int teamId) {
+        String sql = "SELECT b.id, b.montant_alloue, b.montant_utilise, b.date_allocation, b.date_modification, b.team_id, t.name as team_name, b.notes, b.justificatif FROM budget b LEFT JOIN team t ON b.team_id = t.id WHERE b.team_id = ? LIMIT 1";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setInt(1, teamId);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return new Budget(
+                        rs.getInt("id"),
+                        rs.getFloat("montant_alloue"),
+                        rs.getFloat("montant_utilise"),
+                        rs.getTimestamp("date_allocation").toLocalDateTime(),
+                        rs.getTimestamp("date_modification") != null ? rs.getTimestamp("date_modification").toLocalDateTime() : null,
+                        rs.getInt("team_id"),
+                        rs.getString("team_name"),
+                        rs.getString("notes"),
+                        null,
+                        rs.getString("justificatif")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching budget by team: " + e.getMessage());
+        }
+        return null;
     }
 
     // READ - Get all budgets
@@ -119,16 +169,37 @@ public class BudgetService {
 
     // UPDATE
     public boolean updateBudget(Budget budget) {
-        String sql = "UPDATE budget SET montant_alloue = ?, montant_utilise = ?, notes = ?, justificatif = ?, date_modification = NOW() WHERE id = ?";
+        Budget existing = getBudgetById(budget.getId());
+        if (existing == null) {
+            System.err.println("Error updating budget: budget not found");
+            return false;
+        }
+
+        if (budget.getTeamId() != existing.getTeamId() && hasBudgetForTeam(budget.getTeamId())) {
+            System.err.println("Error updating budget: target team already has a budget");
+            return false;
+        }
+
+        if (budget.getMontantUtilise() > budget.getMontantAlloue() || budget.getMontantUtilise() < 0) {
+            System.err.println("Error updating budget: used amount is invalid compared to allocated amount");
+            return false;
+        }
+
+        String sql = "UPDATE budget SET montant_alloue = ?, montant_utilise = ?, team_id = ?, notes = ?, justificatif = ?, date_modification = NOW() WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
             pst.setFloat(1, budget.getMontantAlloue());
             pst.setFloat(2, budget.getMontantUtilise());
-            pst.setString(3, budget.getNotes());
-            pst.setString(4, budget.getJustificatif());
-            pst.setInt(5, budget.getId());
-            pst.executeUpdate();
-            System.out.println("Budget updated successfully!");
-            return true;
+            pst.setInt(3, budget.getTeamId());
+            pst.setString(4, budget.getNotes());
+            pst.setString(5, budget.getJustificatif());
+            pst.setInt(6, budget.getId());
+            int affected = pst.executeUpdate();
+            if (affected > 0) {
+                System.out.println("Budget updated successfully!");
+                return true;
+            }
+            System.err.println("Error updating budget: no row updated");
+            return false;
         } catch (SQLException e) {
             System.err.println("Error updating budget: " + e.getMessage());
             return false;
@@ -140,9 +211,13 @@ public class BudgetService {
         String sql = "DELETE FROM budget WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
             pst.setInt(1, id);
-            pst.executeUpdate();
-            System.out.println("Budget deleted successfully!");
-            return true;
+            int affected = pst.executeUpdate();
+            if (affected > 0) {
+                System.out.println("Budget deleted successfully!");
+                return true;
+            }
+            System.err.println("Error deleting budget: no row deleted");
+            return false;
         } catch (SQLException e) {
             System.err.println("Error deleting budget: " + e.getMessage());
             return false;

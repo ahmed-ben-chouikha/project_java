@@ -7,6 +7,8 @@ import edu.connexion3a36.services.TeamService;
 import edu.connexion3a36.tools.ValidationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -17,9 +19,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class DepenseController {
@@ -35,7 +40,7 @@ public class DepenseController {
     @FXML
     private TableColumn<Depense, String> categorieColumn;
     @FXML
-    private TableColumn<Depense, String> statutColumn;
+    private TableColumn<Depense, Float> montantRestantColumn;
     @FXML
     private TableColumn<Depense, String> teamNameColumn;
     @FXML
@@ -44,11 +49,17 @@ public class DepenseController {
     @FXML
     private TextField searchField;
     @FXML
-    private ComboBox<String> filterCombo;
+    private ComboBox<String> teamFilterCombo;
+    @FXML
+    private ComboBox<String> categoryFilterCombo;
+    @FXML
+    private ComboBox<String> sortCombo;
 
     private DepenseService depenseService;
     private TeamService teamService;
     private ObservableList<Depense> depenseList;
+    private FilteredList<Depense> filteredDepenses;
+    private SortedList<Depense> sortedDepenses;
 
     @FXML
     public void initialize() {
@@ -64,7 +75,7 @@ public class DepenseController {
         titreColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
         montantColumn.setCellValueFactory(new PropertyValueFactory<>("montant"));
         categorieColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
-        statutColumn.setCellValueFactory(new PropertyValueFactory<>("statut"));
+        montantRestantColumn.setCellValueFactory(new PropertyValueFactory<>("montantRestant"));
         teamNameColumn.setCellValueFactory(new PropertyValueFactory<>("teamName"));
 
         actionsColumn.setCellFactory(param -> new TableCell<Depense, Void>() {
@@ -73,9 +84,9 @@ public class DepenseController {
             private final Button viewBtn = new Button("👁️ View");
 
             {
-                editBtn.setStyle("-fx-padding: 5px 10px; -fx-cursor: hand; -fx-font-size: 10px;");
-                deleteBtn.setStyle("-fx-padding: 5px 10px; -fx-cursor: hand; -fx-font-size: 10px; -fx-text-fill: red;");
-                viewBtn.setStyle("-fx-padding: 5px 10px; -fx-cursor: hand; -fx-font-size: 10px; -fx-text-fill: blue;");
+                editBtn.getStyleClass().addAll("action-btn", "action-btn-edit");
+                deleteBtn.getStyleClass().addAll("action-btn", "action-btn-delete");
+                viewBtn.getStyleClass().addAll("action-btn", "action-btn-view");
 
                 editBtn.setOnAction(event -> editDepense(getTableView().getItems().get(getIndex())));
                 deleteBtn.setOnAction(event -> deleteDepense(getTableView().getItems().get(getIndex())));
@@ -98,19 +109,150 @@ public class DepenseController {
     }
 
     private void setupFilters() {
-        if (filterCombo != null) {
-            ObservableList<String> filterOptions = FXCollections.observableArrayList(
-                "Tous", "en attente", "approuvé", "refusé", "payée"
-            );
-            filterCombo.setItems(filterOptions);
-            filterCombo.setValue("Tous");
+        if (searchField != null) {
+            searchField.textProperty().addListener((obs, oldValue, newValue) -> applyFilters());
+        }
+        if (teamFilterCombo != null) {
+            teamFilterCombo.valueProperty().addListener((obs, oldValue, newValue) -> applyFilters());
+        }
+        if (categoryFilterCombo != null) {
+            categoryFilterCombo.valueProperty().addListener((obs, oldValue, newValue) -> applyFilters());
+        }
+        if (sortCombo != null) {
+            sortCombo.valueProperty().addListener((obs, oldValue, newValue) -> applySorting());
+        }
+
+        setupFilterOptions();
+    }
+
+    private void setupFilterOptions() {
+        if (teamFilterCombo != null) {
+            teamFilterCombo.setItems(FXCollections.observableArrayList("Toutes les équipes"));
+            teamFilterCombo.setValue("Toutes les équipes");
+        }
+
+        if (categoryFilterCombo != null) {
+            categoryFilterCombo.setItems(FXCollections.observableArrayList(
+                "Toutes les catégories",
+                "salaire",
+                "équipement",
+                "voyage",
+                "autre"
+            ));
+            categoryFilterCombo.setValue("Toutes les catégories");
+        }
+
+        if (sortCombo != null) {
+            sortCombo.setItems(FXCollections.observableArrayList(
+                "ID (croissant)",
+                "ID (décroissant)",
+                "Montant (croissant)",
+                "Montant (décroissant)",
+                "Montant restant (croissant)",
+                "Montant restant (décroissant)",
+                "Titre (A-Z)",
+                "Titre (Z-A)"
+            ));
+            sortCombo.setValue("ID (croissant)");
         }
     }
 
     private void loadDepenses() {
         List<Depense> depenses = depenseService.getAllDepenses();
-        depenseList = FXCollections.observableArrayList(depenses);
-        depenseTable.setItems(depenseList);
+        if (depenseList == null) {
+            depenseList = FXCollections.observableArrayList();
+            filteredDepenses = new FilteredList<>(depenseList, d -> true);
+            sortedDepenses = new SortedList<>(filteredDepenses);
+            depenseTable.setItems(sortedDepenses);
+            sortedDepenses.comparatorProperty().bind(depenseTable.comparatorProperty());
+        }
+        depenseList.setAll(depenses);
+
+        if (teamFilterCombo != null) {
+            String current = teamFilterCombo.getValue();
+            List<String> teams = depenseList.stream()
+                .map(Depense::getTeamName)
+                .filter(name -> name != null && !name.isBlank())
+                .distinct()
+                .sorted(String::compareToIgnoreCase)
+                .toList();
+            ObservableList<String> values = FXCollections.observableArrayList("Toutes les équipes");
+            values.addAll(teams);
+            teamFilterCombo.setItems(values);
+            teamFilterCombo.setValue(values.contains(current) ? current : "Toutes les équipes");
+        }
+
+        applyFilters();
+        applySorting();
+    }
+
+    private void applyFilters() {
+        if (filteredDepenses == null) {
+            return;
+        }
+
+        String query = searchField != null && searchField.getText() != null
+            ? searchField.getText().trim().toLowerCase(Locale.ROOT)
+            : "";
+        String team = teamFilterCombo != null ? teamFilterCombo.getValue() : "Toutes les équipes";
+        String category = categoryFilterCombo != null ? categoryFilterCombo.getValue() : "Toutes les catégories";
+        filteredDepenses.setPredicate(depense -> {
+            if (query.isEmpty()) {
+                return matchesTeam(depense, team) && matchesCategory(depense, category);
+            }
+
+            String titre = depense.getTitre() != null ? depense.getTitre().toLowerCase(Locale.ROOT) : "";
+            String categorie = depense.getCategorie() != null ? depense.getCategorie().toLowerCase(Locale.ROOT) : "";
+            String teamName = depense.getTeamName() != null ? depense.getTeamName().toLowerCase(Locale.ROOT) : "";
+            String description = depense.getDescription() != null ? depense.getDescription().toLowerCase(Locale.ROOT) : "";
+
+            boolean matchesQuery = titre.contains(query)
+                || categorie.contains(query)
+                || teamName.contains(query)
+                || description.contains(query)
+                || String.valueOf(depense.getMontant()).contains(query)
+                || String.valueOf(depense.getMontantRestant()).contains(query);
+
+            return matchesQuery && matchesTeam(depense, team) && matchesCategory(depense, category);
+        });
+    }
+
+    private boolean matchesTeam(Depense depense, String team) {
+        if (team == null || "Toutes les équipes".equals(team)) {
+            return true;
+        }
+        return depense.getTeamName() != null && team.equalsIgnoreCase(depense.getTeamName());
+    }
+
+    private boolean matchesCategory(Depense depense, String category) {
+        if (category == null || "Toutes les catégories".equals(category)) {
+            return true;
+        }
+        return depense.getCategorie() != null && category.equalsIgnoreCase(depense.getCategorie());
+    }
+
+    private void applySorting() {
+        if (sortedDepenses == null || sortCombo == null || sortCombo.getValue() == null) {
+            return;
+        }
+
+        Comparator<Depense> comparator = switch (sortCombo.getValue()) {
+            case "ID (décroissant)" -> Comparator.comparing(Depense::getId, Comparator.nullsLast(Integer::compareTo)).reversed();
+            case "Montant (croissant)" -> Comparator.comparing(Depense::getMontant, Comparator.nullsLast(Float::compareTo));
+            case "Montant (décroissant)" -> Comparator.comparing(Depense::getMontant, Comparator.nullsLast(Float::compareTo)).reversed();
+            case "Montant restant (croissant)" -> Comparator.comparing(Depense::getMontantRestant, Comparator.nullsLast(Float::compareTo));
+            case "Montant restant (décroissant)" -> Comparator.comparing(Depense::getMontantRestant, Comparator.nullsLast(Float::compareTo)).reversed();
+            case "Titre (A-Z)" -> Comparator.comparing(d -> safeLower(d.getTitre()));
+            case "Titre (Z-A)" -> Comparator.comparing((Depense d) -> safeLower(d.getTitre())).reversed();
+            default -> Comparator.comparing(Depense::getId, Comparator.nullsLast(Integer::compareTo));
+        };
+
+        sortedDepenses.comparatorProperty().unbind();
+        sortedDepenses.setComparator(comparator);
+    }
+
+    private String safeLower(String value) {
+        return value == null ? "" : value.toLowerCase(Locale.ROOT);
     }
 
     @FXML
@@ -128,11 +270,11 @@ public class DepenseController {
         alert.setHeaderText(null);
         
         String details = String.format(
-            "Titre: %s\nMontant: %.2f€\nCatégorie: %s\nStatut: %s\nÉquipe: %s\n\nDescription:\n%s",
+            "Titre: %s\nMontant: %.2f€\nMontant restant (équipe): %.2f€\nCatégorie: %s\nÉquipe: %s\n\nDescription:\n%s",
             depense.getTitre(),
             depense.getMontant(),
+            depense.getMontantRestant(),
             depense.getCategorie(),
-            depense.getStatut(),
             depense.getTeamName() != null ? depense.getTeamName() : "Non assignée",
             depense.getDescription() != null ? depense.getDescription() : "N/A"
         );
@@ -178,14 +320,24 @@ public class DepenseController {
         categorieCombo.setItems(FXCollections.observableArrayList("salaire", "équipement", "voyage", "autre"));
         categorieCombo.setPromptText("Sélectionner la catégorie");
 
-        ComboBox<String> statutCombo = new ComboBox<>();
-        statutCombo.setItems(FXCollections.observableArrayList("en attente", "approuvé", "refusé", "payée"));
-        statutCombo.setPromptText("Sélectionner le statut");
-
         ComboBox<Team> teamCombo = new ComboBox<>();
         List<Team> teams = teamService.getAllTeams();
         teamCombo.setItems(FXCollections.observableArrayList(teams));
-        teamCombo.setPromptText("Sélectionner l'équipe (optionnel)");
+        teamCombo.setPromptText("Sélectionner l'équipe");
+        teamCombo.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Team team) {
+                return team == null ? "" : team.getName();
+            }
+
+            @Override
+            public Team fromString(String string) {
+                return teamCombo.getItems().stream()
+                    .filter(team -> team.getName().equals(string))
+                    .findFirst()
+                    .orElse(null);
+            }
+        });
 
         TextArea descriptionArea = new TextArea();
         descriptionArea.setPromptText("Description (optionnel)");
@@ -201,7 +353,6 @@ public class DepenseController {
             if (depense.getCategorie() != null) {
                 categorieCombo.setValue(depense.getCategorie());
             }
-            statutCombo.setValue(depense.getStatut());
             if (depense.getTeamId() != null) {
                 Team selectedTeam = teamService.getTeamById(depense.getTeamId());
                 teamCombo.setValue(selectedTeam);
@@ -221,16 +372,46 @@ public class DepenseController {
 
         saveBtn.setOnAction(e -> {
             String titre = titreField.getText().trim();
-            float montant = montantSpinner.getValue().floatValue();
+            Float montant = parseNumericInput(montantSpinner.getEditor().getText(), "Montant", false);
+            if (montant == null) {
+                return;
+            }
+
             String categorie = categorieCombo.getValue();
-            String statut = statutCombo.getValue();
             String description = descriptionArea.getText().trim();
+            Team selectedTeam = teamCombo.getValue();
+            String statut = depense == null ? "payée" : (depense.getStatut() == null ? "payée" : depense.getStatut());
+
+            if (titre.isEmpty()) {
+                showError("Erreur de validation", "Le champ 'Titre' est obligatoire.");
+                return;
+            }
+
+            if (!ValidationUtil.isLettersOnly(titre)) {
+                showError("Erreur de validation", "Le champ 'Titre' doit contenir des lettres, pas des chiffres.");
+                return;
+            }
+
+            if (!validateLettersOnlyOptional(description, "Description")) {
+                return;
+            }
+
+            if (!validateLettersOnlyOptional(factureField.getText(), "Facture")) {
+                return;
+            }
+
+            if (selectedTeam == null) {
+                showError("Erreur de validation", "Veuillez sélectionner une équipe. Une dépense doit appartenir à une équipe.");
+                return;
+            }
 
             if (!ValidationUtil.validateDepense(titre, montant, statut, categorie)) {
+                showError("Erreur de validation", "Vérifiez les champs requis: titre, montant, statut et catégorie.");
                 return;
             }
 
             if (!ValidationUtil.validateDescription(description)) {
+                showError("Erreur de validation", "La description est invalide.");
                 return;
             }
 
@@ -239,15 +420,14 @@ public class DepenseController {
                 newDepense.setCategorie(categorie);
                 newDepense.setDescription(description);
                 newDepense.setFacture(factureField.getText().trim());
-                if (teamCombo.getValue() != null) {
-                    newDepense.setTeamId(teamCombo.getValue().getId());
-                }
+                newDepense.setTeamId(selectedTeam.getId());
+                newDepense.setTeamName(selectedTeam.getName());
 
                 if (depenseService.addDepense(newDepense)) {
                     loadDepenses();
                     showInfo("Succès", "Dépense ajoutée avec succès!");
                 } else {
-                    showError("Erreur", "Échec de l'ajout de la dépense!");
+                    showError("Erreur", "Échec de l'ajout de la dépense. Vérifiez que l'équipe a un budget suffisant.");
                 }
             } else {
                 depense.setTitre(titre);
@@ -256,15 +436,14 @@ public class DepenseController {
                 depense.setStatut(statut);
                 depense.setDescription(description);
                 depense.setFacture(factureField.getText().trim());
-                if (teamCombo.getValue() != null) {
-                    depense.setTeamId(teamCombo.getValue().getId());
-                }
+                depense.setTeamId(selectedTeam.getId());
+                depense.setTeamName(selectedTeam.getName());
 
                 if (depenseService.updateDepense(depense)) {
-                    depenseTable.refresh();
+                    loadDepenses();
                     showInfo("Succès", "Dépense mise à jour avec succès!");
                 } else {
-                    showError("Erreur", "Échec de la mise à jour de la dépense!");
+                    showError("Erreur", "Échec de la mise à jour de la dépense. Vérifiez que le budget de l'équipe est suffisant.");
                 }
             }
             dialogStage.close();
@@ -282,8 +461,7 @@ public class DepenseController {
             new Label("Titre:"), titreField,
             new Label("Montant (€):"), montantSpinner,
             new Label("Catégorie:"), categorieCombo,
-            new Label("Statut:"), statutCombo,
-            new Label("Équipe (optionnel):"), teamCombo,
+            new Label("Équipe:"), teamCombo,
             new Label("Description:"), descriptionArea,
             new Label("Facture:"), factureField,
             buttonBox
@@ -297,21 +475,11 @@ public class DepenseController {
 
     @FXML
     private void onFilterByStatus(ActionEvent event) {
-        String filter = filterCombo.getValue();
-        if (filter == null || filter.equals("Tous")) {
-            loadDepenses();
-        } else {
-            List<Depense> filtered = depenseService.getDepensesByStatus(filter);
-            depenseList = FXCollections.observableArrayList(filtered);
-            depenseTable.setItems(depenseList);
-        }
+        applyFilters();
     }
 
     @FXML
     private void onRefresh(ActionEvent event) {
-        if (filterCombo != null) {
-            filterCombo.setValue("Tous");
-        }
         loadDepenses();
     }
 
@@ -329,6 +497,42 @@ public class DepenseController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private Float parseNumericInput(String rawInput, String fieldLabel, boolean allowZero) {
+        if (rawInput == null || rawInput.trim().isEmpty()) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' est obligatoire.");
+            return null;
+        }
+
+        String normalized = rawInput.trim().replace(',', '.');
+        float parsed;
+        try {
+            parsed = Float.parseFloat(normalized);
+        } catch (NumberFormatException ex) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' doit contenir uniquement des chiffres.");
+            return null;
+        }
+
+        if ((!allowZero && parsed <= 0) || (allowZero && parsed < 0)) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' contient une valeur invalide.");
+            return null;
+        }
+
+        return parsed;
+    }
+
+    private boolean validateLettersOnlyOptional(String value, String fieldLabel) {
+        if (value == null || value.trim().isEmpty()) {
+            return true;
+        }
+
+        if (!ValidationUtil.isLettersOnly(value)) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' doit contenir des lettres, pas des chiffres.");
+            return false;
+        }
+
+        return true;
     }
 }
 

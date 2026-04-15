@@ -29,22 +29,19 @@
                 <Label text="Level" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="levelCombo" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="250"/>
 
-                <Label text="Status" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <ComboBox fx:id="statusCombo" GridPane.rowIndex="4" GridPane.columnIndex="1" prefWidth="250"/>
+                <Label text="Score" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="scoreField" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="0"/>
 
-                <Label text="Score" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <TextField fx:id="scoreField" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="0"/>
+                <Label text="Short Description" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextArea fx:id="descriptionArea" GridPane.rowIndex="5" GridPane.columnIndex="1" prefRowCount="2"/>
 
-                <Label text="Short Description" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <TextArea fx:id="descriptionArea" GridPane.rowIndex="6" GridPane.columnIndex="1" prefRowCount="2"/>
+                <Label text="Detailed Description" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <TextArea fx:id="detailedDescriptionArea" GridPane.rowIndex="6" GridPane.columnIndex="1" prefRowCount="4"/>
 
-                <Label text="Detailed Description" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-                <TextArea fx:id="detailedDescriptionArea" GridPane.rowIndex="7" GridPane.columnIndex="1" prefRowCount="4"/>
+                <Label text="Logo URL / Path" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <TextField fx:id="logoField" GridPane.rowIndex="7" GridPane.columnIndex="1" promptText="Optional"/>
 
-                <Label text="Logo URL / Path" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <TextField fx:id="logoField" GridPane.rowIndex="8" GridPane.columnIndex="1" promptText="Optional"/>
-
-                <Label fx:id="feedbackLabel" text="" styleClass="muted" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+                <Label fx:id="feedbackLabel" text="" styleClass="muted" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
             </children>
         </GridPane>
         <HBox spacing="8"><children><Button text="Save" onAction="#onSave" styleClass="btn-primary"/><Button text="Cancel" onAction="#onCancel" styleClass="btn-secondary"/></children></HBox>

@@ -7,6 +7,8 @@ import edu.connexion3a36.services.TeamService;
 import edu.connexion3a36.tools.ValidationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -15,12 +17,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class BudgetController {
@@ -38,18 +48,20 @@ public class BudgetController {
     @FXML
     private TableColumn<Budget, Float> restantColumn;
     @FXML
-    private TableColumn<Budget, String> statutColumn;
-    @FXML
     private TableColumn<Budget, Void> actionsColumn;
 
     @FXML
     private TextField searchField;
     @FXML
-    private ComboBox<String> filterCombo;
+    private ComboBox<String> teamFilterCombo;
+    @FXML
+    private ComboBox<String> sortCombo;
 
     private BudgetService budgetService;
     private TeamService teamService;
     private ObservableList<Budget> budgetList;
+    private FilteredList<Budget> filteredBudgets;
+    private SortedList<Budget> sortedBudgets;
 
     @FXML
     public void initialize() {
@@ -66,7 +78,6 @@ public class BudgetController {
         montantAlloueColumn.setCellValueFactory(new PropertyValueFactory<>("montantAlloue"));
         montantUtiliseColumn.setCellValueFactory(new PropertyValueFactory<>("montantUtilise"));
         restantColumn.setCellValueFactory(new PropertyValueFactory<>("restant"));
-        statutColumn.setCellValueFactory(new PropertyValueFactory<>("statut"));
 
         actionsColumn.setCellFactory(param -> new TableCell<Budget, Void>() {
             private final Button editBtn = new Button("✏️ Edit");
@@ -74,9 +85,9 @@ public class BudgetController {
             private final Button viewBtn = new Button("👁️ View");
 
             {
-                editBtn.setStyle("-fx-padding: 5px 10px; -fx-cursor: hand; -fx-font-size: 10px;");
-                deleteBtn.setStyle("-fx-padding: 5px 10px; -fx-cursor: hand; -fx-font-size: 10px; -fx-text-fill: red;");
-                viewBtn.setStyle("-fx-padding: 5px 10px; -fx-cursor: hand; -fx-font-size: 10px; -fx-text-fill: blue;");
+                editBtn.getStyleClass().addAll("action-btn", "action-btn-edit");
+                deleteBtn.getStyleClass().addAll("action-btn", "action-btn-delete");
+                viewBtn.getStyleClass().addAll("action-btn", "action-btn-view");
 
                 editBtn.setOnAction(event -> editBudget(getTableView().getItems().get(getIndex())));
                 deleteBtn.setOnAction(event -> deleteBudget(getTableView().getItems().get(getIndex())));
@@ -99,19 +110,126 @@ public class BudgetController {
     }
 
     private void setupFilters() {
-        if (filterCombo != null) {
-            ObservableList<String> filterOptions = FXCollections.observableArrayList(
-                "Tous", "en attente", "approuvé", "refusé", "épuisé"
-            );
-            filterCombo.setItems(filterOptions);
-            filterCombo.setValue("Tous");
+        if (searchField != null) {
+            searchField.textProperty().addListener((obs, oldValue, newValue) -> applyFilters());
+        }
+        if (teamFilterCombo != null) {
+            teamFilterCombo.valueProperty().addListener((obs, oldValue, newValue) -> applyFilters());
+        }
+        if (sortCombo != null) {
+            sortCombo.valueProperty().addListener((obs, oldValue, newValue) -> applySorting());
+        }
+
+        setupFilterOptions();
+    }
+
+    private void setupFilterOptions() {
+        if (teamFilterCombo != null) {
+            teamFilterCombo.setItems(FXCollections.observableArrayList("Toutes les équipes"));
+            teamFilterCombo.setValue("Toutes les équipes");
+        }
+
+        if (sortCombo != null) {
+            sortCombo.setItems(FXCollections.observableArrayList(
+                "ID (croissant)",
+                "ID (décroissant)",
+                "Montant alloué (croissant)",
+                "Montant alloué (décroissant)",
+                "Montant restant (croissant)",
+                "Montant restant (décroissant)",
+                "Équipe (A-Z)",
+                "Équipe (Z-A)"
+            ));
+            sortCombo.setValue("ID (croissant)");
         }
     }
 
     private void loadBudgets() {
         List<Budget> budgets = budgetService.getAllBudgets();
-        budgetList = FXCollections.observableArrayList(budgets);
-        budgetTable.setItems(budgetList);
+        if (budgetList == null) {
+            budgetList = FXCollections.observableArrayList();
+            filteredBudgets = new FilteredList<>(budgetList, b -> true);
+            sortedBudgets = new SortedList<>(filteredBudgets);
+            budgetTable.setItems(sortedBudgets);
+            sortedBudgets.comparatorProperty().bind(budgetTable.comparatorProperty());
+        }
+        budgetList.setAll(budgets);
+
+        if (teamFilterCombo != null) {
+            String current = teamFilterCombo.getValue();
+            List<String> teamNames = budgetList.stream()
+                .map(Budget::getTeamName)
+                .filter(name -> name != null && !name.isBlank())
+                .distinct()
+                .sorted(String::compareToIgnoreCase)
+                .toList();
+            ObservableList<String> values = FXCollections.observableArrayList("Toutes les équipes");
+            values.addAll(teamNames);
+            teamFilterCombo.setItems(values);
+            teamFilterCombo.setValue(values.contains(current) ? current : "Toutes les équipes");
+        }
+
+        applyFilters();
+        applySorting();
+    }
+
+    private void applyFilters() {
+        if (filteredBudgets == null) {
+            return;
+        }
+
+        String query = searchField != null && searchField.getText() != null
+            ? searchField.getText().trim().toLowerCase(Locale.ROOT)
+            : "";
+        String selectedTeam = teamFilterCombo != null ? teamFilterCombo.getValue() : "Toutes les équipes";
+        filteredBudgets.setPredicate(budget -> {
+            if (query.isEmpty()) {
+                if (selectedTeam == null || "Toutes les équipes".equals(selectedTeam)) {
+                    return true;
+                }
+                return selectedTeam.equalsIgnoreCase(budget.getTeamName());
+            }
+
+            String teamName = budget.getTeamName() != null ? budget.getTeamName().toLowerCase(Locale.ROOT) : "";
+            String notes = budget.getNotes() != null ? budget.getNotes().toLowerCase(Locale.ROOT) : "";
+            String justificatif = budget.getJustificatif() != null ? budget.getJustificatif().toLowerCase(Locale.ROOT) : "";
+
+            boolean matchesQuery = teamName.contains(query)
+                || notes.contains(query)
+                || justificatif.contains(query)
+                || String.valueOf(budget.getMontantAlloue()).contains(query)
+                || String.valueOf(budget.getMontantUtilise()).contains(query);
+
+            boolean matchesTeam = selectedTeam == null
+                || "Toutes les équipes".equals(selectedTeam)
+                || (budget.getTeamName() != null && selectedTeam.equalsIgnoreCase(budget.getTeamName()));
+
+            return matchesQuery && matchesTeam;
+        });
+    }
+
+    private void applySorting() {
+        if (sortedBudgets == null || sortCombo == null || sortCombo.getValue() == null) {
+            return;
+        }
+
+        Comparator<Budget> comparator = switch (sortCombo.getValue()) {
+            case "ID (décroissant)" -> Comparator.comparing(Budget::getId, Comparator.nullsLast(Integer::compareTo)).reversed();
+            case "Montant alloué (croissant)" -> Comparator.comparing(Budget::getMontantAlloue, Comparator.nullsLast(Float::compareTo));
+            case "Montant alloué (décroissant)" -> Comparator.comparing(Budget::getMontantAlloue, Comparator.nullsLast(Float::compareTo)).reversed();
+            case "Montant restant (croissant)" -> Comparator.comparing(Budget::getRestant, Comparator.nullsLast(Float::compareTo));
+            case "Montant restant (décroissant)" -> Comparator.comparing(Budget::getRestant, Comparator.nullsLast(Float::compareTo)).reversed();
+            case "Équipe (A-Z)" -> Comparator.comparing(b -> safeLower(b.getTeamName()));
+            case "Équipe (Z-A)" -> Comparator.comparing((Budget b) -> safeLower(b.getTeamName())).reversed();
+            default -> Comparator.comparing(Budget::getId, Comparator.nullsLast(Integer::compareTo));
+        };
+
+        sortedBudgets.comparatorProperty().unbind();
+        sortedBudgets.setComparator(comparator);
+    }
+
+    private String safeLower(String value) {
+        return value == null ? "" : value.toLowerCase(Locale.ROOT);
     }
 
     @FXML
@@ -127,15 +245,22 @@ public class BudgetController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Détails du Budget - " + budget.getTeamName());
         alert.setHeaderText(null);
+
+        float usageRatio = budget.getMontantAlloue() > 0 ? budget.getMontantUtilise() / budget.getMontantAlloue() : 0;
+        String warningText = usageRatio >= 1
+            ? "\n\nAlerte: Dépassement ou épuisement du budget."
+            : usageRatio >= 0.8f
+            ? "\n\nAlerte: Plus de 80% du budget est déjà utilisé."
+            : "";
         
         String details = String.format(
-            "Équipe: %s\nMontant alloué: %.2f€\nMontant utilisé: %.2f€\nRestant: %.2f€\nStatut: %s\n\nNotes:\n%s",
+            "Équipe: %s\nMontant alloué: %.2f€\nMontant utilisé: %.2f€\nRestant: %.2f€\n\nNotes:\n%s%s",
             budget.getTeamName(),
             budget.getMontantAlloue(),
             budget.getMontantUtilise(),
             budget.getRestant(),
-            budget.getStatut(),
-            budget.getNotes() != null ? budget.getNotes() : "N/A"
+            budget.getNotes() != null ? budget.getNotes() : "N/A",
+            warningText
         );
         alert.setContentText(details);
         alert.showAndWait();
@@ -190,12 +315,11 @@ public class BudgetController {
         Spinner<Double> montantAlloueSpinner = new Spinner<>(0.0, 999999.99, 1000.0, 100.0);
         montantAlloueSpinner.setEditable(true);
 
-        Spinner<Double> montantUtiliseSpinner = new Spinner<>(0.0, 999999.99, 0.0, 100.0);
-        montantUtiliseSpinner.setEditable(true);
-
-        ComboBox<String> statutCombo = new ComboBox<>();
-        statutCombo.setItems(FXCollections.observableArrayList("en attente", "approuvé", "refusé", "épuisé"));
-        statutCombo.setPromptText("Sélectionner le statut");
+        Spinner<Double> montantUtiliseSpinner = null;
+        if (budget != null) {
+            montantUtiliseSpinner = new Spinner<>(0.0, 999999.99, 0.0, 100.0);
+            montantUtiliseSpinner.setEditable(true);
+        }
 
         TextArea notesArea = new TextArea();
         notesArea.setPromptText("Notes (optionnel)");
@@ -210,10 +334,11 @@ public class BudgetController {
             teamCombo.setValue(selectedTeam);
             montantAlloueSpinner.getValueFactory().setValue((double) budget.getMontantAlloue());
             montantUtiliseSpinner.getValueFactory().setValue((double) budget.getMontantUtilise());
-            statutCombo.setValue(budget.getStatut());
             notesArea.setText(budget.getNotes() != null ? budget.getNotes() : "");
             justificatifField.setText(budget.getJustificatif() != null ? budget.getJustificatif() : "");
         }
+
+        final Spinner<Double> montantUtiliseSpinnerRef = montantUtiliseSpinner;
 
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
@@ -226,20 +351,50 @@ public class BudgetController {
 
         saveBtn.setOnAction(e -> {
             Team selectedTeam = teamCombo.getValue();
-            float montantAlloue = montantAlloueSpinner.getValue().floatValue();
-            float montantUtilise = montantUtiliseSpinner.getValue().floatValue();
-            String statut = statutCombo.getValue();
+            Float montantAlloue = parseNumericInput(montantAlloueSpinner.getEditor().getText(), "Montant alloué", false);
+            if (montantAlloue == null) {
+                return;
+            }
+
+            float montantUtilise = 0;
+            if (budget != null) {
+                Float parsedMontantUtilise = parseNumericInput(montantUtiliseSpinnerRef.getEditor().getText(), "Montant utilisé", true);
+                if (parsedMontantUtilise == null) {
+                    return;
+                }
+                montantUtilise = parsedMontantUtilise;
+            }
+
+            if (!validateLettersOnlyOptional(notesArea.getText(), "Notes")) {
+                return;
+            }
+
+            if (!validateLettersOnlyOptional(justificatifField.getText(), "Justificatif")) {
+                return;
+            }
 
             if (selectedTeam == null) {
                 showError("Erreur de validation", "Veuillez sélectionner une équipe");
                 return;
             }
 
-            if (!ValidationUtil.validateBudget(montantAlloue, selectedTeam.getId(), statut)) {
+            if (budget == null && budgetService.hasBudgetForTeam(selectedTeam.getId())) {
+                showError("Erreur de validation", "Cette équipe possède déjà un budget. Modifiez-le au lieu d'en créer un nouveau.");
+                return;
+            }
+
+            if (budget != null && selectedTeam.getId() != budget.getTeamId() && budgetService.hasBudgetForTeam(selectedTeam.getId())) {
+                showError("Erreur de validation", "Impossible de transférer ce budget: l'équipe sélectionnée possède déjà un budget.");
+                return;
+            }
+
+            if (!ValidationUtil.validateBudget(montantAlloue, selectedTeam.getId(), "approuvé")) {
+                showError("Erreur de validation", "Le montant alloué doit être positif et l'équipe doit être valide.");
                 return;
             }
 
             if (!ValidationUtil.validateMontantUtilise(montantUtilise, montantAlloue)) {
+                showError("Erreur de validation", "Le montant utilisé doit être positif et ne pas dépasser le montant alloué.");
                 return;
             }
 
@@ -256,13 +411,15 @@ public class BudgetController {
                     showError("Erreur", "Échec de l'ajout du budget!");
                 }
             } else {
+                budget.setTeamId(selectedTeam.getId());
+                budget.setTeamName(selectedTeam.getName());
                 budget.setMontantAlloue(montantAlloue);
                 budget.setMontantUtilise(montantUtilise);
                 budget.setNotes(notesArea.getText());
                 budget.setJustificatif(justificatifField.getText());
 
                 if (budgetService.updateBudget(budget)) {
-                    budgetTable.refresh();
+                    loadBudgets();
                     showInfo("Succès", "Budget mise à jour avec succès!");
                 } else {
                     showError("Erreur", "Échec de la mise à jour du budget!");
@@ -281,9 +438,14 @@ public class BudgetController {
         formBox.getChildren().addAll(
             titleLabel,
             new Label("Équipe:"), teamCombo,
-            new Label("Montant alloué (€):"), montantAlloueSpinner,
-            new Label("Montant utilisé (€):"), montantUtiliseSpinner,
-            new Label("Statut:"), statutCombo,
+            new Label("Montant alloué (€):"), montantAlloueSpinner
+        );
+
+        if (budget != null) {
+            formBox.getChildren().addAll(new Label("Montant utilisé (€):"), montantUtiliseSpinner);
+        }
+
+        formBox.getChildren().addAll(
             new Label("Notes:"), notesArea,
             new Label("Justificatif:"), justificatifField,
             buttonBox
@@ -297,16 +459,57 @@ public class BudgetController {
 
     @FXML
     private void onFilterByStatus(ActionEvent event) {
-        // Filtering by status disabled - statut column removed from table
-        loadBudgets();
+        applyFilters();
     }
 
     @FXML
     private void onRefresh(ActionEvent event) {
-        if (filterCombo != null) {
-            filterCombo.setValue("Tous");
-        }
         loadBudgets();
+    }
+
+    @FXML
+    private void onExportBudgets(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Exporter les budgets");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV (*.csv)", "*.csv"));
+        fileChooser.setInitialFileName("budgets_export.csv");
+
+        File file = fileChooser.showSaveDialog(budgetTable.getScene().getWindow());
+        if (file == null) {
+            return;
+        }
+
+        try (BufferedWriter writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8)) {
+            writer.write("id,team,montant_alloue,montant_utilise,montant_restant,notes,justificatif");
+            writer.newLine();
+
+            for (Budget budget : filteredBudgets) {
+                writer.write(String.format(
+                    Locale.ROOT,
+                    "%d,%s,%.2f,%.2f,%.2f,%s,%s",
+                    budget.getId(),
+                    csvEscape(budget.getTeamName()),
+                    budget.getMontantAlloue(),
+                    budget.getMontantUtilise(),
+                    budget.getRestant(),
+                    csvEscape(budget.getNotes()),
+                    csvEscape(budget.getJustificatif())
+                ));
+                writer.newLine();
+            }
+
+            showInfo("Export réussi", "Fichier exporté: " + file.getAbsolutePath());
+        } catch (IOException ex) {
+            showError("Erreur d'export", "Impossible d'exporter le fichier CSV.");
+        }
+    }
+
+    private String csvEscape(String value) {
+        if (value == null) {
+            return "\"\"";
+        }
+        String escaped = value.replace("\"", "\"\"");
+        return "\"" + escaped + "\"";
     }
 
     private void showInfo(String title, String message) {
@@ -323,5 +526,41 @@ public class BudgetController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private Float parseNumericInput(String rawInput, String fieldLabel, boolean allowZero) {
+        if (rawInput == null || rawInput.trim().isEmpty()) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' est obligatoire.");
+            return null;
+        }
+
+        String normalized = rawInput.trim().replace(',', '.');
+        float parsed;
+        try {
+            parsed = Float.parseFloat(normalized);
+        } catch (NumberFormatException ex) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' doit contenir uniquement des chiffres.");
+            return null;
+        }
+
+        if ((!allowZero && parsed <= 0) || (allowZero && parsed < 0)) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' contient une valeur invalide.");
+            return null;
+        }
+
+        return parsed;
+    }
+
+    private boolean validateLettersOnlyOptional(String value, String fieldLabel) {
+        if (value == null || value.trim().isEmpty()) {
+            return true;
+        }
+
+        if (!ValidationUtil.isLettersOnly(value)) {
+            showError("Erreur de validation", "Le champ '" + fieldLabel + "' doit contenir des lettres, pas des chiffres.");
+            return false;
+        }
+
+        return true;
     }
 }

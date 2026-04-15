@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.TableColumn?>
@@ -19,6 +20,9 @@
         <HBox spacing="8">
             <children>
                 <TextField fx:id="searchField" promptText="Search by team or country" HBox.hgrow="ALWAYS" />
+                <ComboBox fx:id="countryFilterCombo" promptText="Country" prefWidth="160" />
+                <ComboBox fx:id="gameFilterCombo" promptText="Game" prefWidth="160" />
+                <ComboBox fx:id="sortCombo" promptText="Sort" prefWidth="170" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Button text="➕ New Team" onAction="#onCreateTeam" styleClass="btn-primary" />
             </children>
@@ -29,13 +33,11 @@
                 <TableColumn fx:id="countryCol" text="Country" prefWidth="160" />
                 <TableColumn fx:id="gameCol" text="Game" prefWidth="160" />
                 <TableColumn fx:id="scoreCol" text="Score" prefWidth="120" />
+                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="240" />
             </columns>
         </TableView>
         <HBox spacing="8">
             <children>
-                <Button text="👁️" onAction="#onViewTeam" />
-                <Button text="✏️" onAction="#onEditTeam" />
-                <Button text="🗑️" onAction="#onDeleteTeam" styleClass="btn-danger" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Pagination fx:id="pagination" prefWidth="220" />
             </children>

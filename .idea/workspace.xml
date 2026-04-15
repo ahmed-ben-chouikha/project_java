@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/project_java/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/RUN.bat" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/RUN.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/launch.bat" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/launch.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/launch.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/launch.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/entities/Personne.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/entities/Personne.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/services/PersonneService.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/services/PersonneService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/tools/MyConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/java/edu/connexion3a36/tools/MyConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/common/SideNavigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/common/SideNavigation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/matches/matches.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/matches/matches.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/players/player-profile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/players/player-profile.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-details.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-details.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/team-form.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/teams.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/teams/teams.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournament-details.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournament-details.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournaments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/project_java/src/main/resources/views/tournaments/tournaments.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/START_APP.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mvn-wrapper.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mvn.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run-project-direct.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run-project.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run-project.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run-with-java8.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launch.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/launch.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/melki/OneDrive/Bureau/pidev/project_java" value="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
+    </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="Agent" />
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="chat-panel" value="Claude Haiku 4.5" />
+      <entry key="agent-panel" value="Claude Haiku 4.5" />
+    </selectedModels>
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/project_java" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -45,12 +54,23 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -60,10 +80,19 @@
       <option name="presentableId" value="Default" />
       <updated>1776201103115</updated>
       <workItem from="1776201104121" duration="28000" />
+      <workItem from="1776286448230" duration="281000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

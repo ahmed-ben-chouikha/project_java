@@ -51,6 +51,14 @@
                     </mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>edu.connexion3a36.rankup.app.Main</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
