@@ -19,6 +19,32 @@ import java.util.Set;
 
 public class MatchService {
 
+    /**
+     * Inner class to represent a team option for ComboBox binding.
+     */
+    public static class TeamOption {
+        private final int id;
+        private final String label;
+
+        public TeamOption(int id, String label) {
+            this.id = id;
+            this.label = label;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        @Override
+        public String toString() {
+            return label;
+        }
+    }
+
     public List<Match> getAllMatches() throws SQLException {
         Connection connection = MyConnection.getInstance().getCnx();
         if (connection == null) {
@@ -79,6 +105,63 @@ public class MatchService {
             pst.setInt(8, match.getId());
             pst.executeUpdate();
         }
+    }
+
+    /**
+     * Create a new match in the database.
+     */
+    public void createMatch(Match match) throws SQLException {
+        Connection connection = MyConnection.getInstance().getCnx();
+        if (connection == null) {
+            throw new SQLException("Database connection is not available.");
+        }
+
+        String query = "INSERT INTO game (team1_id, team2_id, score1, score2, matchdate, status, tournament_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setInt(1, match.getTeam1Id());
+            pst.setInt(2, match.getTeam2Id());
+            pst.setInt(3, match.getScore1());
+            pst.setInt(4, match.getScore2());
+            pst.setTimestamp(5, Timestamp.valueOf(match.getMatchDate()));
+            pst.setString(6, match.getStatus());
+            if (match.getTournamentId() > 0) {
+                pst.setInt(7, match.getTournamentId());
+            } else {
+                pst.setNull(7, java.sql.Types.INTEGER);
+            }
+            pst.executeUpdate();
+        }
+    }
+
+    /**
+     * Get all teams as TeamOption objects for populating ComboBox.
+     */
+    public List<TeamOption> getTeamOptions() throws SQLException {
+        List<TeamOption> options = new ArrayList<>();
+        Connection connection = MyConnection.getInstance().getCnx();
+        if (connection == null) {
+            throw new SQLException("Database connection is not available.");
+        }
+
+        // Try to fetch from team, equipe, or teams table
+        for (String tableName : new String[]{"team", "equipe", "teams"}) {
+            String query = "SELECT id, name FROM " + tableName + " ORDER BY name";
+            try (Statement statement = connection.createStatement();
+                 ResultSet rs = statement.executeQuery(query)) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    options.add(new TeamOption(id, name != null && !name.isBlank() ? name : "Team #" + id));
+                }
+                if (!options.isEmpty()) {
+                    return options;
+                }
+            } catch (SQLException ignored) {
+                // Try next table
+            }
+        }
+
+        return options;
     }
 
 
