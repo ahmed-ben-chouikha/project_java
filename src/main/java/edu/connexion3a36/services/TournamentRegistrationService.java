@@ -106,7 +106,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
     public List<TournamentRegistration> getPlayerRegistrations(String playerName) throws SQLException {
         List<TournamentRegistration> registrations = new ArrayList<>();
         String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournament t ON tr.tournament_id = t.id " +
+                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
                 "WHERE tr.player_name = ? ORDER BY tr.registration_date DESC";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
@@ -139,7 +139,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
     public List<TournamentRegistration> getAllRegistrations() throws SQLException {
         List<TournamentRegistration> registrations = new ArrayList<>();
         String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournament t ON tr.tournament_id = t.id " +
+                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
                 "ORDER BY tr.registration_date DESC";
 
         Statement st = MyConnection.getInstance().getCnx().createStatement();
@@ -155,7 +155,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
     public List<TournamentRegistration> getRegistrationsByStatus(String status) throws SQLException {
         List<TournamentRegistration> registrations = new ArrayList<>();
         String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournament t ON tr.tournament_id = t.id " +
+                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
                 "WHERE tr.status = ? ORDER BY tr.registration_date DESC";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
@@ -172,7 +172,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
     public List<TournamentRegistration> getRegistrationsByTournament(int tournamentId) throws SQLException {
         List<TournamentRegistration> registrations = new ArrayList<>();
         String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournament t ON tr.tournament_id = t.id " +
+                "LEFT JOIN tournaments t ON tr.tournament_id = t.id " +
                 "WHERE tr.tournament_id = ? ORDER BY tr.registration_date DESC";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
@@ -243,7 +243,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
     @Override
     public TournamentRegistration getRegistrationById(int id) throws SQLException {
         String query = "SELECT tr.*, t.name as tournament_name FROM tournament_registrations tr " +
-                "LEFT JOIN tournament t ON tr.tournament_id = t.id WHERE tr.id = ?";
+                "LEFT JOIN tournaments t ON tr.tournament_id = t.id WHERE tr.id = ?";
 
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setInt(1, id);
@@ -295,7 +295,7 @@ public class TournamentRegistrationService implements ITournamentRegistration {
     }
 
     private void closeTournament(int tournamentId) throws SQLException {
-        String query = "UPDATE tournament SET status = 'closed' WHERE id = ?";
+        String query = "UPDATE tournaments SET status = 'closed' WHERE id = ?";
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setInt(1, tournamentId);
         pst.executeUpdate();

@@ -9,8 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class MatchesController {
@@ -51,7 +57,6 @@ public class MatchesController {
 
     @FXML
     void onCreateMatch(ActionEvent event) {
-        MatchFormState.clear();
         RankUpApp.loadInBase("/views/matches/match-form.fxml");
     }
 
@@ -68,8 +73,16 @@ public class MatchesController {
             return;
         }
 
-        MatchFormState.setEditingMatch(selected);
-        RankUpApp.loadInBase("/views/matches/match-form.fxml");
+        Dialog<Match> dialog = buildEditDialog(selected);
+        dialog.showAndWait().ifPresent(updated -> {
+            try {
+                matchService.updateMatch(updated);
+                loadMatches();
+                showInfo("Updated", "Match updated successfully.");
+            } catch (SQLException e) {
+                showError("Database Error", "Could not update the match.\n" + e.getMessage());
+            }
+        });
     }
 
     @FXML
@@ -141,6 +154,127 @@ public class MatchesController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private Dialog<Match> buildEditDialog(Match selected) {
+        Dialog<Match> dialog = new Dialog<>();
+        dialog.setTitle("Edit Match");
+        dialog.setHeaderText(selected.getTeam1() + " vs " + selected.getTeam2());
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        DatePicker datePicker = new DatePicker();
+        TextField timeField = new TextField();
+        TextField score1Field = new TextField();
+        TextField score2Field = new TextField();
+        ComboBox<String> statusBox = new ComboBox<>(FXCollections.observableArrayList("pending", "ongoing", "finished"));
+
+        LocalDateTime currentDate = parseDateTime(selected.getMatchDate());
+        datePicker.setValue(currentDate.toLocalDate());
+        timeField.setText(currentDate.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+        score1Field.setText(String.valueOf(selected.getScore1()));
+        score2Field.setText(String.valueOf(selected.getScore2()));
+        statusBox.setValue(selected.getStatus().toLowerCase());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.add(new Label("Date"), 0, 0);
+        grid.add(datePicker, 1, 0);
+        grid.add(new Label("Time"), 0, 1);
+        grid.add(timeField, 1, 1);
+        grid.add(new Label("Score 1"), 0, 2);
+        grid.add(score1Field, 1, 2);
+        grid.add(new Label("Score 2"), 0, 3);
+        grid.add(score2Field, 1, 3);
+        grid.add(new Label("Status"), 0, 4);
+        grid.add(statusBox, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(button -> {
+            if (button != saveButtonType) {
+                return null;
+            }
+
+            int score1 = parseIntSafe(score1Field.getText());
+            int score2 = parseIntSafe(score2Field.getText());
+            String status = statusBox.getValue() == null ? selected.getStatus() : statusBox.getValue();
+
+            LocalDate date = datePicker.getValue() == null ? currentDate.toLocalDate() : datePicker.getValue();
+            LocalTime time = parseTime(timeField.getText());
+            String dateTime = LocalDateTime.of(date, time).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            return new Match(
+                    selected.getId(),
+                    selected.getTeam1Id(),
+                    selected.getTeam2Id(),
+                    selected.getTournamentId(),
+                    score1,
+                    score2,
+                    dateTime,
+                    selected.getTeam1(),
+                    selected.getTeam2(),
+                    status
+            );
+        });
+
+        return dialog;
+    }
+
+    private LocalDateTime parseDateTime(String value) {
+        if (value == null || value.isBlank()) {
+            return LocalDateTime.now();
+        }
+
+        DateTimeFormatter[] formats = new DateTimeFormatter[]{
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        };
+
+        for (DateTimeFormatter formatter : formats) {
+            try {
+                return LocalDateTime.parse(value, formatter);
+            } catch (DateTimeParseException ignored) {
+                // try next format
+            }
+        }
+
+        return LocalDateTime.now();
+    }
+
+    private LocalTime parseTime(String value) {
+        if (value == null || value.isBlank()) {
+            return LocalTime.of(0, 0, 0);
+        }
+
+        DateTimeFormatter[] formats = new DateTimeFormatter[]{
+                DateTimeFormatter.ofPattern("HH:mm:ss"),
+                DateTimeFormatter.ofPattern("HH:mm")
+        };
+
+        for (DateTimeFormatter formatter : formats) {
+            try {
+                return LocalTime.parse(value.trim(), formatter);
+            } catch (DateTimeParseException ignored) {
+                // try next format
+            }
+        }
+
+        return LocalTime.of(0, 0, 0);
+    }
+
+    private int parseIntSafe(String value) {
+        if (value == null) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }
 

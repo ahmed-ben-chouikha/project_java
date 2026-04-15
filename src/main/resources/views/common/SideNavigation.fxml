@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.SideNavController" spacing="8" prefWidth="220" styleClass="side-nav">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.SideNavController" spacing="8" prefWidth="220" styleClass="side-nav">
     <padding><Insets top="16" right="12" bottom="16" left="12"/></padding>
     <children>
         <Button text="Dashboard" onAction="#goHome" styleClass="nav-btn" />
@@ -16,6 +16,6 @@
         <Button text="Budget" onAction="#goBudget" styleClass="nav-btn" />
         <Button text="Notifications" onAction="#goNotifications" styleClass="nav-btn" />
         <Button text="Admin Panel" onAction="#goAdmin" styleClass="nav-btn" />
-        <Button text="Dépenses" onAction="#goDepense" styleClass="nav-btn" />
     </children>
 </VBox>
+

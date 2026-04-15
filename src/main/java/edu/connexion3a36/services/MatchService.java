@@ -13,35 +13,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class MatchService {
-
-    public static class TeamOption {
-        private final int id;
-        private final String label;
-
-        public TeamOption(int id, String label) {
-            this.id = id;
-            this.label = label;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
 
     public List<Match> getAllMatches() throws SQLException {
         Connection connection = MyConnection.getInstance().getCnx();
@@ -87,7 +63,7 @@ public class MatchService {
             throw new SQLException("Database connection is not available.");
         }
 
-        String query = "UPDATE game SET team1_id = ?, team2_id = ?, score1 = ?, score2 = ?, matchdate = ?, status = ?, updated_at = ?, tournament_id = ? WHERE id = ?";
+        String query = "UPDATE game SET team1_id = ?, team2_id = ?, score1 = ?, score2 = ?, matchdate = ?, status = ?, tournament_id = ? WHERE id = ?";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setInt(1, match.getTeam1Id());
             pst.setInt(2, match.getTeam2Id());
@@ -95,74 +71,16 @@ public class MatchService {
             pst.setInt(4, match.getScore2());
             pst.setTimestamp(5, Timestamp.valueOf(match.getMatchDate()));
             pst.setString(6, match.getStatus());
-            pst.setTimestamp(7, Timestamp.valueOf(java.time.LocalDateTime.now()));
             if (match.getTournamentId() > 0) {
-                pst.setInt(8, match.getTournamentId());
+                pst.setInt(7, match.getTournamentId());
             } else {
-                pst.setNull(8, java.sql.Types.INTEGER);
+                pst.setNull(7, java.sql.Types.INTEGER);
             }
-            pst.setInt(9, match.getId());
+            pst.setInt(8, match.getId());
             pst.executeUpdate();
         }
     }
 
-    public void createMatch(Match match) throws SQLException {
-        Connection connection = MyConnection.getInstance().getCnx();
-        if (connection == null) {
-            throw new SQLException("Database connection is not available.");
-        }
-
-        String query = "INSERT INTO game (score1, score2, matchdate, status, created_at, updated_at, team1_id, team2_id, tournament_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Timestamp now = Timestamp.valueOf(java.time.LocalDateTime.now());
-        try (PreparedStatement pst = connection.prepareStatement(query)) {
-            pst.setInt(1, match.getScore1());
-            pst.setInt(2, match.getScore2());
-            pst.setTimestamp(3, Timestamp.valueOf(match.getMatchDate()));
-            pst.setString(4, match.getStatus());
-            pst.setTimestamp(5, now);
-            pst.setTimestamp(6, now);
-            pst.setInt(7, match.getTeam1Id());
-            pst.setInt(8, match.getTeam2Id());
-            if (match.getTournamentId() > 0) {
-                pst.setInt(9, match.getTournamentId());
-            } else {
-                pst.setNull(9, java.sql.Types.INTEGER);
-            }
-            pst.executeUpdate();
-        }
-    }
-
-    public List<TeamOption> getTeamOptions() throws SQLException {
-        Connection connection = MyConnection.getInstance().getCnx();
-        if (connection == null) {
-            throw new SQLException("Database connection is not available.");
-        }
-
-        Map<String, String> tableQueries = new LinkedHashMap<>();
-        tableQueries.put("team", "SELECT id, name AS label FROM team ORDER BY id");
-        tableQueries.put("equipe", "SELECT id, nom AS label FROM equipe ORDER BY id");
-        tableQueries.put("teams", "SELECT id, name AS label FROM teams ORDER BY id");
-
-        SQLException lastError = null;
-        for (String query : tableQueries.values()) {
-            List<TeamOption> options = new ArrayList<>();
-            try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery(query)) {
-                while (rs.next()) {
-                    options.add(new TeamOption(rs.getInt("id"), rs.getString("label")));
-                }
-                if (!options.isEmpty()) {
-                    return options;
-                }
-            } catch (SQLException e) {
-                lastError = e;
-            }
-        }
-
-        if (lastError != null) {
-            throw lastError;
-        }
-        return new ArrayList<>();
-    }
 
     private Match mapRow(Connection connection, ResultSet rs, Map<Integer, String> teamCache) throws SQLException {
         Set<String> columns = getColumnNames(rs);

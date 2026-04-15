@@ -74,14 +74,7 @@ public class AjouterPersonneController {
 
     @FXML
     void initialize() {
-        java.util.List<javafx.scene.control.Button> buttons = new java.util.ArrayList<>();
-        buttons.add(dashboardButton);
-        buttons.add(matchesButton);
-        buttons.add(tournamentsButton);
-        buttons.add(teamsButton);
-        buttons.add(userButton);
-        buttons.add(adminButton);
-        navButtons = buttons;
+        navButtons = List.of(dashboardButton, matchesButton, tournamentsButton, teamsButton, userButton, adminButton);
         navButtons.forEach(button -> button.getStyleClass().add("nav-button"));
         openTournamentButton.getStyleClass().add("primary-action");
         userModeButton.getStyleClass().add("role-toggle");
@@ -242,7 +235,7 @@ public class AjouterPersonneController {
 
     private HBox createStatsRow() {
         HBox row = new HBox(18);
-        row.getChildren().addAll(catalog.getOverviewStats().stream().map(this::createStatCard).collect(java.util.stream.Collectors.toList()));
+        row.getChildren().addAll(catalog.getOverviewStats().stream().map(this::createStatCard).toList());
         return row;
     }
 
@@ -383,9 +376,9 @@ public class AjouterPersonneController {
     private VBox createStatCard(StatCard stat) {
         VBox card = createCard();
         card.getStyleClass().add("stat-card");
-        Label value = labelWithStyle(stat.value, "stat-value");
-        Label label = labelWithStyle(stat.label, "stat-label");
-        Label detail = labelWithStyle(stat.detail, "stat-detail");
+        Label value = labelWithStyle(stat.value(), "stat-value");
+        Label label = labelWithStyle(stat.label(), "stat-label");
+        Label detail = labelWithStyle(stat.detail(), "stat-detail");
         detail.setWrapText(true);
         card.getChildren().addAll(value, label, detail);
         return card;
@@ -395,38 +388,38 @@ public class AjouterPersonneController {
         VBox card = createCard();
         HBox topLine = new HBox(10);
         topLine.setAlignment(Pos.CENTER_LEFT);
-        Label badge = createBadge(match.status, match.status.equalsIgnoreCase("LIVE") ? "badge-live" : "badge-open");
-        Label game = labelWithStyle(match.game, "card-title");
+        Label badge = createBadge(match.status(), match.status().equalsIgnoreCase("LIVE") ? "badge-live" : "badge-open");
+        Label game = labelWithStyle(match.game(), "card-title");
         topLine.getChildren().addAll(game, badge);
 
-        Label teams = labelWithStyle(match.teams, "card-subtitle");
-        Label stage = labelWithStyle(match.stage, "card-detail");
-        Label time = labelWithStyle(match.time, "card-detail");
-        Button action = createSecondaryButton(match.status.equalsIgnoreCase("LIVE") ? "Watch now" : "View bracket", e -> showAlert("Match hub", match.teams + " • " + match.time));
+        Label teams = labelWithStyle(match.teams(), "card-subtitle");
+        Label stage = labelWithStyle(match.stage(), "card-detail");
+        Label time = labelWithStyle(match.time(), "card-detail");
+        Button action = createSecondaryButton(match.status().equalsIgnoreCase("LIVE") ? "Watch now" : "View bracket", e -> showAlert("Match hub", match.teams() + " • " + match.time()));
         card.getChildren().addAll(topLine, teams, stage, time, action);
         return card;
     }
 
     private VBox createTournamentCard(TournamentCard tournament) {
         VBox card = createCard();
-        Label head = labelWithStyle(tournament.name, "card-title");
-        Label subtitle = labelWithStyle(tournament.game, "card-subtitle");
-        Label date = labelWithStyle("Date: " + tournament.date, "card-detail");
-        Label prize = labelWithStyle("Prize: " + tournament.prizePool, "card-detail");
-        Label slots = labelWithStyle("Slots: " + tournament.slots, "card-detail");
-        Label badge = createBadge(tournament.openForJoin ? "OPEN" : "FULL", tournament.openForJoin ? "badge-open" : "badge-muted");
-        Button join = createPrimaryButton(tournament.openForJoin ? "Join now" : "Waitlist", e -> showAlert("Tournament registration", tournament.name + " is ready for signup on the join page."));
+        Label head = labelWithStyle(tournament.name(), "card-title");
+        Label subtitle = labelWithStyle(tournament.game(), "card-subtitle");
+        Label date = labelWithStyle("Date: " + tournament.date(), "card-detail");
+        Label prize = labelWithStyle("Prize: " + tournament.prizePool(), "card-detail");
+        Label slots = labelWithStyle("Slots: " + tournament.slots(), "card-detail");
+        Label badge = createBadge(tournament.openForJoin() ? "OPEN" : "FULL", tournament.openForJoin() ? "badge-open" : "badge-muted");
+        Button join = createPrimaryButton(tournament.openForJoin() ? "Join now" : "Waitlist", e -> showAlert("Tournament registration", tournament.name() + " is ready for signup on the join page."));
         card.getChildren().addAll(head, subtitle, badge, date, prize, slots, join);
         return card;
     }
 
     private VBox createTeamCard(TeamCard team) {
         VBox card = createCard();
-        Label head = labelWithStyle(team.name, "card-title");
-        Label roster = labelWithStyle(team.roster, "card-subtitle");
-        Label region = labelWithStyle(team.region, "card-detail");
-        Label record = labelWithStyle(team.record, "card-detail");
-        Button action = createSecondaryButton("View roster", e -> showAlert("Team spotlight", team.name + " • " + team.record));
+        Label head = labelWithStyle(team.name(), "card-title");
+        Label roster = labelWithStyle(team.roster(), "card-subtitle");
+        Label region = labelWithStyle(team.region(), "card-detail");
+        Label record = labelWithStyle(team.record(), "card-detail");
+        Button action = createSecondaryButton("View roster", e -> showAlert("Team spotlight", team.name() + " • " + team.record()));
         card.getChildren().addAll(head, roster, region, record, action);
         return card;
     }
