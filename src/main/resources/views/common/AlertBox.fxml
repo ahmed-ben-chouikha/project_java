@@ -4,12 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="8" styleClass="card">
+<HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" spacing="8" styleClass="card">
     <padding><Insets top="8" right="8" bottom="8" left="8"/></padding>
     <children>
         <Label text="INFO" styleClass="badge" />
         <Label text="This is an alert placeholder." />
     </children>
 </HBox>
-
 

@@ -54,11 +54,11 @@ public class Personne {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Personne personne = (Personne) o;
-        return id == personne.id && Objects.equals(nom, personne.nom);
+        return id == personne.id && Objects.equals(nom, personne.nom) && Objects.equals(prenom, personne.prenom);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nom);
+        return Objects.hash(id, nom, prenom);
     }
 }

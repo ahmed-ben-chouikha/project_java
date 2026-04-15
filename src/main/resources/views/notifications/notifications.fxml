@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.notifications.NotificationsController" spacing="12" styleClass="page-root">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.notifications.NotificationsController" spacing="12" styleClass="page-root">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
         <Label text="Notifications" styleClass="page-title" />
@@ -34,5 +34,4 @@
         </TableView>
     </children>
 </VBox>
-
 

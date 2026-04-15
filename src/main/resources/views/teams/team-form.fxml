@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.SimpleActionsController" spacing="12" styleClass="page-root">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.SimpleActionsController" spacing="12" styleClass="page-root">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
         <Label text="Create / Edit Team" styleClass="page-title" />
@@ -24,8 +24,7 @@
                 <Label text="Logo Upload" GridPane.rowIndex="4" GridPane.columnIndex="0"/><Button text="Choose File" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
             </children>
         </GridPane>
-        <HBox spacing="8"><children><Button text="Save" onAction="#onSave" styleClass="btn-primary"/><Button text="Cancel" onAction="#goBackTeams"/></children></HBox>
+        <HBox spacing="8"><children><Button text="💾 Save" onAction="#onSave" styleClass="btn-primary"/><Button text="✕ Cancel" onAction="#goBackTeams"/></children></HBox>
     </children>
 </VBox>
-
 
