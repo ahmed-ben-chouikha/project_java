@@ -13,9 +13,6 @@ public class SideNavController {
     void goMatches(ActionEvent event) { RankUpApp.loadInBase("/views/matches/matches.fxml"); }
 
     @FXML
-    void goTickets(ActionEvent event) { RankUpApp.loadInBase("/views/tickets/tickets.fxml"); }
-
-    @FXML
     void goTeams(ActionEvent event) { RankUpApp.loadInBase("/views/teams/teams.fxml"); }
 
     @FXML
@@ -29,6 +26,15 @@ public class SideNavController {
 
     @FXML
     void goNotifications(ActionEvent event) { RankUpApp.loadInBase("/views/notifications/notifications.fxml"); }
+
+    @FXML
+    void goReclamations(ActionEvent event) { RankUpApp.loadInBase("/views/reclamations/reclamations.fxml"); }
+
+    @FXML
+    void goAdminResponses(ActionEvent event) { RankUpApp.loadInBase("/views/adminresponses/admin-responses.fxml"); }
+
+    @FXML
+    void goPunitions(ActionEvent event) { RankUpApp.loadInBase("/views/punitions/punitions.fxml"); }
 
     @FXML
     void goAdmin(ActionEvent event) { RankUpApp.loadInBase("/views/admin/admin-dashboard.fxml"); }

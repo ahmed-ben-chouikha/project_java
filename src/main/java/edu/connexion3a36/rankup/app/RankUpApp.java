@@ -12,6 +12,9 @@ public final class RankUpApp {
 
     private static Stage primaryStage;
     private static BaseController baseController;
+    private static Integer pendingReclamationFocusId;
+    private static Integer pendingAdminResponseFocusId;
+    private static Integer pendingPunitionFocusId;
 
     private RankUpApp() {
     }
@@ -39,6 +42,36 @@ public final class RankUpApp {
         if (baseController != null) {
             baseController.loadCenter(viewPath);
         }
+    }
+
+    public static void setPendingReclamationFocusId(Integer reclamationId) {
+        pendingReclamationFocusId = reclamationId;
+    }
+
+    public static Integer consumePendingReclamationFocusId() {
+        Integer id = pendingReclamationFocusId;
+        pendingReclamationFocusId = null;
+        return id;
+    }
+
+    public static void setPendingAdminResponseFocusId(Integer responseId) {
+        pendingAdminResponseFocusId = responseId;
+    }
+
+    public static Integer consumePendingAdminResponseFocusId() {
+        Integer id = pendingAdminResponseFocusId;
+        pendingAdminResponseFocusId = null;
+        return id;
+    }
+
+    public static void setPendingPunitionFocusId(Integer punitionId) {
+        pendingPunitionFocusId = punitionId;
+    }
+
+    public static Integer consumePendingPunitionFocusId() {
+        Integer id = pendingPunitionFocusId;
+        pendingPunitionFocusId = null;
+        return id;
     }
 
     public static void logout() {

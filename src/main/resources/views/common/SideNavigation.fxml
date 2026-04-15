@@ -9,12 +9,14 @@
     <children>
         <Button text="Dashboard" onAction="#goHome" styleClass="nav-btn" />
         <Button text="Matches" onAction="#goMatches" styleClass="nav-btn" />
-        <Button text="Tickets" onAction="#goTickets" styleClass="nav-btn" />
         <Button text="Teams" onAction="#goTeams" styleClass="nav-btn" />
         <Button text="Players" onAction="#goPlayers" styleClass="nav-btn" />
         <Button text="Tournaments" onAction="#goTournaments" styleClass="nav-btn" />
         <Button text="Budget" onAction="#goBudget" styleClass="nav-btn" />
         <Button text="Notifications" onAction="#goNotifications" styleClass="nav-btn" />
+        <Button text="Reclamations" onAction="#goReclamations" styleClass="nav-btn" />
+        <Button text="Admin Responses" onAction="#goAdminResponses" styleClass="nav-btn" />
+        <Button text="Punitions" onAction="#goPunitions" styleClass="nav-btn" />
         <Button text="Admin Panel" onAction="#goAdmin" styleClass="nav-btn" />
     </children>
 </VBox>
