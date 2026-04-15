@@ -11,6 +11,7 @@ public class DemandeRecompense {
     private String motif;
     private LocalDateTime dateDemande;
     private String statut;
+    private Integer recompenseId;
 
     public DemandeRecompense() {
     }
@@ -79,6 +80,14 @@ public class DemandeRecompense {
         this.statut = statut;
     }
 
+    public Integer getRecompenseId() {
+        return recompenseId;
+    }
+
+    public void setRecompenseId(Integer recompenseId) {
+        this.recompenseId = recompenseId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,6 +110,7 @@ public class DemandeRecompense {
                 ", motif='" + motif + '\'' +
                 ", dateDemande=" + dateDemande +
                 ", statut='" + statut + '\'' +
+                ", recompenseId=" + recompenseId +
                 '}';
     }
 }

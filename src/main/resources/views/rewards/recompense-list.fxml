@@ -33,6 +33,7 @@
                 <TableColumn fx:id="recompenseCol" text="Récompense" prefWidth="150" />
                 <TableColumn fx:id="typeCol" text="Type" prefWidth="100" />
                 <TableColumn fx:id="classementCol" text="Classement" prefWidth="100" />
+                <TableColumn fx:id="tournamentCol" text="Tournoi" prefWidth="170" />
                 <TableColumn fx:id="descriptionCol" text="Description" prefWidth="250" />
             </columns>
         </TableView>

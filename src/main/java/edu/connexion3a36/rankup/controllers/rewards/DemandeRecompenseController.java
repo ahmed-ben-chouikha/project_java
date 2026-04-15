@@ -58,8 +58,8 @@ public class DemandeRecompenseController {
         nomCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNomDemandeur()));
         emailCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEmail()));
         motifCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getMotif() != null ? cellData.getValue().getMotif().substring(0, Math.min(30, cellData.getValue().getMotif().length())) + "..." : ""));
-        dateCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDateDemande().format(formatter)));
-        statutCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getStatut()));
+        dateCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(formatDate(cellData.getValue().getDateDemande())));
+        statutCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(toUiStatus(cellData.getValue().getStatut())));
 
         // Initialiser le filtre de statut
         statutFilter.setItems(FXCollections.observableArrayList("Tous", "En attente", "Approuvée", "Rejetée"));
@@ -156,7 +156,7 @@ public class DemandeRecompenseController {
     }
 
     private void filterData() {
-        String searchText = searchField.getText().toLowerCase();
+        String searchText = searchField.getText() == null ? "" : searchField.getText().toLowerCase();
         String selectedStatut = statutFilter.getValue();
 
         List<DemandeRecompense> allDemandes = service.getAll();
@@ -164,16 +164,41 @@ public class DemandeRecompenseController {
 
         for (DemandeRecompense d : allDemandes) {
             boolean matchesSearch = searchText.isEmpty() ||
-                    d.getNomDemandeur().toLowerCase().contains(searchText) ||
-                    d.getEmail().toLowerCase().contains(searchText);
+                    safe(d.getNomDemandeur()).toLowerCase().contains(searchText) ||
+                    safe(d.getEmail()).toLowerCase().contains(searchText);
 
-            boolean matchesStatut = selectedStatut.equals("Tous") || d.getStatut().equals(selectedStatut);
+            boolean matchesStatut = selectedStatut.equals("Tous") || toUiStatus(d.getStatut()).equals(selectedStatut);
 
             if (matchesSearch && matchesStatut) {
                 filtered.add(d);
             }
         }
         demandeTable.setItems(filtered);
+    }
+
+    private String safe(String value) {
+        return value == null ? "" : value;
+    }
+
+    private String formatDate(java.time.LocalDateTime dateTime) {
+        return dateTime == null ? "-" : dateTime.format(formatter);
+    }
+
+    private String toUiStatus(String dbStatus) {
+        if (dbStatus == null) {
+            return "En attente";
+        }
+        String normalized = dbStatus.trim().toLowerCase();
+        if (normalized.equals("en_attente") || normalized.equals("en attente")) {
+            return "En attente";
+        }
+        if (normalized.equals("approuvee") || normalized.equals("approuvée")) {
+            return "Approuvée";
+        }
+        if (normalized.equals("rejetee") || normalized.equals("rejetée")) {
+            return "Rejetée";
+        }
+        return dbStatus;
     }
 
     public void refreshTable() {

@@ -31,6 +31,10 @@
         <HBox spacing="40">
             <children>
                 <VBox spacing="8">
+                    <Label text="Recompense" styleClass="form-label" />
+                    <Label fx:id="recompenseLabel" text="" style="-fx-font-size: 14px;" />
+                </VBox>
+                <VBox spacing="8">
                     <Label text="Date de demande" styleClass="form-label" />
                     <Label fx:id="dateLabel" text="" style="-fx-font-size: 14px;" />
                 </VBox>
@@ -42,7 +46,7 @@
         </HBox>
 
         <VBox spacing="8" VBox.vgrow="ALWAYS">
-            <Label text="Motif de la demande" styleClass="form-label" />
+            <Label text="Description de la demande" styleClass="form-label" />
             <TextArea fx:id="motifArea" wrapText="true" editable="false"
                       styleClass="form-input" VBox.vgrow="ALWAYS" />
         </VBox>

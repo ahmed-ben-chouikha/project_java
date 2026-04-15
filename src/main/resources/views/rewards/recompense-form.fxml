@@ -39,8 +39,8 @@
         </HBox>
 
         <VBox spacing="4">
-            <Label text="ID Tournoi" styleClass="form-label" />
-            <TextField fx:id="tournamentIdField" promptText="ID du tournoi" styleClass="form-input" />
+            <Label text="Tournoi" styleClass="form-label" />
+            <ComboBox fx:id="tournamentCombo" promptText="Sélectionner un tournoi" styleClass="form-input" />
             <Label fx:id="tournamentError" text="" style="-fx-text-fill: #ef4444; -fx-font-size: 11px;" />
         </VBox>
 

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/claudeCodeTabState.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/esportsnew.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BUDGET_DEPENSE_DOCUMENTATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BUDGET_DEPENSE_IMPLEMENTATION_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BUDGET_DEPENSE_README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BUDGET_DEPENSE_SIDEBAR_INTEGRATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BUGFIX_DATA_TRUNCATED.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHANGELOG_TEAMS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FILE_MANIFEST.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FINAL_IMPLEMENTATION_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FINAL_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IMPLEMENTATION_COMPLETE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/INDEX_MODIFICATIONS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/INTEGRATION_ROADMAP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/REVIEW_BUTTON_SOLUTION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/REVIEW_SYSTEM_CHECKLIST.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/REVIEW_SYSTEM_COMPLETE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/REVIEW_SYSTEM_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/REVIEW_SYSTEM_VISUAL_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/STATUS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/STATUT_COLUMN_REMOVAL.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TEAMS_CRUD_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TEAMS_QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TEAMS_UPGRADE_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TOURNAMENT_REVIEW_BUTTON.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/add_country_column.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/add_recompense_id_to_demande_recompense.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cleanup_team_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/fix_tournament_timestamps.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/reviews_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/tournament_registration_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/tournament_registrations_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/tournaments_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fix_statut_column.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fix_team_created_at.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/remove_couleur_column.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/remove_statut_column.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run_migration.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/setup_budget_depense_tables.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/setup_team_table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/AdminResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Budget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Depense.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Match.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Punition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Reclamation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Review.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Team.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Ticket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Tournament.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/TournamentRegistration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/interfaces/IReview.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/interfaces/ITournamentRegistration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/MainFxApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/AdminReviewModerationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BudgetController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/DepenseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TeamsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentRegistrationUserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentReviewsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/admin/AdminRegistrationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/adminresponses/AdminResponsesController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/matches/MatchFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/matches/MatchFormState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/punitions/PunitionsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/reclamations/ReclamationsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tickets/TicketFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tickets/TicketFormState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tickets/TicketsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/RegistrationFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentDetailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentRegistrationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/entities/Tournament.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/AdminResponseService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/BudgetService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/DepenseService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/MatchService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/PunitionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/ReclamationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/ReviewService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TeamService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TicketService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentRegistrationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/ValidationUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/admin/admin-review-moderation.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/admin_registrations.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/adminresponses/admin-responses.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/budget/budget-list.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/depense/depense-list.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/punitions/punitions.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/reclamations/reclamations.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/tickets/ticket-form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/tickets/tickets.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/tournament_registration.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/tournaments/registration-form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournament-form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournament-registrations.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournament-reviews.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/TeamServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/update_team_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RUN.bat" beforeDir="false" afterPath="$PROJECT_DIR$/RUN.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database_setup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database_setup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launch.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/launch.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Personne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Personne.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeDetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeDetailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeRecompenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeRecompenseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/RecompenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/RecompenseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/RecompenseFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/RecompenseFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/entities/DemandeRecompense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/entities/DemandeRecompense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/DemandeRecompenseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/DemandeRecompenseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/RecompenseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/RecompenseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/PersonneService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/PersonneService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/MyConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/MyConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/players/player-profile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/players/player-profile.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-detail.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-detail.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-list.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-list.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/recompense-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/recompense-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/recompense-list.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/recompense-list.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/teams/team-details.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/teams/team-details.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/teams/team-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/teams/team-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/teams/teams.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/teams/teams.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournament-details.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournament-details.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournaments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournaments.fxml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.Connexion3A36 [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging module-reward",
+    "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="edu.connexion3a36.rankup.entities" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="" />
+      <created>1776201103115</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1776201103115</updated>
+      <workItem from="1776201104121" duration="28000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

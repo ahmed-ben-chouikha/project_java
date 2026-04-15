@@ -40,7 +40,7 @@
 
         <Label text="Teams Joined" styleClass="section-title" />
         <ListView prefHeight="100" styleClass="card"><items /></ListView>
-        <Button text="Edit Profile" onAction="#onEdit" styleClass="btn-primary" />
+        <Button text="✏️ Edit Profile" onAction="#onEdit" styleClass="btn-primary" />
     </children>
 </VBox>
 

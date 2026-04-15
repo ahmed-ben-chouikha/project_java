@@ -14,7 +14,7 @@ REM Set Java Home to JDK 22
 set "JAVA_HOME=C:\Program Files\Java\jdk-22"
 
 REM Add Maven to PATH
-set "PATH=%JAVA_HOME%\bin;C:\Apache\apache-maven-3.9.6\bin;%PATH%"
+set "PATH=C:\Apache\apache-maven-3.9.6\bin;%PATH%"
 
 REM Navigate to project
 cd /d C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36

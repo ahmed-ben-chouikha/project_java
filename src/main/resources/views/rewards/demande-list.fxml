@@ -32,7 +32,7 @@
                 <TableColumn fx:id="idCol" text="ID" prefWidth="50" />
                 <TableColumn fx:id="nomCol" text="Demandeur" prefWidth="150" />
                 <TableColumn fx:id="emailCol" text="Email" prefWidth="180" />
-                <TableColumn fx:id="motifCol" text="Motif" prefWidth="200" />
+                <TableColumn fx:id="motifCol" text="Description" prefWidth="200" />
                 <TableColumn fx:id="dateCol" text="Date" prefWidth="150" />
                 <TableColumn fx:id="statutCol" text="Statut" prefWidth="120" />
             </columns>

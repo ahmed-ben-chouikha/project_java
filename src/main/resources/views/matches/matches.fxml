@@ -22,7 +22,7 @@
                 <TextField fx:id="searchField" promptText="Search by team or date" HBox.hgrow="ALWAYS" />
                 <ComboBox fx:id="statusFilter" prefWidth="160" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="Create Match" onAction="#onCreateMatch" styleClass="btn-primary" />
+                <Button text="➕ New Match" onAction="#onCreateMatch" styleClass="btn-primary" />
             </children>
         </HBox>
         <TableView fx:id="matchesTable" VBox.vgrow="ALWAYS" styleClass="card">
@@ -36,9 +36,9 @@
         </TableView>
         <HBox spacing="8">
             <children>
-                <Button text="View" onAction="#onViewMatch" />
-                <Button text="Edit" onAction="#onEditMatch" />
-                <Button text="Delete" onAction="#onDeleteMatch" styleClass="btn-danger" />
+                <Button text="👁️" onAction="#onViewMatch" />
+                <Button text="✏️" onAction="#onEditMatch" />
+                <Button text="🗑️" onAction="#onDeleteMatch" styleClass="btn-danger" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Pagination fx:id="pagination" prefWidth="220" />
             </children>

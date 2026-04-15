@@ -52,9 +52,11 @@ CREATE TABLE demande_recompense (
     motif LONGTEXT,
     date_demande DATETIME NOT NULL,
     statut VARCHAR(50) NOT NULL,
+    recompense_id INT(11) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_demande_user FOREIGN KEY (user_id) REFERENCES `user`(id) ON DELETE SET NULL
+    CONSTRAINT fk_demande_user FOREIGN KEY (user_id) REFERENCES `user`(id) ON DELETE SET NULL,
+    CONSTRAINT fk_demande_recompense FOREIGN KEY (recompense_id) REFERENCES recompense(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- =====================================================
@@ -72,12 +74,12 @@ INSERT INTO recompense (recompense, type, classement, description, tournament_id
 -- =====================================================
 -- Données d'exemple: demande_recompense
 -- =====================================================
-INSERT INTO demande_recompense (user_id, nom_demandeur, email, motif, date_demande, statut) VALUES
-(2, 'Player Demo', 'player@rankup.local', 'Demande de récompense de démonstration envoyée après connexion joueur.', '2024-04-10 14:30:00', 'En attente'),
-(2, 'Player Demo', 'player@rankup.local', 'Deuxième demande de test pour vérifier le flux login → demande.', '2024-04-08 10:15:00', 'Approuvée'),
-(NULL, 'Pierre Durand', 'pierre.durand@example.com', 'Demande de récompense pour le meilleur score individuel en matches de poule. J''ai maintenu une moyenne de 1.5 K/D ratio.', '2024-04-09 16:45:00', 'En attente'),
-(NULL, 'Sophie Bernard', 'sophie.bernard@example.com', 'Demande de récompense pour avoir remporté le prix du joueur le plus prometteur du tournoi League of Legends.', '2024-04-07 09:20:00', 'Rejetée'),
-(NULL, 'Thomas Lefevre', 'thomas.lefevre@example.com', 'Demande de récompense spéciale pour sponsoring et support du tournoi esports régional.', '2024-04-06 11:00:00', 'Approuvée');
+INSERT INTO demande_recompense (user_id, nom_demandeur, email, motif, date_demande, statut, recompense_id) VALUES
+(2, 'Player Demo', 'player@rankup.local', 'Demande de récompense de démonstration envoyée après connexion joueur.', '2024-04-10 14:30:00', 'en_attente', 1),
+(2, 'Player Demo', 'player@rankup.local', 'Deuxième demande de test pour vérifier le flux login → demande.', '2024-04-08 10:15:00', 'approuvee', 2),
+(NULL, 'Pierre Durand', 'pierre.durand@example.com', 'Demande de récompense pour le meilleur score individuel en matches de poule. J''ai maintenu une moyenne de 1.5 K/D ratio.', '2024-04-09 16:45:00', 'en_attente', 3),
+(NULL, 'Sophie Bernard', 'sophie.bernard@example.com', 'Demande de récompense pour avoir remporté le prix du joueur le plus prometteur du tournoi League of Legends.', '2024-04-07 09:20:00', 'rejetee', 4),
+(NULL, 'Thomas Lefevre', 'thomas.lefevre@example.com', 'Demande de récompense spéciale pour sponsoring et support du tournoi esports régional.', '2024-04-06 11:00:00', 'approuvee', 5);
 
 -- =====================================================
 -- Vérification des données

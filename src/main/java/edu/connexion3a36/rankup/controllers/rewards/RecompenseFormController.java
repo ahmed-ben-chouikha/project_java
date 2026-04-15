@@ -2,9 +2,14 @@ package edu.connexion3a36.rankup.controllers.rewards;
 
 import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.rankup.entities.Recompense;
+import edu.connexion3a36.rankup.entities.Tournament;
 import edu.connexion3a36.rankup.services.RecompenseService;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.StringConverter;
+
+import java.util.List;
 
 public class RecompenseFormController {
     @FXML
@@ -18,7 +23,7 @@ public class RecompenseFormController {
     @FXML
     private TextArea descriptionArea;
     @FXML
-    private TextField tournamentIdField;
+    private ComboBox<Tournament> tournamentCombo;
     @FXML
     private Label recompenseError;
     @FXML
@@ -39,19 +44,37 @@ public class RecompenseFormController {
     private RecompenseController parentController;
     private String mode;
     private static final int RECOMPENSE_MAX_LENGTH = 30;
-    private static final int TYPE_MAX_LENGTH = 50;
+    private List<String> allowedTypes;
 
     @FXML
     void initialize() {
         service = new RecompenseService();
-        typeCombo.setItems(javafx.collections.FXCollections.observableArrayList("Or", "Argent", "Bronze"));
+        allowedTypes = service.getAllowedTypes();
+        typeCombo.setItems(FXCollections.observableArrayList(allowedTypes));
+        tournamentCombo.setItems(FXCollections.observableArrayList(service.getAllTournaments()));
+        tournamentCombo.setConverter(new StringConverter<Tournament>() {
+            @Override
+            public String toString(Tournament tournament) {
+                return tournament == null ? "" : tournament.getName();
+            }
+
+            @Override
+            public Tournament fromString(String string) {
+                return null;
+            }
+        });
 
         // Ajout des validations en temps réel
         recompenseField.textProperty().addListener((obs, oldVal, newVal) -> validateRecompense(newVal));
         typeCombo.valueProperty().addListener((obs, oldVal, newVal) -> validateType());
         classementField.textProperty().addListener((obs, oldVal, newVal) -> validateClassement(newVal));
         descriptionArea.textProperty().addListener((obs, oldVal, newVal) -> validateDescription(newVal));
-        tournamentIdField.textProperty().addListener((obs, oldVal, newVal) -> validateTournamentId(newVal));
+        tournamentCombo.valueProperty().addListener((obs, oldVal, newVal) -> validateTournament());
+
+        if (tournamentCombo.getItems().isEmpty()) {
+            tournamentError.setText("❌ Aucun tournoi disponible");
+            saveBtn.setDisable(true);
+        }
     }
 
     public void setMode(String mode, Recompense recompense, RecompenseController parent) {
@@ -74,7 +97,12 @@ public class RecompenseFormController {
             typeCombo.setValue(currentRecompense.getType());
             classementField.setText(String.valueOf(currentRecompense.getClassement()));
             descriptionArea.setText(currentRecompense.getDescription());
-            tournamentIdField.setText(String.valueOf(currentRecompense.getTournamentId()));
+            for (Tournament tournament : tournamentCombo.getItems()) {
+                if (tournament.getId() == currentRecompense.getTournamentId()) {
+                    tournamentCombo.setValue(tournament);
+                    break;
+                }
+            }
         }
     }
 
@@ -82,11 +110,11 @@ public class RecompenseFormController {
     void onSave() {
         clearErrors();
         if (validateAllFields()) {
-            currentRecompense.setRecompense(recompenseField.getText());
+            currentRecompense.setRecompense(recompenseField.getText().trim());
             currentRecompense.setType(typeCombo.getValue());
-            currentRecompense.setClassement(Integer.parseInt(classementField.getText()));
-            currentRecompense.setDescription(descriptionArea.getText());
-            currentRecompense.setTournamentId(Integer.parseInt(tournamentIdField.getText()));
+            currentRecompense.setClassement(Integer.parseInt(classementField.getText().trim()));
+            currentRecompense.setDescription(descriptionArea.getText() == null ? "" : descriptionArea.getText().trim());
+            currentRecompense.setTournamentId(tournamentCombo.getValue().getId());
 
             boolean success;
             if (mode.equals("CREATE")) {
@@ -111,10 +139,11 @@ public class RecompenseFormController {
     }
 
     private void validateRecompense(String value) {
-        if (value == null || value.isEmpty()) {
+        String normalized = value == null ? "" : value.trim();
+        if (normalized.isEmpty()) {
             setErrorStyle(recompenseField);
             recompenseError.setText("❌ Le nom est requis");
-        } else if (value.length() > RECOMPENSE_MAX_LENGTH) {
+        } else if (normalized.length() > RECOMPENSE_MAX_LENGTH) {
             setErrorStyle(recompenseField);
             recompenseError.setText("❌ Dépasse " + RECOMPENSE_MAX_LENGTH + " caractères");
         } else {
@@ -124,9 +153,9 @@ public class RecompenseFormController {
     }
 
     private void validateType() {
-        if (typeCombo.getValue() == null) {
+        if (typeCombo.getValue() == null || !allowedTypes.contains(typeCombo.getValue())) {
             setErrorStyle(typeCombo);
-            typeError.setText("❌ Sélectionner un type");
+            typeError.setText("❌ Sélectionner un type valide");
         } else {
             clearFieldError(typeCombo);
             typeError.setText("");
@@ -155,7 +184,11 @@ public class RecompenseFormController {
     }
 
     private void validateDescription(String value) {
-        if (value != null && value.length() > 500) {
+        String normalized = value == null ? "" : value.trim();
+        if (!normalized.isEmpty() && normalized.length() <= 10) {
+            setErrorStyle(descriptionArea);
+            descriptionError.setText("❌ Laisser vide ou saisir plus de 10 caractères");
+        } else if (normalized.length() > 500) {
             setErrorStyle(descriptionArea);
             descriptionError.setText("❌ Dépasse 500 caractères");
         } else {
@@ -164,64 +197,31 @@ public class RecompenseFormController {
         }
     }
 
-    private void validateTournamentId(String value) {
-        if (value == null || value.isEmpty()) {
-            setErrorStyle(tournamentIdField);
-            tournamentError.setText("❌ L'ID tournoi est requis");
+    private void validateTournament() {
+        if (tournamentCombo.getValue() == null) {
+            setErrorStyle(tournamentCombo);
+            tournamentError.setText("❌ Sélectionner un tournoi");
+        } else if (!service.tournamentExists(tournamentCombo.getValue().getId())) {
+            setErrorStyle(tournamentCombo);
+            tournamentError.setText("❌ Tournoi introuvable");
         } else {
-            try {
-                int id = Integer.parseInt(value);
-                if (id <= 0) {
-                    setErrorStyle(tournamentIdField);
-                    tournamentError.setText("❌ L'ID doit être positif");
-                } else {
-                    clearFieldError(tournamentIdField);
-                    tournamentError.setText("");
-                }
-            } catch (NumberFormatException e) {
-                setErrorStyle(tournamentIdField);
-                tournamentError.setText("❌ Doit être un nombre");
-            }
+            clearFieldError(tournamentCombo);
+            tournamentError.setText("");
         }
     }
 
     private boolean validateAllFields() {
-        boolean isValid = true;
+        validateRecompense(recompenseField.getText());
+        validateType();
+        validateClassement(classementField.getText());
+        validateDescription(descriptionArea.getText());
+        validateTournament();
 
-        if (recompenseField.getText() == null || recompenseField.getText().isEmpty() ||
-            recompenseField.getText().length() > RECOMPENSE_MAX_LENGTH) {
-            isValid = false;
-        }
-
-        if (typeCombo.getValue() == null) {
-            isValid = false;
-        }
-
-        if (classementField.getText() == null || classementField.getText().isEmpty()) {
-            isValid = false;
-        } else {
-            try {
-                if (Integer.parseInt(classementField.getText()) <= 0) {
-                    isValid = false;
-                }
-            } catch (NumberFormatException e) {
-                isValid = false;
-            }
-        }
-
-        if (tournamentIdField.getText() == null || tournamentIdField.getText().isEmpty()) {
-            isValid = false;
-        } else {
-            try {
-                if (Integer.parseInt(tournamentIdField.getText()) <= 0) {
-                    isValid = false;
-                }
-            } catch (NumberFormatException e) {
-                isValid = false;
-            }
-        }
-
-        return isValid;
+        return recompenseError.getText().isEmpty()
+                && typeError.getText().isEmpty()
+                && classementError.getText().isEmpty()
+                && descriptionError.getText().isEmpty()
+                && tournamentError.getText().isEmpty();
     }
 
     private void clearErrors() {

@@ -1,7 +1,6 @@
 package edu.connexion3a36.rankup.app;
 
 import edu.connexion3a36.rankup.controllers.BaseController;
-import edu.connexion3a36.rankup.session.SessionContext;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -14,6 +13,9 @@ public final class RankUpApp {
 
     private static Stage primaryStage;
     private static BaseController baseController;
+    private static Integer pendingReclamationFocusId;
+    private static Integer pendingAdminResponseFocusId;
+    private static Integer pendingPunitionFocusId;
 
     private RankUpApp() {
     }
@@ -34,7 +36,7 @@ public final class RankUpApp {
     }
 
     public static void showRegister() {
-        setRoot("/views/auth/register.fxml", 1100, 820);
+        setRoot("/views/auth/register.fxml", 1100, 760);
     }
 
     public static void showBase() {
@@ -47,15 +49,44 @@ public final class RankUpApp {
         }
     }
 
-    public static void loadInBase(Node viewNode) {
+    public static void loadInBase(Node view) {
         if (baseController != null) {
-            baseController.loadCenter(viewNode);
+            baseController.loadCenter(view);
         }
+    }
+
+    public static void setPendingReclamationFocusId(Integer reclamationId) {
+        pendingReclamationFocusId = reclamationId;
+    }
+
+    public static Integer consumePendingReclamationFocusId() {
+        Integer id = pendingReclamationFocusId;
+        pendingReclamationFocusId = null;
+        return id;
+    }
+
+    public static void setPendingAdminResponseFocusId(Integer responseId) {
+        pendingAdminResponseFocusId = responseId;
+    }
+
+    public static Integer consumePendingAdminResponseFocusId() {
+        Integer id = pendingAdminResponseFocusId;
+        pendingAdminResponseFocusId = null;
+        return id;
+    }
+
+    public static void setPendingPunitionFocusId(Integer punitionId) {
+        pendingPunitionFocusId = punitionId;
+    }
+
+    public static Integer consumePendingPunitionFocusId() {
+        Integer id = pendingPunitionFocusId;
+        pendingPunitionFocusId = null;
+        return id;
     }
 
     public static void logout() {
         baseController = null;
-        SessionContext.clear();
         showLogin();
     }
 
@@ -64,10 +95,7 @@ public final class RankUpApp {
             FXMLLoader loader = new FXMLLoader(RankUpApp.class.getResource(fxml));
             Parent root = loader.load();
             Scene scene = new Scene(root, width, height);
-            var stylesheet = RankUpApp.class.getResource("/styles.css");
-            if (stylesheet != null) {
-                scene.getStylesheets().add(stylesheet.toExternalForm());
-            }
+            scene.getStylesheets().add(RankUpApp.class.getResource("/styles.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

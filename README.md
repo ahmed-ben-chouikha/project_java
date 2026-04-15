@@ -48,6 +48,30 @@ The app connects to your XAMPP MySQL database:
 - **User**: `root`
 - **Password**: (empty by default)
 
+### Override DB Config (recommended)
+
+`MyConnection` now resolves settings in this order:
+1. Environment variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`)
+2. JVM system properties (`db.host`, `db.port`, `db.name`, `db.user`, `db.password`)
+3. Fallback defaults shown above
+
+PowerShell example:
+
+```powershell
+$env:DB_HOST = "localhost"
+$env:DB_PORT = "3307"
+$env:DB_NAME = "esportdevvvvvv"
+$env:DB_USER = "root"
+$env:DB_PASSWORD = ""
+mvn javafx:run
+```
+
+JVM properties example:
+
+```powershell
+mvn -Ddb.host=localhost -Ddb.port=3307 -Ddb.name=esportdevvvvvv -Ddb.user=root -Ddb.password= javafx:run
+```
+
 ### Required Table
 
 Create this table in your `esportdevvvvvv` database:

@@ -33,7 +33,7 @@
         </columns></TableView>
 
         <Label text="Rewards: Gold / Silver / Bronze tiers" />
-        <HBox spacing="8"><children><Button text="Edit Tournament" onAction="#onEdit" styleClass="btn-primary"/><Button text="Back" onAction="#goBackTournaments"/></children></HBox>
+        <HBox spacing="8"><children><Button text="✏️ Edit" onAction="#onEdit" styleClass="btn-primary"/><Button text="← Back" onAction="#goBackTournaments"/></children></HBox>
     </children>
 </VBox>
 

@@ -30,13 +30,13 @@
         </VBox>
 
         <VBox spacing="4">
-            <Label text="Statut" styleClass="form-label" />
-            <ComboBox fx:id="statutCombo" prefWidth="200" styleClass="form-input" />
-            <Label fx:id="statutError" text="" style="-fx-text-fill: #ef4444; -fx-font-size: 11px;" />
+            <Label text="Recompense" styleClass="form-label" />
+            <ComboBox fx:id="recompenseCombo" promptText="Selectionner une recompense" styleClass="form-input" />
+            <Label fx:id="recompenseError" text="" style="-fx-text-fill: #ef4444; -fx-font-size: 11px;" />
         </VBox>
 
         <VBox spacing="4" VBox.vgrow="ALWAYS">
-            <Label text="Motif de la demande" styleClass="form-label" />
+            <Label text="Description de la demande" styleClass="form-label" />
             <TextArea fx:id="motifArea" promptText="Expliquez la raison de votre demande..." wrapText="true"
                       styleClass="form-input" VBox.vgrow="ALWAYS" />
             <Label fx:id="motifError" text="" style="-fx-text-fill: #ef4444; -fx-font-size: 11px;" />

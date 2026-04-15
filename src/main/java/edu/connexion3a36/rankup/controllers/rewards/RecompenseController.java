@@ -9,10 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class RecompenseController {
     @FXML
@@ -32,6 +32,8 @@ public class RecompenseController {
     @FXML
     private TableColumn<Recompense, String> descriptionCol;
     @FXML
+    private TableColumn<Recompense, String> tournamentCol;
+    @FXML
     private Button createBtn;
     @FXML
     private Button editBtn;
@@ -42,21 +44,28 @@ public class RecompenseController {
 
     private RecompenseService service;
     private ObservableList<Recompense> recompenses;
+    private Map<Integer, String> tournamentNameMap;
 
     @FXML
     void initialize() {
         service = new RecompenseService();
         recompenses = FXCollections.observableArrayList();
+        tournamentNameMap = service.getTournamentNameMap();
 
         // Configurer les colonnes
         idCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         recompenseCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getRecompense()));
         typeCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getType()));
         classementCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getClassement()).asObject());
-        descriptionCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDescription()));
+        descriptionCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(safeText(cellData.getValue().getDescription())));
+        tournamentCol.setCellValueFactory(cellData -> {
+            int tournamentId = cellData.getValue().getTournamentId();
+            String tournamentName = tournamentNameMap.getOrDefault(tournamentId, "Tournoi #" + tournamentId);
+            return new javafx.beans.property.SimpleStringProperty(tournamentName);
+        });
 
         // Initialiser le filtre de type
-        typeFilter.setItems(FXCollections.observableArrayList("Tous", "Or", "Argent", "Bronze"));
+        typeFilter.setItems(FXCollections.observableArrayList("Tous", "Medaille", "Argent", "Trophee", "Accessoir PC"));
         typeFilter.setValue("Tous");
 
         // Charger les données
@@ -65,6 +74,18 @@ public class RecompenseController {
         // Configurer les écouteurs
         searchField.textProperty().addListener((obs, old, newVal) -> filterData());
         typeFilter.valueProperty().addListener((obs, old, newVal) -> filterData());
+
+        editBtn.disableProperty().bind(recompenseTable.getSelectionModel().selectedItemProperty().isNull());
+        deleteBtn.disableProperty().bind(recompenseTable.getSelectionModel().selectedItemProperty().isNull());
+        recompenseTable.setRowFactory(table -> {
+            TableRow<Recompense> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    onEditRecompense();
+                }
+            });
+            return row;
+        });
 
         recompenseTable.setItems(recompenses);
     }
@@ -116,7 +137,8 @@ public class RecompenseController {
                 showInfo("Succès", "Récompense supprimée avec succès");
                 loadData();
             } else {
-                showError("Erreur", "Impossible de supprimer la récompense");
+                String detail = safeText(service.getLastErrorMessage());
+                showError("Erreur", detail.isEmpty() ? "Impossible de supprimer la récompense" : "Suppression impossible: " + detail);
             }
         }
     }
@@ -127,12 +149,13 @@ public class RecompenseController {
     }
 
     private void loadData() {
+        tournamentNameMap = service.getTournamentNameMap();
         List<Recompense> list = service.getAll();
         recompenses.setAll(list);
     }
 
     private void filterData() {
-        String searchText = searchField.getText().toLowerCase();
+        String searchText = safeText(searchField.getText()).toLowerCase();
         String selectedType = typeFilter.getValue();
 
         List<Recompense> allRecompenses = service.getAll();
@@ -140,16 +163,21 @@ public class RecompenseController {
 
         for (Recompense r : allRecompenses) {
             boolean matchesSearch = searchText.isEmpty() ||
-                    r.getRecompense().toLowerCase().contains(searchText) ||
-                    r.getDescription().toLowerCase().contains(searchText);
+                    safeText(r.getRecompense()).toLowerCase().contains(searchText) ||
+                    safeText(r.getDescription()).toLowerCase().contains(searchText) ||
+                    tournamentNameMap.getOrDefault(r.getTournamentId(), "").toLowerCase().contains(searchText);
 
-            boolean matchesType = selectedType.equals("Tous") || r.getType().equals(selectedType);
+            boolean matchesType = selectedType == null || selectedType.equals("Tous") || selectedType.equals(r.getType());
 
             if (matchesSearch && matchesType) {
                 filtered.add(r);
             }
         }
         recompenseTable.setItems(filtered);
+    }
+
+    private String safeText(String value) {
+        return value == null ? "" : value.trim();
     }
 
     public void refreshTable() {

@@ -24,7 +24,7 @@
                 <Label text="Logo Upload" GridPane.rowIndex="4" GridPane.columnIndex="0"/><Button text="Choose File" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
             </children>
         </GridPane>
-        <HBox spacing="8"><children><Button text="Save" onAction="#onSave" styleClass="btn-primary"/><Button text="Cancel" onAction="#goBackTeams"/></children></HBox>
+        <HBox spacing="8"><children><Button text="💾 Save" onAction="#onSave" styleClass="btn-primary"/><Button text="✕ Cancel" onAction="#goBackTeams"/></children></HBox>
     </children>
 </VBox>
 

@@ -20,7 +20,7 @@
             <children>
                 <TextField fx:id="searchField" promptText="Search by team or country" HBox.hgrow="ALWAYS" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="Create Team" onAction="#onCreateTeam" styleClass="btn-primary" />
+                <Button text="➕ New Team" onAction="#onCreateTeam" styleClass="btn-primary" />
             </children>
         </HBox>
         <TableView fx:id="teamsTable" VBox.vgrow="ALWAYS" styleClass="card">
@@ -33,9 +33,9 @@
         </TableView>
         <HBox spacing="8">
             <children>
-                <Button text="View" onAction="#onViewTeam" />
-                <Button text="Edit" onAction="#onEditTeam" />
-                <Button text="Delete" onAction="#onDeleteTeam" styleClass="btn-danger" />
+                <Button text="👁️" onAction="#onViewTeam" />
+                <Button text="✏️" onAction="#onEditTeam" />
+                <Button text="🗑️" onAction="#onDeleteTeam" styleClass="btn-danger" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Pagination fx:id="pagination" prefWidth="220" />
             </children>
