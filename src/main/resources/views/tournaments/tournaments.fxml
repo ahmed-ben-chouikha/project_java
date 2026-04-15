@@ -27,11 +27,14 @@
         </HBox>
         <TableView fx:id="tournamentsTable" VBox.vgrow="ALWAYS" styleClass="card">
             <columns>
-                <TableColumn fx:id="nameCol" text="Tournament Name" prefWidth="220" />
-                <TableColumn fx:id="startDateCol" text="Start Date" prefWidth="120" />
-                <TableColumn fx:id="endDateCol" text="End Date" prefWidth="120" />
-                <TableColumn fx:id="statusCol" text="Status" prefWidth="120" />
-                <TableColumn fx:id="prizePoolCol" text="Prize Pool" prefWidth="140" />
+                <TableColumn fx:id="nameCol" text="Tournament Name" prefWidth="150" />
+                <TableColumn fx:id="descriptionCol" text="Description" prefWidth="180" />
+                <TableColumn fx:id="startDateCol" text="Start Date" prefWidth="110" />
+                <TableColumn fx:id="endDateCol" text="End Date" prefWidth="110" />
+                <TableColumn fx:id="locationCol" text="Location" prefWidth="120" />
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="100" />
+                <TableColumn fx:id="ratingsCol" text="Your Rating" prefWidth="100" />
+                <TableColumn fx:id="reviewCol" text="Review" prefWidth="80" />
             </columns>
         </TableView>
         <HBox spacing="8">

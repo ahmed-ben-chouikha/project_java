@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.connexion3a36.rankup.controllers.TournamentReviewsController"
+            styleClass="root" stylesheets="@../styles/esports.css">
+
+    <!-- Top Navigation -->
+    <top>
+        <VBox id="headerBar" spacing="10" style="-fx-padding: 15 20 15 20;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Tournament Reviews" id="pageTitle" />
+            </HBox>
+            <Label text="Submit and manage your tournament reviews" id="pageSubtitle" />
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <ScrollPane style="-fx-background: transparent; -fx-fit-to-width: true;">
+            <VBox spacing="20" style="-fx-padding: 30 30 30 30;">
+
+                <!-- Success/Error Messages -->
+                <VBox fx:id="messageContainer" spacing="10" style="-fx-padding: 15; -fx-border-radius: 12; -fx-background-color: transparent;">
+                </VBox>
+
+                <!-- Review Submission Form -->
+                <VBox styleClass="form-container" spacing="20"
+                      style="-fx-padding: 25; -fx-background-color: rgba(30, 35, 50, 0.8); -fx-border-radius: 15; -fx-border-color: rgba(0, 188, 212, 0.2); -fx-border-width: 1;">
+
+                    <!-- Player Name -->
+                    <VBox spacing="8">
+                        <Label text="Player Name" style="-fx-text-fill: #e5eefb; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                        <TextField fx:id="playerNameField"
+                                   promptText="Enter your player name"
+                                   style="-fx-control-inner-background: rgba(200, 220, 240, 0.08); -fx-text-fill: #e5eefb; -fx-prompt-text-fill: #8899bb; -fx-padding: 12; -fx-font-size: 13px; -fx-background-radius: 10;" />
+                        <Label fx:id="playerNameError" text="" style="-fx-text-fill: #ff6b6b; -fx-font-size: 11px;" />
+                    </VBox>
+
+                    <!-- Tournament Selection -->
+                    <VBox spacing="8">
+                        <Label text="Select Tournament" style="-fx-text-fill: #e5eefb; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                        <ComboBox fx:id="tournamentComboBox"
+                                  style="-fx-control-inner-background: rgba(200, 220, 240, 0.08); -fx-text-fill: #e5eefb; -fx-padding: 12; -fx-font-size: 13px; -fx-background-radius: 10;"
+                                  promptText="Choose a confirmed tournament..." />
+                        <Label fx:id="tournamentError" text="" style="-fx-text-fill: #ff6b6b; -fx-font-size: 11px;" />
+                    </VBox>
+
+                    <!-- Rating (Star Selector) -->
+                    <VBox spacing="12">
+                        <Label text="Rating (1-5 Stars)" style="-fx-text-fill: #e5eefb; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                        <HBox fx:id="starRatingContainer" spacing="15" alignment="CENTER_LEFT">
+                        </HBox>
+                        <Label fx:id="ratingError" text="" style="-fx-text-fill: #ff6b6b; -fx-font-size: 11px;" />
+                    </VBox>
+
+                    <!-- Comment -->
+                    <VBox spacing="8">
+                        <HBox alignment="BASELINE_RIGHT" spacing="100">
+                            <Label text="Comment (10-300 characters)" style="-fx-text-fill: #e5eefb; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                            <Label fx:id="charCounter" text="0/300" style="-fx-text-fill: #8bd8ff; -fx-font-size: 12px;" />
+                        </HBox>
+                        <TextArea fx:id="commentArea"
+                                  promptText="Share your experience and feedback about this tournament..."
+                                  wrapText="true"
+                                  style="-fx-control-inner-background: rgba(200, 220, 240, 0.08); -fx-text-fill: #e5eefb; -fx-prompt-text-fill: #8899bb; -fx-padding: 12; -fx-font-size: 13px; -fx-background-radius: 10;"
+                                  prefRowCount="6" />
+                        <Label fx:id="commentError" text="" style="-fx-text-fill: #ff6b6b; -fx-font-size: 11px;" />
+                    </VBox>
+
+                    <!-- Review Date (Auto-filled) -->
+                    <VBox spacing="8">
+                        <Label text="Review Date" style="-fx-text-fill: #e5eefb; -fx-font-size: 13px; -fx-font-weight: bold;" />
+                        <DatePicker fx:id="reviewDatePicker"
+                                    style="-fx-control-inner-background: rgba(200, 220, 240, 0.08); -fx-text-fill: #e5eefb; -fx-padding: 12; -fx-font-size: 13px; -fx-background-radius: 10;"
+                                    editable="false" />
+                    </VBox>
+
+                    <!-- Submit Button -->
+                    <HBox spacing="15" alignment="CENTER">
+                        <Button fx:id="submitButton"
+                                text="Submit Review"
+                                styleClass="primary-action"
+                                style="-fx-padding: 12 30 12 30; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10;"
+                                prefWidth="180" />
+                        <Button fx:id="clearButton"
+                                text="Clear"
+                                style="-fx-background-color: rgba(148, 163, 184, 0.15); -fx-text-fill: #d7e3f0; -fx-padding: 12 30 12 30; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10;"
+                                prefWidth="120" />
+                    </HBox>
+
+                </VBox>
+
+                <!-- Divider -->
+                <HBox style="-fx-border-color: rgba(148, 163, 184, 0.15); -fx-border-width: 1 0 0 0; -fx-padding: 20 0 10 0;" />
+
+                <!-- User's Reviews Section -->
+                <VBox spacing="15">
+                    <Label text="My Reviews" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" />
+
+                    <!-- Reviews TableView -->
+                    <TableView fx:id="reviewsTableView"
+                               style="-fx-background-color: rgba(30, 35, 50, 0.5); -fx-border-color: rgba(0, 188, 212, 0.1); -fx-border-width: 1; -fx-border-radius: 10; -fx-padding: 1;"
+                               prefHeight="300">
+
+                        <columns>
+                            <!-- Tournament Column -->
+                            <TableColumn text="Tournament" prefWidth="150">
+                                <cellValueFactory property="tournamentName" />
+                            </TableColumn>
+
+                            <!-- Rating Column (Stars) -->
+                            <TableColumn text="Rating" prefWidth="80">
+                            </TableColumn>
+
+                            <!-- Comment Column -->
+                            <TableColumn text="Comment" prefWidth="200">
+                                <cellValueFactory property="comment" />
+                            </TableColumn>
+
+                            <!-- Date Column -->
+                            <TableColumn text="Date" prefWidth="100">
+                                <cellValueFactory property="reviewDate" />
+                            </TableColumn>
+
+                            <!-- Status Column -->
+                            <TableColumn text="Status" prefWidth="100">
+                                <cellValueFactory property="status" />
+                            </TableColumn>
+
+                            <!-- Rejection Reason Column -->
+                            <TableColumn text="Rejection Reason" prefWidth="150">
+                                <cellValueFactory property="rejectionReason" />
+                            </TableColumn>
+
+                            <!-- Actions Column -->
+                            <TableColumn text="Actions" prefWidth="120">
+                            </TableColumn>
+                        </columns>
+                    </TableView>
+
+                    <!-- Empty State -->
+                    <VBox fx:id="emptyStateContainer" alignment="CENTER" spacing="10"
+                          style="-fx-padding: 40; -fx-background-color: rgba(30, 35, 50, 0.5); -fx-border-radius: 10; -fx-border-color: rgba(0, 188, 212, 0.1); -fx-border-width: 1;">
+                        <Label text="No reviews yet" style="-fx-text-fill: #9fb1c7; -fx-font-size: 16px;" />
+                        <Label text="Submit your first review above" style="-fx-text-fill: #8899bb; -fx-font-size: 12px;" />
+                    </VBox>
+
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
