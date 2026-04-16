@@ -239,7 +239,6 @@ public class BudgetService {
         }
     }
 
-    // Get budgets by status - REMOVED (statut column removed)
-    // This method is no longer available
+    
 }
 
