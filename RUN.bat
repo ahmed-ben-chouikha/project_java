@@ -1,6 +1,6 @@
 @echo off
 REM EsportDev Arena Launcher - Easy Way to Run the App
-REM This batch file sets up the environment and launches the app
+REM This batch file runs the app from repository root
 
 setlocal enabledelayedexpansion
 
@@ -10,28 +10,33 @@ echo   EsportDev Arena - JavaFX Esports Dashboard Launcher
 echo =====================================================================
 echo.
 
-REM Set Java Home to JDK 22
-set "JAVA_HOME=C:\Program Files\Java\jdk-22"
-
-REM Add Maven to PATH
-set "PATH=%JAVA_HOME%\bin;C:\Apache\apache-maven-3.9.6\bin;%PATH%"
-
 REM Navigate to project
-cd /d C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36
+set "PROJECT_ROOT=%~dp0"
+pushd "%PROJECT_ROOT%"
+
+where mvn >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Maven not found in PATH.
+    echo [ERROR] Install Maven and add it to PATH.
+    popd
+    exit /b 1
+)
 
 echo [INFO] Launching application...
-echo [INFO] Setting JAVA_HOME to %JAVA_HOME%
 echo [INFO] First run may take a few moments while dependencies download...
 echo.
 
-REM Run Maven with full path using cmd
-cmd /c "C:\Apache\apache-maven-3.9.6\bin\mvn.cmd clean javafx:run"
+mvn clean javafx:run
+set "EXITCODE=%ERRORLEVEL%"
 
 echo.
-if %ERRORLEVEL% EQU 0 (
+if %EXITCODE% EQU 0 (
     echo [SUCCESS] Application ran successfully!
 ) else (
     echo [ERROR] Application launch failed. Check the output above for details.
     pause
 )
+
+popd
+exit /b %EXITCODE%
 

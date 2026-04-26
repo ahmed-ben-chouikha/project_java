@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.BaseController" styleClass="app-root">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.BaseController" styleClass="app-root">
     <top>
         <fx:include source="common/TopNavBar.fxml" />
     </top>
@@ -14,5 +14,4 @@
         <StackPane fx:id="contentPane" styleClass="content-pane" />
     </center>
 </BorderPane>
-
 
