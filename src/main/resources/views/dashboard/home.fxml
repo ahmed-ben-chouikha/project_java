@@ -8,44 +8,98 @@
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.dashboard.HomeController" spacing="16" styleClass="page-root dashboard-page">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
-        <VBox spacing="14" styleClass="card dashboard-hero">
+        <HBox spacing="16" styleClass="card dashboard-hero">
             <children>
-                <Label text="Welcome to RankUp Dashboard" styleClass="page-title" />
-                <Label text="Monitor matches, tournaments, teams, and announcements in a sleek esports command center." styleClass="muted" wrapText="true" />
-                <HBox spacing="10" styleClass="dashboard-hero-actions">
+                <VBox spacing="14" HBox.hgrow="ALWAYS" styleClass="dashboard-hero-copy">
                     <children>
-                        <Label text="27 live matches" styleClass="badge" />
-                        <Label text="6 tournaments open" styleClass="badge" />
-                        <Label text="14 alerts" styleClass="badge" />
-                        <Region HBox.hgrow="ALWAYS" />
+                        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="dashboard-hero-topline">
+                            <children>
+                                <Label text="LIVE COMMAND CENTER" styleClass="top-nav-pill" />
+                                <Label text="RankUp Dashboard" styleClass="muted dashboard-hero-kicker" />
+                            </children>
+                        </HBox>
+                        <Label text="Welcome to RankUp Dashboard" styleClass="page-title" wrapText="true" />
+                        <Label text="Monitor matches, tournaments, teams, and announcements in a sleek esports command center." styleClass="muted dashboard-hero-subtitle" wrapText="true" />
+                        <HBox spacing="10" styleClass="dashboard-hero-actions">
+                            <children>
+                                <Label text="27 live matches" styleClass="badge dashboard-chip-live" />
+                                <Label text="6 tournaments open" styleClass="badge dashboard-chip-open" />
+                                <Label text="14 alerts" styleClass="badge dashboard-chip-alert" />
+                                <Region HBox.hgrow="ALWAYS" />
+                            </children>
+                        </HBox>
                     </children>
-                </HBox>
+                </VBox>
+
+                <VBox spacing="10" styleClass="card dashboard-hero-summary">
+                    <children>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <children>
+                                <FontIcon iconLiteral="fas-bolt" styleClass="dashboard-summary-icon" />
+                                <Label text="Quick status" styleClass="section-title" />
+                            </children>
+                        </HBox>
+                        <Label text="Everything is organized for live ops and fast management." wrapText="true" styleClass="muted" />
+                        <GridPane hgap="10" vgap="10" styleClass="dashboard-summary-grid">
+                            <children>
+                                <VBox styleClass="dashboard-mini-stat" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                                    <children><Label text="27" styleClass="dashboard-mini-stat-value"/><Label text="Live" styleClass="dashboard-mini-stat-label"/></children>
+                                </VBox>
+                                <VBox styleClass="dashboard-mini-stat" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                                    <children><Label text="6" styleClass="dashboard-mini-stat-value"/><Label text="Open" styleClass="dashboard-mini-stat-label"/></children>
+                                </VBox>
+                                <VBox styleClass="dashboard-mini-stat" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                                    <children><Label text="58" styleClass="dashboard-mini-stat-value"/><Label text="Players" styleClass="dashboard-mini-stat-label"/></children>
+                                </VBox>
+                                <VBox styleClass="dashboard-mini-stat" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                    <children><Label text="14" styleClass="dashboard-mini-stat-value"/><Label text="Alerts" styleClass="dashboard-mini-stat-label"/></children>
+                                </VBox>
+                            </children>
+                        </GridPane>
+                    </children>
+                </VBox>
             </children>
-        </VBox>
+        </HBox>
 
         <GridPane hgap="12" vgap="12" styleClass="dashboard-stats-grid">
             <children>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="0"><children><Label text="27" styleClass="stat-value"/><Label text="Total matches this week" styleClass="muted"/></children></VBox>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="1"><children><Label text="6" styleClass="stat-value"/><Label text="Upcoming tournaments" styleClass="muted"/></children></VBox>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="2"><children><Label text="58" styleClass="stat-value"/><Label text="Team members" styleClass="muted"/></children></VBox>
-                <VBox styleClass="stat-card" GridPane.rowIndex="0" GridPane.columnIndex="3"><children><Label text="14" styleClass="stat-value"/><Label text="Recent notifications" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card dashboard-stat-card" GridPane.rowIndex="0" GridPane.columnIndex="0"><children><HBox spacing="10" alignment="CENTER_LEFT"><children><FontIcon iconLiteral="fas-gamepad" styleClass="dashboard-stat-icon"/><VBox spacing="2"><children><Label text="27" styleClass="stat-value"/><Label text="Total matches this week" styleClass="dashboard-stat-label muted"/></children></VBox></children></HBox></children></VBox>
+                <VBox styleClass="stat-card dashboard-stat-card" GridPane.rowIndex="0" GridPane.columnIndex="1"><children><HBox spacing="10" alignment="CENTER_LEFT"><children><FontIcon iconLiteral="fas-trophy" styleClass="dashboard-stat-icon"/><VBox spacing="2"><children><Label text="6" styleClass="stat-value"/><Label text="Upcoming tournaments" styleClass="dashboard-stat-label muted"/></children></VBox></children></HBox></children></VBox>
+                <VBox styleClass="stat-card dashboard-stat-card" GridPane.rowIndex="0" GridPane.columnIndex="2"><children><HBox spacing="10" alignment="CENTER_LEFT"><children><FontIcon iconLiteral="fas-users" styleClass="dashboard-stat-icon"/><VBox spacing="2"><children><Label text="58" styleClass="stat-value"/><Label text="Team members" styleClass="dashboard-stat-label muted"/></children></VBox></children></HBox></children></VBox>
+                <VBox styleClass="stat-card dashboard-stat-card" GridPane.rowIndex="0" GridPane.columnIndex="3"><children><HBox spacing="10" alignment="CENTER_LEFT"><children><FontIcon iconLiteral="fas-bell" styleClass="dashboard-stat-icon"/><VBox spacing="2"><children><Label text="14" styleClass="stat-value"/><Label text="Recent notifications" styleClass="dashboard-stat-label muted"/></children></VBox></children></HBox></children></VBox>
             </children>
         </GridPane>
 
         <GridPane hgap="12" vgap="12" styleClass="dashboard-panels">
             <children>
                 <VBox spacing="8" styleClass="card dashboard-panel" GridPane.rowIndex="0" GridPane.columnIndex="0">
-                    <children><Label text="Recent Matches" styleClass="section-title"/><ListView fx:id="recentMatchesList" prefHeight="180"/></children>
+                    <children>
+                        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="dashboard-panel-header">
+                            <children><Label text="Recent Matches" styleClass="section-title"/><Label text="LIVE FEED" styleClass="badge dashboard-panel-chip"/></children>
+                        </HBox>
+                        <ListView fx:id="recentMatchesList" prefHeight="180" styleClass="dashboard-list"/>
+                    </children>
                 </VBox>
                 <VBox spacing="8" styleClass="card dashboard-panel" GridPane.rowIndex="0" GridPane.columnIndex="1">
-                    <children><Label text="Upcoming Matches" styleClass="section-title"/><ListView fx:id="upcomingMatchesList" prefHeight="180"/></children>
+                    <children>
+                        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="dashboard-panel-header">
+                            <children><Label text="Upcoming Matches" styleClass="section-title"/><Label text="NEXT UP" styleClass="badge dashboard-panel-chip"/></children>
+                        </HBox>
+                        <ListView fx:id="upcomingMatchesList" prefHeight="180" styleClass="dashboard-list"/>
+                    </children>
                 </VBox>
                 <VBox spacing="8" styleClass="card dashboard-panel" GridPane.rowIndex="0" GridPane.columnIndex="2">
-                    <children><Label text="Announcements" styleClass="section-title"/><ListView fx:id="announcementsList" prefHeight="180"/></children>
+                    <children>
+                        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="dashboard-panel-header">
+                            <children><Label text="Announcements" styleClass="section-title"/><Label text="NEWS" styleClass="badge dashboard-panel-chip"/></children>
+                        </HBox>
+                        <ListView fx:id="announcementsList" prefHeight="180" styleClass="dashboard-list"/>
+                    </children>
                 </VBox>
             </children>
         </GridPane>

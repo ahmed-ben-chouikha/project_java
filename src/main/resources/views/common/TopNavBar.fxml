@@ -8,16 +8,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.TopNavController" spacing="14" styleClass="top-nav">
     <padding><Insets top="12" right="18" bottom="12" left="18"/></padding>
     <children>
-        <Label text="RankUp" styleClass="brand-title" />
-        <Label text="ESPORTS HUB" styleClass="top-nav-pill" />
-        <TextField promptText="Search matches, teams, tournaments..." HBox.hgrow="ALWAYS" styleClass="top-nav-search" />
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="top-nav-brand">
+            <children>
+                <FontIcon iconLiteral="fas-gamepad" styleClass="top-nav-brand-icon" />
+                <Label text="RankUp" styleClass="brand-title" />
+                <Label text="ESPORTS HUB" styleClass="top-nav-pill" />
+            </children>
+        </HBox>
+        <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" styleClass="top-nav-search-wrap">
+            <children>
+                <FontIcon iconLiteral="fas-search" styleClass="top-nav-search-icon" />
+                <TextField promptText="Search matches, teams, tournaments..." HBox.hgrow="ALWAYS" styleClass="top-nav-search" />
+            </children>
+        </HBox>
         <Region HBox.hgrow="ALWAYS" />
-        <Label text="● Live" styleClass="top-nav-status" />
-        <MenuButton text="User Menu">
+        <Label text="● Live" styleClass="top-nav-status top-nav-live-chip" />
+        <MenuButton fx:id="accountMenuButton" text="Account" styleClass="top-nav-menu">
+            <graphic>
+                <FontIcon iconLiteral="fas-user-circle" styleClass="top-nav-menu-icon" />
+            </graphic>
             <items>
                 <MenuItem text="My Profile" onAction="#onMyProfile" />
                 <MenuItem text="Settings" onAction="#onSettings" />

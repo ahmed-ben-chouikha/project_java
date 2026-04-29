@@ -12,21 +12,56 @@
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.tickets.TicketsController" spacing="12" styleClass="page-root matches-page">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.tickets.TicketsController" spacing="16" styleClass="page-root tickets-page">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
-        <Label text="Tickets" styleClass="page-title" />
-        <HBox spacing="8">
+        <HBox spacing="16" styleClass="card tickets-hero">
             <children>
-                <TextField fx:id="searchField" promptText="Search by ticket number, game, type" HBox.hgrow="ALWAYS" />
-                <ComboBox fx:id="statusFilter" prefWidth="170" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Button text="Create Ticket" onAction="#onCreateTicket" styleClass="btn-primary" />
+                <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="tickets-hero-copy">
+                    <children>
+                        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="dashboard-hero-topline">
+                            <children>
+                                <Label text="TICKET CONTROL" styleClass="top-nav-pill" />
+                                <Label text="RankUp Operations" styleClass="muted dashboard-hero-kicker" />
+                            </children>
+                        </HBox>
+                        <Label text="Tickets" styleClass="page-title" />
+                        <Label text="Manage ticket inventory, pricing, and sales status from one sleek control panel." styleClass="muted dashboard-hero-subtitle" wrapText="true" />
+                        <HBox spacing="8" styleClass="tickets-toolbar">
+                            <children>
+                                <TextField fx:id="searchField" promptText="Search by ticket number, game, type" HBox.hgrow="ALWAYS" styleClass="tickets-search" />
+                                <ComboBox fx:id="statusFilter" prefWidth="170" styleClass="tickets-filter" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="Create Ticket" onAction="#onCreateTicket" styleClass="btn-primary tickets-create-btn" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <VBox spacing="10" styleClass="card tickets-hero-summary">
+                    <children>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <children>
+                                <FontIcon iconLiteral="fas-ticket-alt" styleClass="tickets-summary-icon" />
+                                <Label text="Stock view" styleClass="section-title" />
+                            </children>
+                        </HBox>
+                        <Label text="Quick status chips and a clean table layout make inventory scanning easier." wrapText="true" styleClass="muted" />
+                        <HBox spacing="8" styleClass="tickets-summary-chips">
+                            <children>
+                                <Label text="Available" styleClass="badge tickets-chip-live" />
+                                <Label text="Sold out" styleClass="badge tickets-chip-open" />
+                                <Label text="Cancelled" styleClass="badge tickets-chip-alert" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
             </children>
         </HBox>
 
-        <TableView fx:id="ticketsTable" VBox.vgrow="ALWAYS" styleClass="card">
+        <TableView fx:id="ticketsTable" VBox.vgrow="ALWAYS" styleClass="card tickets-table">
             <columns>
                 <TableColumn fx:id="gameIdCol" text="Game ID" prefWidth="90" />
                 <TableColumn fx:id="ticketNumberCol" text="Ticket Number" prefWidth="200" />
@@ -38,12 +73,12 @@
             </columns>
         </TableView>
 
-        <HBox spacing="8">
+        <HBox spacing="8" styleClass="tickets-footer">
             <children>
-                <Button text="Edit" onAction="#onEditTicket" styleClass="btn-secondary" />
-                <Button text="Delete" onAction="#onDeleteTicket" styleClass="btn-danger" />
+                <Button text="Edit" onAction="#onEditTicket" styleClass="btn-secondary action-btn-edit" />
+                <Button text="Delete" onAction="#onDeleteTicket" styleClass="btn-danger action-btn-delete" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Pagination fx:id="pagination" prefWidth="220" />
+                <Pagination fx:id="pagination" prefWidth="220" styleClass="tickets-pagination" />
             </children>
         </HBox>
     </children>

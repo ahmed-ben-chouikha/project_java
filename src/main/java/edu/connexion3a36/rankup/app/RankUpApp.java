@@ -46,12 +46,32 @@ public final class RankUpApp {
         return SessionManager.getCurrentRole();
     }
 
+    public static void setCurrentEmail(String email) {
+        SessionManager.setCurrentEmail(email);
+    }
+
+    public static String getCurrentEmail() {
+        return SessionManager.getCurrentEmail();
+    }
+
+    public static void setCurrentUserId(int userId) {
+        SessionManager.setCurrentUserId(userId);
+    }
+
+    public static int getCurrentUserId() {
+        return SessionManager.getCurrentUserId();
+    }
+
     public static boolean isAdmin() {
         return SessionManager.isAdmin();
     }
 
     public static void showLogin() {
         setRoot("/views/auth/login.fxml", 1100, 760);
+    }
+
+    public static void showRegister() {
+        setRoot("/views/auth/register.fxml", 1100, 760);
     }
 
     public static void showBase() {

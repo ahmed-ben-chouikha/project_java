@@ -30,7 +30,6 @@
                 </HBox>
             </children>
         </VBox>
-        <TableView fx:id="matchesTable" VBox.vgrow="ALWAYS" styleClass="card matches-table">
             <columns>
                 <TableColumn fx:id="team1Col" text="Team 1" prefWidth="170" />
                 <TableColumn fx:id="scoreCol" text="Score" prefWidth="90" />

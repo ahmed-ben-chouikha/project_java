@@ -5,6 +5,7 @@ public final class SessionManager {
     private static String currentPlayerName = "DefaultPlayer";
     private static int currentUserId = -1;
     private static String currentRole = "player";
+    private static String currentEmail = "";
 
     private SessionManager() {
     }
@@ -33,14 +34,27 @@ public final class SessionManager {
         return currentRole;
     }
 
+    public static void setCurrentEmail(String email) {
+        currentEmail = (email == null || email.isBlank()) ? "" : email.trim();
+    }
+
+    public static String getCurrentEmail() {
+        return currentEmail;
+    }
+
     public static boolean isAdmin() {
         return "admin".equalsIgnoreCase(currentRole);
+    }
+
+    public static boolean isPlayer() {
+        return "player".equalsIgnoreCase(currentRole);
     }
 
     public static void clear() {
         currentPlayerName = "DefaultPlayer";
         currentUserId = -1;
         currentRole = "player";
+        currentEmail = "";
     }
 }
 
