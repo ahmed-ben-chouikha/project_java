@@ -29,6 +29,16 @@ public class TeamService {
             return false;
         }
 
+        if (team == null || team.getName() == null || team.getName().trim().isEmpty()) {
+            System.err.println("Error adding team: Team name is required.");
+            return false;
+        }
+
+        if (teamNameExists(team.getName())) {
+            System.err.println("Error adding team: Team name already exists.");
+            return false;
+        }
+
         boolean hasStatut = hasColumn("team", "statut");
         String sql = hasStatut
                 ? "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, statut, score, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"
@@ -101,6 +111,16 @@ public class TeamService {
     public boolean updateTeam(Team team) {
         if (cnx == null) {
             System.err.println("Error updating team: Database connection is not available.");
+            return false;
+        }
+
+        if (team == null || team.getName() == null || team.getName().trim().isEmpty()) {
+            System.err.println("Error updating team: Team name is required.");
+            return false;
+        }
+
+        if (teamNameExistsForAnotherId(team.getName(), team.getId())) {
+            System.err.println("Error updating team: Team name already exists.");
             return false;
         }
 
@@ -265,6 +285,41 @@ public class TeamService {
             return true;
         } catch (SQLException e) {
             System.err.println("Error updating team score: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean teamNameExists(String name) {
+        if (cnx == null || name == null || name.trim().isEmpty()) {
+            return false;
+        }
+
+        String sql = "SELECT 1 FROM team WHERE LOWER(TRIM(name)) = LOWER(TRIM(?)) LIMIT 1";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setString(1, name);
+            try (ResultSet rs = pst.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking team name uniqueness: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean teamNameExistsForAnotherId(String name, int currentId) {
+        if (cnx == null || name == null || name.trim().isEmpty()) {
+            return false;
+        }
+
+        String sql = "SELECT 1 FROM team WHERE LOWER(TRIM(name)) = LOWER(TRIM(?)) AND id <> ? LIMIT 1";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setString(1, name);
+            pst.setInt(2, currentId);
+            try (ResultSet rs = pst.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking team name uniqueness for update: " + e.getMessage());
             return false;
         }
     }

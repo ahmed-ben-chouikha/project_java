@@ -66,6 +66,16 @@ public class TeamFormController {
             return;
         }
 
+        if (editingTeam == null && teamService.teamNameExists(name)) {
+            feedbackLabel.setText("Ce nom d'équipe existe déjà. Veuillez choisir un autre nom.");
+            return;
+        }
+
+        if (editingTeam != null && teamService.teamNameExistsForAnotherId(name, editingTeam.getId())) {
+            feedbackLabel.setText("Ce nom d'équipe existe déjà. Veuillez choisir un autre nom.");
+            return;
+        }
+
         Team payload = editingTeam == null ? new Team() : editingTeam;
         payload.setName(name);
         payload.setCountry(country);
@@ -79,7 +89,7 @@ public class TeamFormController {
 
         boolean ok = editingTeam == null ? teamService.addTeam(payload) : teamService.updateTeam(payload);
         if (!ok) {
-            feedbackLabel.setText("Could not save team. Check database schema/connection.");
+            feedbackLabel.setText("Impossible d'enregistrer l'équipe. Vérifiez les données ou la base.");
             return;
         }
 
