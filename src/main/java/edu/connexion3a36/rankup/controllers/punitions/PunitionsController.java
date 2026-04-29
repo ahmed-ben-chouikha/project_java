@@ -21,6 +21,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -66,6 +71,7 @@ public class PunitionsController {
     @FXML private ComboBox<ReclamationChoice> reclamationCombo;
     @FXML private VBox punitionCardsBox;
     @FXML private Button submitButton;
+    @FXML private Button chatbotButton;
 
     private final PunitionService service = new PunitionService();
     private final ObservableList<Punition> rows = FXCollections.observableArrayList();
@@ -83,6 +89,30 @@ public class PunitionsController {
         loadReclamationChoices();
         loadData();
         clearForm();
+    }
+
+    @FXML
+    void onOpenChat(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/chatbot/chatbot.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 420, 520);
+            var styleUrl = getClass().getResource("/styles.css");
+            if (styleUrl != null) {
+                scene.getStylesheets().add(styleUrl.toExternalForm());
+            }
+
+            Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            // set owner from any known control
+            dialog.initOwner(submitButton.getScene().getWindow());
+            dialog.setTitle("Punition Advisor");
+            dialog.setScene(scene);
+            dialog.setResizable(false);
+            dialog.show();
+        } catch (Exception e) {
+            showError("Chatbot failed", "Unable to open chatbot: " + e.getMessage());
+        }
     }
 
     @FXML
