@@ -22,6 +22,7 @@
                 <TextField fx:id="searchField" promptText="Search tournament" HBox.hgrow="ALWAYS" />
                 <ComboBox fx:id="statusFilter" prefWidth="160" />
                 <Region HBox.hgrow="ALWAYS" />
+                <Button text="RAWG Search" onAction="#onRawgSearch" styleClass="btn-secondary" />
                 <Button text="Create Tournament" onAction="#onCreateTournament" styleClass="btn-primary" />
             </children>
         </HBox>
@@ -33,15 +34,16 @@
                 <TableColumn fx:id="endDateCol" text="End Date" prefWidth="110" />
                 <TableColumn fx:id="locationCol" text="Location" prefWidth="120" />
                 <TableColumn fx:id="statusCol" text="Status" prefWidth="100" />
-                <TableColumn fx:id="ratingsCol" text="Your Rating" prefWidth="100" />
-                <TableColumn fx:id="reviewCol" text="Review" prefWidth="80" />
+                <TableColumn fx:id="ratingsCol" text="Your Rating" prefWidth="120" />
+                <TableColumn fx:id="reviewCol" text="Review" prefWidth="90" />
+                <TableColumn fx:id="registerCol" text="Register" prefWidth="100" />
             </columns>
         </TableView>
         <HBox spacing="8">
             <children>
                 <Button text="View" onAction="#onViewTournament" />
                 <Button text="Edit" onAction="#onEditTournament" />
-                <Button text="Delete" onAction="#onDeleteTournament" styleClass="btn-danger" />
+                <Button text="🗑️" onAction="#onDeleteTournament" styleClass="btn-danger" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Pagination fx:id="pagination" prefWidth="220" />
             </children>

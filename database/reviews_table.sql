@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS reviews (
     rejection_reason VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE,
+    FOREIGN KEY (tournament_id) REFERENCES tournament(id) ON DELETE CASCADE,
     CONSTRAINT check_comment_length CHECK (CHAR_LENGTH(comment) >= 10 AND CHAR_LENGTH(comment) <= 300),
     CONSTRAINT unique_player_tournament UNIQUE (player_name, tournament_id),
-    INDEX idx_player ON reviews(player_name),
-    INDEX idx_tournament ON reviews(tournament_id),
-    INDEX idx_status ON reviews(status)
+    INDEX idx_player (player_name),
+    INDEX idx_tournament (tournament_id),
+    INDEX idx_status (status)
 );

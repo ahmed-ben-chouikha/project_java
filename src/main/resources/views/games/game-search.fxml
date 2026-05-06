@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="edu.connexion3a36.rankup.controllers.GameSearchController" 
+      spacing="18" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    
+    <children>
+        <!-- Title -->
+        <Label text="Game Search (Powered by RAWG)" styleClass="page-title" />
+        
+        <!-- Search Section -->
+        <VBox styleClass="card" spacing="12">
+            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            <children>
+                <Label text="Search Games" styleClass="section-title" />
+                
+                <!-- Search Bar -->
+                <HBox spacing="8">
+                    <children>
+                        <TextField fx:id="searchField" promptText="Enter game name..." 
+                                   onKeyPressed="#onSearchKeyPressed"
+                                   HBox.hgrow="ALWAYS" />
+                        <Button fx:id="searchBtn" text="Search" onAction="#onSearch" 
+                                styleClass="btn-primary" />
+                        <Button fx:id="popularBtn" text="Popular Games" onAction="#onLoadPopular" 
+                                styleClass="btn-secondary" />
+                    </children>
+                </HBox>
+                
+                <!-- Loading Indicator -->
+                <Label fx:id="loadingLabel" text="Ready to search..." styleClass="text-muted" />
+            </children>
+        </VBox>
+        
+        <!-- Results Section -->
+        <Label text="Search Results" styleClass="section-title" />
+        
+        <!-- Scrollable Results Container -->
+        <ScrollPane styleClass="card" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <VBox fx:id="resultsContainer" spacing="12">
+                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            </VBox>
+        </ScrollPane>
+        
+        <!-- No Results Message -->
+        <Label fx:id="noResultsLabel" text="No results found. Try searching for a game!" 
+                styleClass="text-muted" visible="false" />
+    </children>
+    
+    <stylesheets>
+        <String fx:value="@../../styles/esports.css"/>
+    </stylesheets>
+</VBox>

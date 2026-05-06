@@ -7,6 +7,8 @@ public class TournamentRegistration {
     private int id;
     private String playerName;
     private String teamName;
+    private String teamMembers;
+    private String contactInfo;
     private int tournamentId;
     private String tournamentName;
     private LocalDateTime registrationDate;
@@ -18,19 +20,23 @@ public class TournamentRegistration {
     }
 
     // Constructor without id (for creation)
-    public TournamentRegistration(String playerName, String teamName, int tournamentId, String status) {
+    public TournamentRegistration(String playerName, String teamName, String teamMembers, String contactInfo, int tournamentId, String status) {
         this.playerName = playerName;
         this.teamName = teamName;
+        this.teamMembers = teamMembers;
+        this.contactInfo = contactInfo;
         this.tournamentId = tournamentId;
         this.status = status;
     }
 
     // Full constructor with id and timestamps
-    public TournamentRegistration(int id, String playerName, String teamName, int tournamentId,
+    public TournamentRegistration(int id, String playerName, String teamName, String teamMembers, String contactInfo, int tournamentId,
                                  String tournamentName, LocalDateTime registrationDate, String status, String rejectionReason) {
         this.id = id;
         this.playerName = playerName;
         this.teamName = teamName;
+        this.teamMembers = teamMembers;
+        this.contactInfo = contactInfo;
         this.tournamentId = tournamentId;
         this.tournamentName = tournamentName;
         this.registrationDate = registrationDate;
@@ -93,6 +99,22 @@ public class TournamentRegistration {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTeamMembers() {
+        return teamMembers;
+    }
+
+    public void setTeamMembers(String teamMembers) {
+        this.teamMembers = teamMembers;
+    }
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     public String getRejectionReason() {

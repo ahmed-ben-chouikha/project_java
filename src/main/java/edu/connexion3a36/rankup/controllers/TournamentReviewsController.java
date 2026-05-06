@@ -2,7 +2,8 @@ package edu.connexion3a36.rankup.controllers;
 
 import edu.connexion3a36.entities.Review;
 import edu.connexion3a36.entities.Tournament;
-import edu.connexion3a36.entities.TournamentRegistration;
+import edu.connexion3a36.rankup.app.SessionManager;
+import edu.connexion3a36.rankup.controllers.tournaments.TournamentReviewState;
 import edu.connexion3a36.services.ReviewService;
 import edu.connexion3a36.services.TournamentRegistrationService;
 import edu.connexion3a36.services.TournamentService;
@@ -39,25 +40,24 @@ public class TournamentReviewsController implements Initializable {
     @FXML private VBox emptyStateContainer;
 
     private ReviewService reviewService;
-    private TournamentService tournamentService;
     private TournamentRegistrationService registrationService;
+    private TournamentService tournamentService;
     private int selectedRating = 0;
     private List<Button> starButtons = new ArrayList<>();
-    private static final String CURRENT_PLAYER = "DefaultPlayer"; // Replace with actual session player
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeServices();
         setupUI();
         setupEventHandlers();
-        loadConfirmedTournaments();
+        loadEligibleTournaments();
         loadUserReviews();
     }
 
     private void initializeServices() {
         reviewService = new ReviewService();
-        tournamentService = new TournamentService();
         registrationService = new TournamentRegistrationService();
+        tournamentService = new TournamentService();
     }
 
     private void setupUI() {
@@ -65,7 +65,12 @@ public class TournamentReviewsController implements Initializable {
         reviewDatePicker.setValue(LocalDate.now());
         reviewDatePicker.setDisable(true);
 
+        playerNameField.setEditable(false);
+        playerNameField.setFocusTraversable(false);
+        playerNameField.setText(currentPlayerName());
+
         // Set up tournament ComboBox to display tournament names
+        tournamentComboBox.setPlaceholder(new Label("No eligible tournaments found"));
         tournamentComboBox.setCellFactory(lv -> new ListCell<Tournament>() {
             @Override
             protected void updateItem(Tournament item, boolean empty) {
@@ -170,22 +175,30 @@ public class TournamentReviewsController implements Initializable {
         });
     }
 
-    private void loadConfirmedTournaments() {
+    private void loadEligibleTournaments() {
         try {
-            List<TournamentRegistration> registrations = registrationService.getPlayerRegistrations(CURRENT_PLAYER);
-            List<Tournament> confirmedTournaments = new ArrayList<>();
+            playerNameField.setText(currentPlayerName());
+            List<Tournament> eligibleTournaments = registrationService.getConfirmedTournamentsByPlayer(currentPlayerName());
 
-            for (TournamentRegistration reg : registrations) {
-                if ("confirmed".equalsIgnoreCase(reg.getStatus())) {
-                    // Get tournament details by ID
-                    Tournament tournament = tournamentService.getTournamentById(reg.getTournamentId());
-                    if (tournament != null) {
-                        confirmedTournaments.add(tournament);
+            tournamentComboBox.getItems().setAll(eligibleTournaments);
+            if (eligibleTournaments.isEmpty()) {
+                showError("No confirmed tournament registrations available to review.");
+                tournamentComboBox.setDisable(true);
+                submitButton.setDisable(true);
+            } else {
+                clearErrorMessages();
+                tournamentComboBox.setDisable(false);
+                submitButton.setDisable(false);
+                if (TournamentReviewState.hasSelectedTournament()) {
+                    Tournament selected = TournamentReviewState.getSelectedTournament();
+                    for (Tournament tournament : eligibleTournaments) {
+                        if (tournament.getId() == selected.getId()) {
+                            tournamentComboBox.setValue(tournament);
+                            break;
+                        }
                     }
                 }
             }
-
-            tournamentComboBox.getItems().setAll(confirmedTournaments);
         } catch (SQLException e) {
             showError("Error loading tournaments: " + e.getMessage());
         }
@@ -193,7 +206,7 @@ public class TournamentReviewsController implements Initializable {
 
     private void loadUserReviews() {
         try {
-            List<Review> userReviews = reviewService.getReviewsByPlayer(CURRENT_PLAYER);
+            List<Review> userReviews = reviewService.getReviewsByPlayer(currentPlayerName());
 
             if (userReviews.isEmpty()) {
                 emptyStateContainer.setVisible(true);
@@ -212,6 +225,27 @@ public class TournamentReviewsController implements Initializable {
 
     private void populateReviewsTable(List<Review> reviews) {
         reviewsTableView.getItems().setAll(reviews);
+
+        // Custom cell factory for tournament column to display name
+        TableColumn<Review, String> tournamentColumn =
+                (TableColumn<Review, String>) reviewsTableView.getColumns().get(0);
+        tournamentColumn.setCellFactory(column -> new TableCell<Review, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    Review review = getTableView().getItems().get(getIndex());
+                    try {
+                        Tournament tournament = tournamentService.getTournamentById(review.getTournamentId());
+                        setText(tournament != null ? tournament.getName() : "Unknown Tournament");
+                    } catch (SQLException e) {
+                        setText("Error loading tournament");
+                    }
+                }
+            }
+        });
 
         // Custom cell factory for rating column to display stars
         TableColumn<Review, Integer> ratingColumn =
@@ -275,7 +309,7 @@ public class TournamentReviewsController implements Initializable {
         clearErrorMessages();
 
         // Validate inputs
-        String playerName = playerNameField.getText().trim();
+        String playerName = currentPlayerName();
         Tournament selectedTournament = tournamentComboBox.getValue();
         String comment = commentArea.getText().trim();
 
@@ -301,15 +335,21 @@ public class TournamentReviewsController implements Initializable {
 
         // Create review object
         Review review = new Review(playerName, selectedTournament.getId(),
-                selectedTournament.getName(), selectedRating, comment, LocalDate.now());
+                selectedRating, comment, LocalDate.now());
 
         try {
             reviewService.addEntity(review);
             showSuccess("Review submitted successfully! Waiting for admin approval.");
+            TournamentReviewState.clear();
             clearForm();
             loadUserReviews();
         } catch (SQLException e) {
-            showError("Error submitting review: " + e.getMessage());
+            String msg = e.getMessage();
+            if (msg != null && msg.contains("Bad review blocked automatically")) {
+                showError("Bad review blocked automatically. Please avoid toxic or abusive language.");
+            } else {
+                showError("Error submitting review: " + msg);
+            }
         }
     }
 
@@ -358,7 +398,8 @@ public class TournamentReviewsController implements Initializable {
     }
 
     private void clearForm() {
-        playerNameField.clear();
+        TournamentReviewState.clear();
+        playerNameField.setText(currentPlayerName());
         tournamentComboBox.setValue(null);
         selectedRating = 0;
         updateStarDisplay();
@@ -400,11 +441,16 @@ public class TournamentReviewsController implements Initializable {
 
         Label messageLabel = new Label(message);
         messageLabel.setStyle("-fx-font-size: 13px; " +
-                ("-fx-text-fill: #34A853;".equals("success") ? "-fx-text-fill: #34A853;" : "-fx-text-fill: #ff6b6b;"));
+                ("success".equals(type) ? "-fx-text-fill: #34A853;" : "-fx-text-fill: #ff6b6b;"));
         messageLabel.setWrapText(true);
 
         messageBox.getChildren().add(messageLabel);
         messageContainer.getChildren().add(messageBox);
         messageContainer.setVisible(true);
+    }
+
+    private String currentPlayerName() {
+        String currentPlayer = SessionManager.getCurrentPlayerName();
+        return (currentPlayer == null || currentPlayer.isBlank()) ? "DefaultPlayer" : currentPlayer;
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.adminresponses.AdminResponsesController" spacing="12" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <Label text="Admin Responses" styleClass="page-title" />
+
+        <HBox spacing="8">
+            <children>
+                <TextField fx:id="searchField" promptText="Search by message or reclamation id" HBox.hgrow="ALWAYS" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Clear Form" onAction="#onClearForm" />
+            </children>
+        </HBox>
+
+        <HBox spacing="12">
+            <children>
+                <GridPane hgap="10" vgap="8" styleClass="card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <Label text="Reclamation" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="reclamationCombo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Message" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextArea fx:id="messageArea" promptText="Admin response message" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2" />
+
+                        <Label fx:id="createdAtLabel" text="Created At" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <TextField fx:id="createdAtField" promptText="yyyy-MM-dd HH:mm:ss" editable="false" visible="false" managed="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label fx:id="updatedAtLabel" text="Updated At" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <TextField fx:id="updatedAtField" promptText="yyyy-MM-dd HH:mm:ss" editable="false" visible="false" managed="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    </children>
+                </GridPane>
+
+                <VBox spacing="8" alignment="TOP_CENTER" styleClass="admin-actions-panel">
+                    <children>
+                        <Button fx:id="submitButton" text="➤" onAction="#onCreateResponse" styleClass="btn-primary icon-button" maxWidth="Infinity" />
+                    </children>
+                    <prefWidth>140</prefWidth>
+                </VBox>
+            </children>
+        </HBox>
+
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="card">
+            <content>
+                <VBox fx:id="responseCardsBox" spacing="10" styleClass="admin-response-cards-panel">
+                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <HBox spacing="8">
+            <children>
+                <Button text="✎" onAction="#onUpdateResponse" styleClass="btn-primary icon-button" />
+                <Button text="🗑" onAction="#onDeleteResponse" styleClass="btn-danger icon-button" />
+                <Region HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+    </children>
+</VBox>
+

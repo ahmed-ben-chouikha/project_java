@@ -26,9 +26,9 @@
             <TableColumn text="Stats" prefWidth="220" />
         </columns></TableView>
         <HBox spacing="8"><children>
-            <Button text="Edit Team" onAction="#onEdit" styleClass="btn-primary" />
-            <Button text="Invite Player" onAction="#onInvite" styleClass="btn-primary" />
-            <Button text="Back to Teams" onAction="#goBackTeams" />
+            <Button text="✏️ Edit" onAction="#onEdit" styleClass="btn-primary" />
+            <Button text="👤 Invite Player" onAction="#onInvite" styleClass="btn-primary" />
+            <Button text="← Back" onAction="#goBackTeams" />
         </children></HBox>
     </children>
 </VBox>

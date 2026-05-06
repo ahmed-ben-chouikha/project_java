@@ -1,18 +1,11 @@
 package edu.connexion3a36.rankup.app;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
 
-public class Main extends Application {
-
-    @Override
-    public void start(Stage primaryStage) {
-        RankUpApp.init(primaryStage);
-        RankUpApp.showLogin();
-    }
+public class Main {
 
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(MainFxApp.class, args);
     }
 }
 
