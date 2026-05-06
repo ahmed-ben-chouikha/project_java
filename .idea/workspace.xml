@@ -6,8 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CODE_CHANGES_DETAILED.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FINAL_SIMPLE_FIX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FIX_ACTION_STEPS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TOURNAMENT_REGISTRATION_FIX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TOURNAMENT_REGISTRATION_FIX_QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TOURNAMENT_REGISTRATION_SIMPLIFIED_FIX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/add_team_members_contact_to_registrations.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/tournament_registrations_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/tournament_registrations_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/Controller/AfficherPersonne2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/Controller/AfficherPersonne2Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentRegistrationUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentRegistrationUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentReviewsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentReviewsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/RAWGGameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/RAWGGameService.java" afterDir="false" />

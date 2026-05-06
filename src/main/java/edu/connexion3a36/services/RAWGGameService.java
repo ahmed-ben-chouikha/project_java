@@ -30,7 +30,7 @@ public class RAWGGameService {
     private static String getApiKeyFromConfig() {
         String apiKey = System.getenv("RAWG_API_KEY");
         if (apiKey == null || apiKey.trim().isEmpty()) {
-            apiKey = "14f9f7e72508416cb8d4c0ea21607d36"; // Fallback for development
+            apiKey = ""; // Fallback for development
             System.out.println("WARNING: RAWG_API_KEY not set in environment. Using fallback key.");
         }
         return apiKey;
