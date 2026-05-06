@@ -6,10 +6,17 @@ import edu.connexion3a36.rankup.services.RecompenseService;
 import edu.connexion3a36.rankup.services.DemandeRecompenseService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +44,14 @@ public class AdvancedRecompenseController {
     private Label coutTotalLabel;
     @FXML
     private Label coutMoyenLabel;
+    @FXML
+    private PieChart demandStatusChart;
+    @FXML
+    private BarChart<String, Number> recompenseTypeChart;
+    @FXML
+    private CategoryAxis recompenseTypeXAxis;
+    @FXML
+    private NumberAxis recompenseTypeYAxis;
 
     // Tab Rapports
     @FXML
@@ -181,10 +196,56 @@ public class AdvancedRecompenseController {
         enAttenteLabel.setText(String.valueOf(demandsReport.getOrDefault("en_attente", 0)));
 
         // Statistiques des récompenses
-        Map<String, Object> recompenseStats = recompenseService.getStatistics();
-        totalRecompensesLabel.setText(String.valueOf(recompenseStats.getOrDefault("total_count", 0)));
-        coutTotalLabel.setText(String.valueOf(recompenseStats.getOrDefault("total_cost", 0)) + " €");
-        coutMoyenLabel.setText(String.format("%.2f €", recompenseStats.getOrDefault("average_cost", 0.0)));
+        List<edu.connexion3a36.rankup.entities.Recompense> allRecompenses = recompenseService.getAll();
+        totalRecompensesLabel.setText(String.valueOf(allRecompenses.size()));
+        
+        // Calcul du coût total et moyen non disponible dans l'entité actuelle -> affichage simple
+        double totalCost = 0;
+        coutTotalLabel.setText(String.format("%.2f €", totalCost));
+        double averageCost = allRecompenses.isEmpty() ? 0 : totalCost / allRecompenses.size();
+        coutMoyenLabel.setText(String.format("%.2f €", averageCost));
+
+        Map<String, Integer> recompenseTypeCounts = new HashMap<>();
+        for (edu.connexion3a36.rankup.entities.Recompense recompense : allRecompenses) {
+            String type = recompense.getType() == null ? "Inconnu" : recompense.getType();
+            recompenseTypeCounts.put(type, recompenseTypeCounts.getOrDefault(type, 0) + 1);
+        }
+
+        updateCharts(demandsReport, recompenseTypeCounts);
+    }
+
+    private void updateCharts(Map<String, Object> demandReport, Map<String, Integer> recompenseTypeCounts) {
+        if (demandStatusChart != null) {
+            demandStatusChart.setData(FXCollections.observableArrayList(
+                    new PieChart.Data("Approuvées", toInt(demandReport.getOrDefault("approuvees", 0))),
+                    new PieChart.Data("Rejetées", toInt(demandReport.getOrDefault("rejetees", 0))),
+                    new PieChart.Data("En attente", toInt(demandReport.getOrDefault("en_attente", 0)))
+            ));
+            demandStatusChart.setTitle("Répartition des demandes");
+        }
+
+        if (recompenseTypeChart != null) {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Types de récompenses");
+            if (recompenseTypeCounts != null) {
+                for (Map.Entry<String, Integer> entry : recompenseTypeCounts.entrySet()) {
+                    series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+                }
+            }
+            recompenseTypeChart.getData().setAll(series);
+            recompenseTypeChart.setTitle("Répartition des récompenses par type");
+        }
+    }
+
+    private int toInt(Object value) {
+        if (value instanceof Number number) {
+            return number.intValue();
+        }
+        try {
+            return Integer.parseInt(String.valueOf(value));
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private void loadApprovalRules() {

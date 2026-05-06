@@ -5,25 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/config/AIConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/config/AIConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/RegisterController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/admin/AdminDashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/admin/AdminDashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/OpenAIToxicityChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/OpenAIToxicityChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/esports.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/esports.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/AdvancedRecompenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/AdvancedRecompenseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeRecompenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/DemandeRecompenseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/RecompenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/rewards/RecompenseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/entities/DemandeRecompense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/entities/DemandeRecompense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/AIApiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/AIApiClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/advanced-recompense.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/advanced-recompense.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-list.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/demande-list.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/rewards/recompense-list.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/rewards/recompense-list.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
@@ -61,12 +67,13 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RankUp Main.executor&quot;: &quot;Run&quot;,
     &quot;Maven.Run JavaFX (Maven).executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;punition&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;module-reward&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ammar/OneDrive/Desktop/esportsnew&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -77,6 +84,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunManager" selected="Application.RankUp Main" />
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

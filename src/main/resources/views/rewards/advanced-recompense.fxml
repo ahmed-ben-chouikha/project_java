@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
@@ -78,6 +79,19 @@
                                 </VBox>
                             </children>
                         </GridPane>
+                        <HBox spacing="20" style="-fx-padding: 10px 0 0 0;">
+                            <children>
+                                <PieChart fx:id="demandStatusChart" prefHeight="260" prefWidth="320" title="Répartition des demandes" />
+                                <BarChart fx:id="recompenseTypeChart" prefHeight="260" prefWidth="420" title="Récompenses par type">
+                                    <xAxis>
+                                        <CategoryAxis fx:id="recompenseTypeXAxis" label="Type" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis fx:id="recompenseTypeYAxis" label="Nombre" />
+                                    </yAxis>
+                                </BarChart>
+                            </children>
+                        </HBox>
                     </VBox>
                 </VBox>
             </Tab>

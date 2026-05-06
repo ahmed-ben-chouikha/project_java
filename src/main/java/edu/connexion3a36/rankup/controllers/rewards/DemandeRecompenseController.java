@@ -2,17 +2,25 @@ package edu.connexion3a36.rankup.controllers.rewards;
 
 import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.rankup.entities.DemandeRecompense;
+import edu.connexion3a36.rankup.entities.Recompense;
 import edu.connexion3a36.rankup.services.DemandeRecompenseService;
+import edu.connexion3a36.rankup.services.RecompenseService;
+import edu.connexion3a36.rankup.services.RewardPdfService;
+import edu.connexion3a36.rankup.tools.RewardSearchUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DemandeRecompenseController {
     @FXML
@@ -43,15 +51,23 @@ public class DemandeRecompenseController {
     private Button deleteBtn;
     @FXML
     private Button refreshBtn;
+    @FXML
+    private Button exportPdfBtn;
 
     private DemandeRecompenseService service;
+    private RecompenseService recompenseService;
+    private RewardPdfService pdfService;
     private ObservableList<DemandeRecompense> demandes;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private Map<Integer, String> recompenseNameMap;
 
     @FXML
     void initialize() {
         service = new DemandeRecompenseService();
+        recompenseService = new RecompenseService();
+        pdfService = new RewardPdfService();
         demandes = FXCollections.observableArrayList();
+        recompenseNameMap = buildRecompenseNameMap();
 
         // Configurer les colonnes
         idCol.setCellValueFactory(cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getId()).asObject());
@@ -150,22 +166,47 @@ public class DemandeRecompenseController {
         loadData();
     }
 
+    @FXML
+    void onExportPdf() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Exporter les demandes en PDF");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        chooser.setInitialFileName("demandes-recompense.pdf");
+
+        File file = chooser.showSaveDialog(demandeTable.getScene().getWindow());
+        if (file == null) {
+            return;
+        }
+
+        List<DemandeRecompense> exportItems = new ArrayList<>(demandeTable.getItems());
+        if (pdfService.exportDemandes(exportItems, recompenseNameMap, file)) {
+            showInfo("Succès", "PDF exporté avec succès");
+        } else {
+            showError("Erreur", pdfService.getLastErrorMessage());
+        }
+    }
+
     private void loadData() {
+        recompenseNameMap = buildRecompenseNameMap();
         List<DemandeRecompense> list = service.getAll();
         demandes.setAll(list);
     }
 
     private void filterData() {
-        String searchText = searchField.getText() == null ? "" : searchField.getText().toLowerCase();
+        String searchText = searchField.getText() == null ? "" : searchField.getText();
         String selectedStatut = statutFilter.getValue();
 
         List<DemandeRecompense> allDemandes = service.getAll();
         ObservableList<DemandeRecompense> filtered = FXCollections.observableArrayList();
 
         for (DemandeRecompense d : allDemandes) {
-            boolean matchesSearch = searchText.isEmpty() ||
-                    safe(d.getNomDemandeur()).toLowerCase().contains(searchText) ||
-                    safe(d.getEmail()).toLowerCase().contains(searchText);
+            String rewardLabel = d.getRecompenseId() == null ? "" : recompenseNameMap.getOrDefault(d.getRecompenseId(), "Récompense #" + d.getRecompenseId());
+            boolean matchesSearch = RewardSearchUtil.matches(searchText,
+                    d.getNomDemandeur(),
+                    d.getEmail(),
+                    d.getMotif(),
+                    d.getStatut(),
+                    rewardLabel);
 
             boolean matchesStatut = selectedStatut.equals("Tous") || toUiStatus(d.getStatut()).equals(selectedStatut);
 
@@ -178,6 +219,14 @@ public class DemandeRecompenseController {
 
     private String safe(String value) {
         return value == null ? "" : value;
+    }
+
+    private Map<Integer, String> buildRecompenseNameMap() {
+        Map<Integer, String> map = new java.util.HashMap<>();
+        for (Recompense recompense : recompenseService.getAll()) {
+            map.put(recompense.getId(), recompense.getRecompense());
+        }
+        return map;
     }
 
     private String formatDate(java.time.LocalDateTime dateTime) {

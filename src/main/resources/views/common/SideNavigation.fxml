@@ -94,6 +94,15 @@
             <Button text="Punitions" onAction="#goPunitions" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-gavel" styleClass="nav-btn-icon" /></graphic>
             </Button>
+            <Button text="Rewards" onAction="#goRewards" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-gift" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Reward Requests" onAction="#goRewardRequests" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-envelope" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Advanced Rewards" onAction="#goAdvancedRewards" styleClass="nav-btn nav-btn-admin">
+                <graphic><FontIcon iconLiteral="fas-star" styleClass="nav-btn-icon" /></graphic>
+            </Button>
             <Button text="Review Moderation" onAction="#goReviewModeration" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-shield-alt" styleClass="nav-btn-icon" /></graphic>
             </Button>

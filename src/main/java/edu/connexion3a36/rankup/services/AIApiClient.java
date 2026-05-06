@@ -44,6 +44,38 @@ public class AIApiClient {
         return callMistralApi(AIConfig.URGENCY_PROMPT, description, false);
     }
 
+    /**
+     * Suggest a reward motif for the user's request
+     * @param username The user's name
+     * @param email The user's email
+     * @param rewardLabel The requested reward label
+     * @param currentMotif The current motif or idea
+     * @return Suggested reward motif
+     */
+    public static String suggestRewardMotif(String username, String email, String rewardLabel, String currentMotif) throws Exception {
+        StringBuilder prompt = new StringBuilder();
+        prompt.append(AIConfig.REWARD_MOTIF_PROMPT).append("\n");
+        prompt.append("- Nom: ").append(username == null || username.isBlank() ? "non renseigné" : username.trim()).append("\n");
+        prompt.append("- Email: ").append(email == null || email.isBlank() ? "non renseigné" : email.trim()).append("\n");
+        prompt.append("- Récompense demandée: ").append(rewardLabel == null || rewardLabel.isBlank() ? "non précisée" : rewardLabel.trim()).append("\n");
+        prompt.append("- Motif actuel / idée de départ: ").append(currentMotif == null || currentMotif.isBlank() ? "aucun" : currentMotif.trim()).append("\n\n");
+        prompt.append("Génère un motif court à moyen, naturel et convaincant.");
+
+        String response = callMistralApi(AIConfig.REWARD_MOTIF_PROMPT, prompt.toString(), false);
+        if (response == null || response.isBlank() || response.startsWith("❌")) {
+            return buildFallbackRewardMotif(username, rewardLabel);
+        }
+        return response.trim();
+    }
+
+    private static String buildFallbackRewardMotif(String username, String rewardLabel) {
+        String namePart = (username == null || username.isBlank()) ? "mon équipe" : username.trim();
+        String rewardPart = (rewardLabel == null || rewardLabel.isBlank()) ? "cette récompense" : rewardLabel.trim();
+        return "Je souhaite obtenir " + rewardPart + " car j’ai fourni des efforts constants, " +
+                "j’ai respecté les règles et j’ai contribué positivement aux objectifs de " + namePart + ". " +
+                "Cette récompense représenterait une reconnaissance motivante de mon engagement et de ma régularité.";
+    }
+
     private static String callMistralApi(String systemPrompt, String userMessage, boolean useHistory) throws Exception {
         if (!AIConfig.isConfigured()) {
             return "❌ Mistral AI API not configured. Please add your Mistral API key to AIConfig.java";

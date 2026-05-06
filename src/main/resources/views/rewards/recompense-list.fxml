@@ -25,6 +25,7 @@
                 <Region HBox.hgrow="ALWAYS" />
                 <Button fx:id="createBtn" text="+ Ajouter" onAction="#onCreateRecompense" styleClass="btn-primary" />
                 <Button fx:id="refreshBtn" text="🔄 Actualiser" onAction="#onRefresh" styleClass="btn-secondary" />
+                <Button fx:id="exportPdfBtn" text="📄 Export PDF" onAction="#onExportPdf" styleClass="btn-secondary" />
             </children>
         </HBox>
         <TableView fx:id="recompenseTable" VBox.vgrow="ALWAYS" styleClass="card">

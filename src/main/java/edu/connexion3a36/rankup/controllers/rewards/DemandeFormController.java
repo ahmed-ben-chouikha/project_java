@@ -3,9 +3,11 @@ package edu.connexion3a36.rankup.controllers.rewards;
 import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.rankup.entities.DemandeRecompense;
 import edu.connexion3a36.rankup.entities.Recompense;
+import edu.connexion3a36.rankup.services.AIApiClient;
 import edu.connexion3a36.rankup.services.DemandeRecompenseService;
 import edu.connexion3a36.rankup.services.RecompenseService;
 import edu.connexion3a36.rankup.session.SessionContext;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
@@ -31,6 +33,10 @@ public class DemandeFormController {
     private Label motifError;
     @FXML
     private Label recompenseError;
+    @FXML
+    private Label motifAiStatus;
+    @FXML
+    private Button suggestMotifBtn;
     @FXML
     private Button saveBtn;
     @FXML
@@ -78,6 +84,60 @@ public class DemandeFormController {
             formTitle.setText("Modifier la demande");
             loadFormData();
         }
+    }
+
+    @FXML
+    void onSuggestMotif() {
+        String username = nomField.getText();
+        String email = emailField.getText();
+        Recompense selected = recompenseCombo.getValue();
+        String rewardLabel = selected == null ? "" : selected.getRecompense();
+        String currentMotif = motifArea.getText();
+
+        if (suggestMotifBtn != null) {
+            suggestMotifBtn.setDisable(true);
+        }
+        if (motifAiStatus != null) {
+            motifAiStatus.setText("Génération de la suggestion IA...");
+        }
+
+        Task<String> task = new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                try {
+                    return AIApiClient.suggestRewardMotif(username, email, rewardLabel, currentMotif);
+                } catch (Exception ex) {
+                    String namePart = (username == null || username.isBlank()) ? "mon équipe" : username.trim();
+                    String rewardPart = (rewardLabel == null || rewardLabel.isBlank()) ? "cette récompense" : rewardLabel.trim();
+                    return "Je souhaite obtenir " + rewardPart + " car j’ai fourni des efforts constants, " +
+                            "j’ai respecté les règles et j’ai contribué positivement aux objectifs de " + namePart + ". " +
+                            "Cette récompense représenterait une reconnaissance motivante de mon engagement et de ma régularité.";
+                }
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            motifArea.setText(task.getValue());
+            if (motifAiStatus != null) {
+                motifAiStatus.setText("Suggestion IA ajoutée.");
+            }
+            if (suggestMotifBtn != null) {
+                suggestMotifBtn.setDisable(false);
+            }
+        });
+
+        task.setOnFailed(event -> {
+            if (motifAiStatus != null) {
+                motifAiStatus.setText("Impossible de générer la suggestion IA.");
+            }
+            if (suggestMotifBtn != null) {
+                suggestMotifBtn.setDisable(false);
+            }
+        });
+
+        Thread thread = new Thread(task, "RewardMotifAISuggestion");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void loadFormData() {
@@ -230,4 +290,3 @@ public class DemandeFormController {
         alert.showAndWait();
     }
 }
-

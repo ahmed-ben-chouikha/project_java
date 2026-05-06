@@ -233,6 +233,21 @@ public class SideNavController {
     }
 
     @FXML
+    void goRewards(ActionEvent event) {
+        RankUpApp.loadInBase("/views/rewards/recompense-list.fxml");
+    }
+
+    @FXML
+    void goRewardRequests(ActionEvent event) {
+        RankUpApp.loadInBase("/views/rewards/demande-list.fxml");
+    }
+
+    @FXML
+    void goAdvancedRewards(ActionEvent event) {
+        RankUpApp.loadInBase("/views/rewards/advanced-recompense.fxml");
+    }
+
+    @FXML
     void goReviewModeration(ActionEvent event) { 
         RankUpApp.loadInBase("/views/admin/review-moderation.fxml"); 
     }

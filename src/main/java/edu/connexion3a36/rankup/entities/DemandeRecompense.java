@@ -12,6 +12,11 @@ public class DemandeRecompense {
     private LocalDateTime dateDemande;
     private String statut;
     private Integer recompenseId;
+    private Integer scoreApprobation;
+    private String priorite;
+    private String raisonRejet;
+    private LocalDateTime dateApprobation;
+    private LocalDateTime dateRejet;
 
     public DemandeRecompense() {
     }
@@ -88,6 +93,46 @@ public class DemandeRecompense {
         this.recompenseId = recompenseId;
     }
 
+    public Integer getScoreApprobation() {
+        return scoreApprobation;
+    }
+
+    public void setScoreApprobation(Integer scoreApprobation) {
+        this.scoreApprobation = scoreApprobation;
+    }
+
+    public String getPriorite() {
+        return priorite;
+    }
+
+    public void setPriorite(String priorite) {
+        this.priorite = priorite;
+    }
+
+    public String getRaisonRejet() {
+        return raisonRejet;
+    }
+
+    public void setRaisonRejet(String raisonRejet) {
+        this.raisonRejet = raisonRejet;
+    }
+
+    public LocalDateTime getDateApprobation() {
+        return dateApprobation;
+    }
+
+    public void setDateApprobation(LocalDateTime dateApprobation) {
+        this.dateApprobation = dateApprobation;
+    }
+
+    public LocalDateTime getDateRejet() {
+        return dateRejet;
+    }
+
+    public void setDateRejet(LocalDateTime dateRejet) {
+        this.dateRejet = dateRejet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,6 +156,8 @@ public class DemandeRecompense {
                 ", dateDemande=" + dateDemande +
                 ", statut='" + statut + '\'' +
                 ", recompenseId=" + recompenseId +
+                ", scoreApprobation=" + scoreApprobation +
+                ", priorite='" + priorite + '\'' +
                 '}';
     }
 }

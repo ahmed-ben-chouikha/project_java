@@ -39,6 +39,12 @@
             <Label text="Description de la demande" styleClass="form-label" />
             <TextArea fx:id="motifArea" promptText="Expliquez la raison de votre demande..." wrapText="true"
                       styleClass="form-input" VBox.vgrow="ALWAYS" />
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <children>
+                    <Button fx:id="suggestMotifBtn" text="✨ Suggestion IA" onAction="#onSuggestMotif" styleClass="btn-secondary" />
+                    <Label fx:id="motifAiStatus" text="" style="-fx-text-fill: #6b7280; -fx-font-size: 11px;" />
+                </children>
+            </HBox>
             <Label fx:id="motifError" text="" style="-fx-text-fill: #ef4444; -fx-font-size: 11px;" />
         </VBox>
 

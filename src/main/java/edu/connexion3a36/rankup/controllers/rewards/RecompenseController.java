@@ -2,15 +2,20 @@ package edu.connexion3a36.rankup.controllers.rewards;
 
 import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.rankup.entities.Recompense;
+import edu.connexion3a36.rankup.services.RewardPdfService;
 import edu.connexion3a36.rankup.services.RecompenseService;
+import edu.connexion3a36.rankup.tools.RewardSearchUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,14 +46,18 @@ public class RecompenseController {
     private Button deleteBtn;
     @FXML
     private Button refreshBtn;
+    @FXML
+    private Button exportPdfBtn;
 
     private RecompenseService service;
+    private RewardPdfService pdfService;
     private ObservableList<Recompense> recompenses;
     private Map<Integer, String> tournamentNameMap;
 
     @FXML
     void initialize() {
         service = new RecompenseService();
+        pdfService = new RewardPdfService();
         recompenses = FXCollections.observableArrayList();
         tournamentNameMap = service.getTournamentNameMap();
 
@@ -148,6 +157,26 @@ public class RecompenseController {
         loadData();
     }
 
+    @FXML
+    void onExportPdf() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Exporter les récompenses en PDF");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        chooser.setInitialFileName("recompenses.pdf");
+
+        File file = chooser.showSaveDialog(recompenseTable.getScene().getWindow());
+        if (file == null) {
+            return;
+        }
+
+        List<Recompense> exportItems = new ArrayList<>(recompenseTable.getItems());
+        if (pdfService.exportRecompenses(exportItems, tournamentNameMap, file)) {
+            showInfo("Succès", "PDF exporté avec succès");
+        } else {
+            showError("Erreur", pdfService.getLastErrorMessage());
+        }
+    }
+
     private void loadData() {
         tournamentNameMap = service.getTournamentNameMap();
         List<Recompense> list = service.getAll();
@@ -155,17 +184,18 @@ public class RecompenseController {
     }
 
     private void filterData() {
-        String searchText = safeText(searchField.getText()).toLowerCase();
+        String searchText = safeText(searchField.getText());
         String selectedType = typeFilter.getValue();
 
         List<Recompense> allRecompenses = service.getAll();
         ObservableList<Recompense> filtered = FXCollections.observableArrayList();
 
         for (Recompense r : allRecompenses) {
-            boolean matchesSearch = searchText.isEmpty() ||
-                    safeText(r.getRecompense()).toLowerCase().contains(searchText) ||
-                    safeText(r.getDescription()).toLowerCase().contains(searchText) ||
-                    tournamentNameMap.getOrDefault(r.getTournamentId(), "").toLowerCase().contains(searchText);
+            boolean matchesSearch = RewardSearchUtil.matches(searchText,
+                    r.getRecompense(),
+                    r.getType(),
+                    r.getDescription(),
+                    tournamentNameMap.getOrDefault(r.getTournamentId(), "Tournoi #" + r.getTournamentId()));
 
             boolean matchesType = selectedType == null || selectedType.equals("Tous") || selectedType.equals(r.getType());
 

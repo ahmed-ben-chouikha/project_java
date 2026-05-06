@@ -95,8 +95,8 @@ public final class RankUpApp {
     }
 
     public static void loadInBase(Node view) {
-        if (baseController != null) {
-            baseController.loadCenter(view);
+        if (contentController != null && contentController instanceof BaseController) {
+            ((BaseController) contentController).loadCenter(view);
         }
     }
 
