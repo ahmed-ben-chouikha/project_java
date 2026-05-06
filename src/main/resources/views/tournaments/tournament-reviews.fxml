@@ -48,7 +48,7 @@
                         <Label text="Select Tournament" style="-fx-text-fill: #e5eefb; -fx-font-size: 13px; -fx-font-weight: bold;" />
                         <ComboBox fx:id="tournamentComboBox"
                                   style="-fx-control-inner-background: rgba(200, 220, 240, 0.08); -fx-text-fill: #e5eefb; -fx-padding: 12; -fx-font-size: 13px; -fx-background-radius: 10;"
-                                  promptText="Choose a confirmed tournament..." />
+                                  promptText="Choose a tournament to review..." />
                         <Label fx:id="tournamentError" text="" style="-fx-text-fill: #ff6b6b; -fx-font-size: 11px;" />
                     </VBox>
 
@@ -112,9 +112,6 @@
                         <columns>
                             <!-- Tournament Column -->
                             <TableColumn text="Tournament" prefWidth="150">
-                                <cellValueFactory>
-                                    <PropertyValueFactory property="tournamentName" />
-                                </cellValueFactory>
                             </TableColumn>
 
                             <!-- Rating Column (Stars) -->
