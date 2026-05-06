@@ -41,7 +41,11 @@ public class AuthController {
                 RankUpApp.setCurrentEmail(email);
 
                 showSuccess("Success", "Welcome " + user.getUsername() + "!");
-                RankUpApp.showBase();
+                if (RankUpApp.isAdmin()) {
+                    RankUpApp.showBase();
+                } else {
+                    RankUpApp.showUserBase();
+                }
             } else {
                 showError("Authentication Failed", "Invalid email or password.");
             }

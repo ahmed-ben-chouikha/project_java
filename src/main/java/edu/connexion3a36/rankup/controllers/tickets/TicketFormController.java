@@ -3,6 +3,7 @@ package edu.connexion3a36.rankup.controllers.tickets;
 import edu.connexion3a36.entities.Ticket;
 import edu.connexion3a36.rankup.app.RankUpApp;
 import edu.connexion3a36.services.TicketService;
+import edu.connexion3a36.services.TicketPricingAiService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,8 +25,10 @@ public class TicketFormController {
     @FXML private TextField soldField;
     @FXML private ComboBox<String> statusCombo;
     @FXML private Label feedbackLabel;
+    @FXML private Label aiSuggestionLabel;
 
     private final TicketService ticketService = new TicketService();
+    private final TicketPricingAiService ticketPricingAiService = new TicketPricingAiService();
     private Ticket editingTicket;
 
     @FXML
@@ -45,6 +48,46 @@ public class TicketFormController {
             soldField.setText("0");
             quantityField.setText("100");
             priceField.setText("25");
+        }
+    }
+
+    @FXML
+    void onSuggestPrice(ActionEvent event) {
+        TicketService.GameOption game = gameCombo.getValue();
+        if (game == null) {
+            feedbackLabel.setText("Please select a game first.");
+            return;
+        }
+
+        Integer quantity = parsePositiveInteger(quantityField.getText(), "Quantity");
+        Integer sold = parseNonNegativeInteger(soldField.getText(), "Sold");
+        Double currentPrice = parsePositiveDouble(priceField.getText(), "Price");
+        if (quantity == null || sold == null || currentPrice == null) {
+            return;
+        }
+
+        Ticket previewTicket = new Ticket(
+                editingTicket == null ? -1 : editingTicket.getId(),
+                game.getId(),
+                valueOrEmpty(ticketNumberField.getText()),
+                typeCombo.getValue() == null ? "regular" : typeCombo.getValue(),
+                currentPrice,
+                quantity,
+                sold,
+                statusCombo.getValue() == null ? "available" : statusCombo.getValue(),
+                editingTicket == null ? null : editingTicket.getCreatedAt(),
+                null
+        );
+
+        try {
+            double suggestedPrice = ticketPricingAiService.suggestPrice(previewTicket);
+            priceField.setText(String.format(java.util.Locale.US, "%.2f", suggestedPrice));
+            aiSuggestionLabel.setText("AI suggested price applied: " + String.format(java.util.Locale.US, "%.2f", suggestedPrice));
+            feedbackLabel.setText("Price updated from sales analysis.");
+        } catch (IllegalStateException e) {
+            aiSuggestionLabel.setText(e.getMessage());
+        } catch (Exception e) {
+            aiSuggestionLabel.setText("Could not suggest a price: " + e.getMessage());
         }
     }
 
@@ -129,6 +172,7 @@ public class TicketFormController {
         soldField.setText(String.valueOf(ticket.getSold()));
         typeCombo.setValue(ticket.getType());
         statusCombo.setValue(ticket.getStatus());
+        aiSuggestionLabel.setText("");
 
         for (TicketService.GameOption option : gameCombo.getItems()) {
             if (option.getId() == ticket.getGameId()) {

@@ -3,6 +3,12 @@ package edu.connexion3a36.services;
 import edu.connexion3a36.entities.Review;
 import edu.connexion3a36.interfaces.IReview;
 import edu.connexion3a36.tools.MyConnection;
+import edu.connexion3a36.entities.Tournament;
+import edu.connexion3a36.services.TournamentRegistrationService;
+import edu.connexion3a36.services.TournamentService;
+
+import edu.connexion3a36.tools.OpenAIToxicityChecker;
+import java.io.IOException;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -33,8 +39,33 @@ public class ReviewService implements IReview {
             throw new SQLException("Comment must be between 10 and 300 characters");
         }
 
-        if (review.getTournamentName() == null || review.getTournamentName().trim().isEmpty()) {
-            throw new SQLException("Tournament name cannot be empty");
+        // Local profanity check before remote moderation
+        if (isToxicLocally(review.getComment())) {
+            throw new SQLException("Bad review blocked automatically. Your comment contains inappropriate language.");
+        }
+
+        // OpenAI Toxicity Check
+        boolean toxicityCheckPassed = true;
+        try {
+            toxicityCheckPassed = !OpenAIToxicityChecker.isToxic(review.getComment());
+        } catch (IOException e) {
+            System.err.println("Toxicity check unavailable: " + e.getMessage());
+            toxicityCheckPassed = true;
+        }
+
+        if (!toxicityCheckPassed) {
+            throw new SQLException("Bad review blocked automatically. Your comment was detected as toxic or abusive.");
+        }
+
+        TournamentService tournamentService = new TournamentService();
+        Tournament tournament = tournamentService.getTournamentById(review.getTournamentId());
+        if (tournament == null) {
+            throw new SQLException("Tournament not found for review");
+        }
+
+        TournamentRegistrationService registrationService = new TournamentRegistrationService();
+        if (!registrationService.hasConfirmedRegistration(review.getPlayerName().trim(), review.getTournamentId())) {
+            throw new SQLException("Only confirmed tournament attendees can submit reviews");
         }
 
         // Check if player has already reviewed this tournament
@@ -49,7 +80,7 @@ public class ReviewService implements IReview {
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
             pst.setString(1, review.getPlayerName().trim());
             pst.setInt(2, review.getTournamentId());
-            pst.setString(3, review.getTournamentName().trim());
+            pst.setString(3, tournament.getName());
             pst.setInt(4, review.getRating());
             pst.setString(5, review.getComment().trim());
             pst.setDate(6, java.sql.Date.valueOf(review.getReviewDate() != null ? review.getReviewDate() : LocalDate.now()));
@@ -326,6 +357,21 @@ public class ReviewService implements IReview {
         }
 
         return null;
+    }
+
+    private boolean isToxicLocally(String text) {
+        if (text == null || text.isBlank()) {
+            return false;
+        }
+
+        String normalized = text.toLowerCase().replaceAll("[^a-z0-9\\s]", " ");
+        String[] banned = {"fuck", "shit", "bitch", "asshole", "damn", "cunt", "nigger", "faggot", "motherfucker", "dick", "piss", "bastard"};
+        for (String word : banned) {
+            if (normalized.matches(".*\\b" + word + "\\b.*")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

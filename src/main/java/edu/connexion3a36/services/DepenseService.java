@@ -4,6 +4,8 @@ import edu.connexion3a36.entities.Depense;
 import edu.connexion3a36.tools.MyConnection;
 
 import java.sql.*;
+import edu.connexion3a36.services.BrevoMailService;
+import edu.connexion3a36.rankup.app.SessionManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +72,26 @@ public class DepenseService {
             cnx.commit();
             cnx.setAutoCommit(previousAutoCommit);
             System.out.println("Depense added successfully!");
+            // After commit, check thresholds and send notifications if crossed
+            try {
+                float prevUsed = budget.montantUtilise;
+                float allocated = budget.montantAlloue;
+                float newUsed = newMontantUtilise;
+                if (allocated > 0) {
+                    float prevPct = prevUsed / allocated;
+                    float newPct = newUsed / allocated;
+                    String managerEmail = SessionManager.getCurrentEmail();
+                    if (managerEmail != null && !managerEmail.isBlank()) {
+                        final String to = managerEmail;
+                        if (prevPct < 0.5f && newPct >= 0.5f) {
+                            sendBudgetAlertEmail(to, depense.getTeamName(), 50, allocated, newUsed);
+                        }
+                        if (prevPct < 0.9f && newPct >= 0.9f) {
+                            sendBudgetAlertEmail(to, depense.getTeamName(), 90, allocated, newUsed);
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
             return true;
         } catch (SQLException e) {
             System.err.println("Error adding depense: " + e.getMessage());
@@ -264,6 +286,27 @@ public class DepenseService {
             cnx.commit();
             cnx.setAutoCommit(previousAutoCommit);
             System.out.println("Depense updated successfully!");
+            // Notify manager if usage thresholds crossed (only when staying in same team)
+            try {
+                if (current.getTeamId().equals(depense.getTeamId())) {
+                    float allocated = newTeamBudget.montantAlloue;
+                    float prevUsed = oldTeamBudget.montantUtilise;
+                    float newUsed = newTeamNewUsed;
+                    if (allocated > 0) {
+                        float prevPct = prevUsed / allocated;
+                        float newPct = newUsed / allocated;
+                        String managerEmail = edu.connexion3a36.rankup.app.SessionManager.getCurrentEmail();
+                        if (managerEmail != null && !managerEmail.isBlank()) {
+                            if (prevPct < 0.5f && newPct >= 0.5f) {
+                                sendBudgetAlertEmail(managerEmail, depense.getTeamName(), 50, allocated, newUsed);
+                            }
+                            if (prevPct < 0.9f && newPct >= 0.9f) {
+                                sendBudgetAlertEmail(managerEmail, depense.getTeamName(), 90, allocated, newUsed);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
             return true;
         } catch (SQLException e) {
             System.err.println("Error updating depense: " + e.getMessage());
@@ -357,6 +400,46 @@ public class DepenseService {
             System.err.println("Error reading budget snapshot: " + e.getMessage());
         }
         return null;
+    }
+
+    private void sendBudgetAlertEmail(String recipientEmail, String teamName, int thresholdPercent, float allocated, float used) {
+        new Thread(() -> {
+            try {
+                String safeTeamName = (teamName == null || teamName.isBlank()) ? "votre équipe" : teamName;
+                float usedPercent = allocated > 0 ? (used / allocated) * 100f : 0f;
+                String subject = "Budget " + thresholdPercent + "% atteint - " + safeTeamName;
+                String html = String.format(
+                    "<div style='font-family:Arial,sans-serif;line-height:1.6;color:#0f172a;'>" +
+                    "<h2 style='margin:0 0 12px;color:#0ea5e9;'>Alerte budget</h2>" +
+                    "<p>Bonjour,</p>" +
+                    "<p>Le budget de <strong>%s</strong> a franchi le seuil de <strong>%d%%</strong>.</p>" +
+                    "<div style='padding:12px 16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;'>" +
+                    "<p style='margin:0 0 6px;'>Budget alloué : <strong>%.2f €</strong></p>" +
+                    "<p style='margin:0 0 6px;'>Budget utilisé : <strong>%.2f €</strong> (%.2f%%)</p>" +
+                    "<p style='margin:0;'>Montant restant : <strong>%.2f €</strong></p>" +
+                    "</div>" +
+                    "<p style='margin-top:16px;'>Merci de vérifier la situation budgétaire et d'ajuster les prochaines dépenses si nécessaire.</p>" +
+                    "<p style='margin-top:20px;color:#475569;'>Cordialement,<br>Equipe RankUp</p>" +
+                    "</div>",
+                    safeTeamName,
+                    thresholdPercent,
+                    allocated,
+                    used,
+                    usedPercent,
+                    Math.max(allocated - used, 0f)
+                );
+                String text = String.format(
+                    "Alerte budget: %s a atteint %d%%. Alloué: %.2f EUR, utilisé: %.2f EUR, restant: %.2f EUR.",
+                    safeTeamName,
+                    thresholdPercent,
+                    allocated,
+                    used,
+                    Math.max(allocated - used, 0f)
+                );
+                BrevoMailService.sendEmail(recipientEmail, subject, html, text);
+            } catch (Exception ignored) {
+            }
+        }).start();
     }
 
     private static class BudgetSnapshot {

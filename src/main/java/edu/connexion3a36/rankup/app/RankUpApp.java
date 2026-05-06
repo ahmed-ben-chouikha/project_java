@@ -1,6 +1,7 @@
 package edu.connexion3a36.rankup.app;
 
 import edu.connexion3a36.rankup.controllers.BaseController;
+import edu.connexion3a36.rankup.controllers.ContentController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +12,11 @@ import java.io.IOException;
 public final class RankUpApp {
 
     private static Stage primaryStage;
+<<<<<<< HEAD
     private static BaseController baseController;
+=======
+    private static ContentController contentController;
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     private static Integer pendingReclamationFocusId;
     private static Integer pendingAdminResponseFocusId;
     private static Integer pendingPunitionFocusId;
@@ -26,8 +31,48 @@ public final class RankUpApp {
         primaryStage.setMinHeight(760);
     }
 
+    public static void registerContentController(ContentController controller) {
+        contentController = controller;
+    }
+
     public static void registerBaseController(BaseController controller) {
-        baseController = controller;
+        contentController = controller;
+    }
+
+    public static void setCurrentPlayerName(String playerName) {
+        SessionManager.setCurrentPlayerName(playerName);
+    }
+
+    public static String getCurrentPlayerName() {
+        return SessionManager.getCurrentPlayerName();
+    }
+
+    public static void setCurrentRole(String role) {
+        SessionManager.setCurrentRole(role);
+    }
+
+    public static String getCurrentRole() {
+        return SessionManager.getCurrentRole();
+    }
+
+    public static void setCurrentEmail(String email) {
+        SessionManager.setCurrentEmail(email);
+    }
+
+    public static String getCurrentEmail() {
+        return SessionManager.getCurrentEmail();
+    }
+
+    public static void setCurrentUserId(int userId) {
+        SessionManager.setCurrentUserId(userId);
+    }
+
+    public static int getCurrentUserId() {
+        return SessionManager.getCurrentUserId();
+    }
+
+    public static boolean isAdmin() {
+        return SessionManager.isAdmin();
     }
 
     public static void setCurrentPlayerName(String playerName) {
@@ -78,9 +123,13 @@ public final class RankUpApp {
         setRoot("/views/base.fxml", 1400, 900);
     }
 
+    public static void showUserBase() {
+        setRoot("/views/user-base.fxml", 1400, 900);
+    }
+
     public static void loadInBase(String viewPath) {
-        if (baseController != null) {
-            baseController.loadCenter(viewPath);
+        if (contentController != null) {
+            contentController.loadCenter(viewPath);
         }
     }
 
@@ -115,7 +164,11 @@ public final class RankUpApp {
     }
 
     public static void logout() {
+<<<<<<< HEAD
         baseController = null;
+=======
+        contentController = null;
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
         SessionManager.clear();
         showLogin();
     }

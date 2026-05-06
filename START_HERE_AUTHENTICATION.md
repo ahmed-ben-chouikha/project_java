@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 # âš¡ RankUp Authentication - IMMEDIATE ACTION GUIDE
 
 ## ðŸŽ¯ You Are Here: Implementation Complete âœ…
+=======
+# ⚡ RankUp Authentication - IMMEDIATE ACTION GUIDE
+
+## 🎯 You Are Here: Implementation Complete ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 The entire authentication system has been built, integrated, and tested.
 
@@ -8,16 +14,26 @@ The entire authentication system has been built, integrated, and tested.
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“‹ DO THIS NOW (5 minutes)
 
 ### Step 1ï¸âƒ£: Open Database Tool
+=======
+## 📋 DO THIS NOW (5 minutes)
+
+### Step 1️⃣: Open Database Tool
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 Choose ONE:
 
 **Option A: PhpMyAdmin (Easiest)**
 ```
 1. Open http://localhost/phpmyadmin in browser
 2. Login if required
+<<<<<<< HEAD
 3. Click on database "esportdevvvvvv-2" in left sidebar
+=======
+3. Click on database "esportdevvvvvv" in left sidebar
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 **Option B: MySQL Command Line**
@@ -28,7 +44,11 @@ Choose ONE:
 
 ---
 
+<<<<<<< HEAD
 ### Step 2ï¸âƒ£: Run Setup Script
+=======
+### Step 2️⃣: Run Setup Script
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 Do THIS based on your choice above:
 
 **If using PhpMyAdmin:**
@@ -38,18 +58,30 @@ Do THIS based on your choice above:
 3. Navigate to: C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36\database\
 4. Select: setup_users.sql
 5. Click "Go" button
+<<<<<<< HEAD
 6. Wait for confirmation âœ“
+=======
+6. Wait for confirmation ✓
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 **If using MySQL Command Line:**
 ```
 Run this command:
+<<<<<<< HEAD
 mysql -h 127.0.0.1 -u root -p esportdevvvvvv-2 < C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36\database\setup_users.sql
+=======
+mysql -h 127.0.0.1 -u root -p esportdevvvvvv < C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36\database\setup_users.sql
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ---
 
+<<<<<<< HEAD
 ### Step 3ï¸âƒ£: Verify It Worked
+=======
+### Step 3️⃣: Verify It Worked
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 Run this query (in PhpMyAdmin SQL tab or MySQL prompt):
 
 ```sql
@@ -60,15 +92,22 @@ SELECT COUNT(*) as user_count FROM users;
 
 ---
 
+<<<<<<< HEAD
 ## ðŸš€ NOW START THE APP
 
 ### Step 4ï¸âƒ£: Open PowerShell
+=======
+## 🚀 NOW START THE APP
+
+### Step 4️⃣: Open PowerShell
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 Windows PowerShell
 cd C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36
 .\launch.ps1
 ```
 
+<<<<<<< HEAD
 ### Step 5ï¸âƒ£: Wait for Login Screen
 Application will:
 1. âœ“ Check Java version
@@ -78,6 +117,17 @@ Application will:
 ---
 
 ## ðŸ§ª TEST TIME!
+=======
+### Step 5️⃣: Wait for Login Screen
+Application will:
+1. ✓ Check Java version
+2. ✓ Compile project
+3. ✓ Show login window
+
+---
+
+## 🧪 TEST TIME!
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Test 1: Admin Login
 **Input:**
@@ -85,11 +135,19 @@ Application will:
 - Password: `admin123`
 
 **Expected:**
+<<<<<<< HEAD
 - âœ“ Dashboard loads
 - âœ“ Top nav shows: `admin (admin)`
 - âœ“ Account menu has "Admin Panel" option
 
 **Result:** ________ (mark as âœ“ or âœ—)
+=======
+- ✓ Dashboard loads
+- ✓ Top nav shows: `admin (admin)`
+- ✓ Account menu has "Admin Panel" option
+
+**Result:** ________ (mark as ✓ or ✗)
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ---
 
@@ -99,11 +157,19 @@ Application will:
 - Password: `player123`
 
 **Expected:**
+<<<<<<< HEAD
 - âœ“ Dashboard loads
 - âœ“ Top nav shows: `player1 (player)`
 - âœ“ Account menu does NOT have "Admin Panel"
 
 **Result:** ________ (mark as âœ“ or âœ—)
+=======
+- ✓ Dashboard loads
+- ✓ Top nav shows: `player1 (player)`
+- ✓ Account menu does NOT have "Admin Panel"
+
+**Result:** ________ (mark as ✓ or ✗)
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ---
 
@@ -113,10 +179,17 @@ Application will:
 - Password: `wrongpassword`
 
 **Expected:**
+<<<<<<< HEAD
 - âœ“ Error message appears
 - âœ“ Stay on login screen
 
 **Result:** ________ (mark as âœ“ or âœ—)
+=======
+- ✓ Error message appears
+- ✓ Stay on login screen
+
+**Result:** ________ (mark as ✓ or ✗)
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ---
 
@@ -126,6 +199,7 @@ Application will:
 - Click "Logout"
 
 **Expected:**
+<<<<<<< HEAD
 - âœ“ Return to login screen
 - âœ“ Session cleared
 
@@ -134,6 +208,16 @@ Application will:
 ---
 
 ## âœ… All Tests Passed?
+=======
+- ✓ Return to login screen
+- ✓ Session cleared
+
+**Result:** ________ (mark as ✓ or ✗)
+
+---
+
+## ✅ All Tests Passed?
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 If YES, then:
 ```bash
@@ -150,6 +234,7 @@ If NO, check:
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“š Documentation
 
 ### If you need to understand what was built:
@@ -167,6 +252,25 @@ If NO, check:
 ---
 
 ## ðŸ”‘ Test Account Passwords
+=======
+## 📚 Documentation
+
+### If you need to understand what was built:
+→ Read: `AUTHENTICATION_QUICK_START.md` (5 min read)
+
+### If something doesn't work:
+→ Read: `LOGIN_GUIDE.md` (Troubleshooting section)
+
+### If you want technical details:
+→ Read: `AUTHENTICATION_IMPLEMENTATION.md`
+
+### If you want visual diagrams:
+→ Read: `AUTHENTICATION_ARCHITECTURE.md`
+
+---
+
+## 🔑 Test Account Passwords
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ```
 Admin:
@@ -186,7 +290,11 @@ All passwords are hashed in the database (SHA-256).
 
 ---
 
+<<<<<<< HEAD
 ## âš ï¸ If Database Setup Fails
+=======
+## ⚠️ If Database Setup Fails
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Error: "Users table doesn't exist"
 **Solution:**
@@ -200,7 +308,11 @@ Try running it again through PhpMyAdmin.
 ```
 1. Make sure MySQL/MariaDB is running
 2. Check XAMPP control panel shows MySQL as "Running"
+<<<<<<< HEAD
 3. Verify database name is "esportdevvvvvv-2" (with v's)
+=======
+3. Verify database name is "esportdevvvvvv" (with v's)
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ### Error: "Access denied for user 'root'"
@@ -213,7 +325,11 @@ Or use PhpMyAdmin instead (easier).
 
 ---
 
+<<<<<<< HEAD
 ## ðŸŽ¯ Success Criteria
+=======
+## 🎯 Success Criteria
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 Mark these as you go:
 
@@ -228,11 +344,19 @@ Mark these as you go:
 - [ ] Admin sees Admin Panel
 - [ ] Player doesn't see Admin Panel
 
+<<<<<<< HEAD
 **All checked?** â†’ **ðŸŽ‰ SUCCESS! System is working!**
 
 ---
 
 ## ðŸ“ž Quick Help
+=======
+**All checked?** → **🎉 SUCCESS! System is working!**
+
+---
+
+## 📞 Quick Help
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 | Issue | Quick Fix |
 |-------|-----------|
@@ -244,17 +368,30 @@ Mark these as you go:
 
 ---
 
+<<<<<<< HEAD
 ## ðŸŽ‰ YOU DID IT!
+=======
+## 🎉 YOU DID IT!
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 When all tests pass:
 
 ```
+<<<<<<< HEAD
 âœ… Authentication system working
 âœ… Role-based access control active
 âœ… Database connected
 âœ… Users can login securely
 âœ… Admin panel visible to admins
 âœ… Ready for production!
+=======
+✅ Authentication system working
+✅ Role-based access control active
+✅ Database connected
+✅ Users can login securely
+✅ Admin panel visible to admins
+✅ Ready for production!
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ---
@@ -263,5 +400,9 @@ When all tests pass:
 **Difficulty:** Easy (follow steps exactly)
 **Questions?** Check LOGIN_GUIDE.md
 
+<<<<<<< HEAD
 Good luck! ðŸš€
+=======
+Good luck! 🚀
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 

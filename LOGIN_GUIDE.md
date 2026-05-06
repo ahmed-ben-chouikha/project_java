@@ -10,11 +10,19 @@ Run the SQL setup script in your MySQL/MariaDB database:
 
 ```bash
 # Using MySQL command line
+<<<<<<< HEAD
 mysql -h 127.0.0.1 -u root -p esportdevvvvvv-2 < database/setup_users.sql
 
 # Or import through PhpMyAdmin:
 # 1. Open PhpMyAdmin
 # 2. Select the "esportdevvvvvv-2" database
+=======
+mysql -h 127.0.0.1 -u root -p esportdevvvvvv < database/setup_users.sql
+
+# Or import through PhpMyAdmin:
+# 1. Open PhpMyAdmin
+# 2. Select the "esportdevvvvvv" database
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 # 3. Click "Import"
 # 4. Choose the file: database/setup_users.sql
 # 5. Click "Go"
@@ -94,20 +102,32 @@ The top navigation bar will show:
 
 ## Key Features Implemented
 
+<<<<<<< HEAD
 ### Authentication âœ…
+=======
+### Authentication ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - Email + Password login validation
 - Database password verification
 - Session management
 - Active/Inactive user status checking
 
+<<<<<<< HEAD
 ### Session Management âœ…
+=======
+### Session Management ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - User ID stored in session
 - Username stored in session
 - User role stored in session
 - User email stored in session
 - Session cleared on logout
 
+<<<<<<< HEAD
 ### Role-Based Access Control âœ…
+=======
+### Role-Based Access Control ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - Different menu items based on role
 - Admin Panel only visible to admins
 - Access control checks on sensitive operations
@@ -116,6 +136,7 @@ The top navigation bar will show:
 
 ```
 src/main/java/edu/connexion3a36/
+<<<<<<< HEAD
 â”œâ”€â”€ entities/
 â”‚   â””â”€â”€ User.java                 (User entity with getters/setters)
 â”œâ”€â”€ services/
@@ -136,6 +157,28 @@ resources/views/
 â”‚   â””â”€â”€ login.fxml               (Login screen)
 â””â”€â”€ common/
     â””â”€â”€ TopNavBar.fxml           (Updated: dynamic account menu)
+=======
+├── entities/
+│   └── User.java                 (User entity with getters/setters)
+├── services/
+│   └── UserService.java          (Database authentication)
+└── rankup/
+    ├── app/
+    │   ├── SessionManager.java   (Updated: stores email and userId)
+    │   └── RankUpApp.java        (Updated: new methods for email/userId)
+    └── controllers/
+        └── TopNavController.java (Updated: role-based menu display)
+
+database/
+├── setup_users.sql               (Complete setup script with test data)
+└── users_table.sql               (Table creation only)
+
+resources/views/
+├── auth/
+│   └── login.fxml               (Login screen)
+└── common/
+    └── TopNavBar.fxml           (Updated: dynamic account menu)
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ## Password Management

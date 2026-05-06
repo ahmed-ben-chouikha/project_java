@@ -1,14 +1,24 @@
 # RankUp E-Sports Platform - Authentication Implementation Summary
 
+<<<<<<< HEAD
 ## âœ… Implementation Complete
+=======
+## ✅ Implementation Complete
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 The authentication system with role-based access control (RBAC) has been fully implemented and integrated into the RankUp E-Sports Platform.
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“‹ What Was Implemented
 
 ### 1. **User Entity** âœ…
+=======
+## 📋 What Was Implemented
+
+### 1. **User Entity** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/java/edu/connexion3a36/entities/User.java`
 
 - Complete User class with email, password, username, role, and status fields
@@ -16,7 +26,11 @@ The authentication system with role-based access control (RBAC) has been fully i
 - Methods: `isAdmin()` to check admin status
 - Proper equals/hashCode implementations
 
+<<<<<<< HEAD
 ### 2. **Database Schema** âœ…
+=======
+### 2. **Database Schema** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `database/setup_users.sql` and `database/users_table.sql`
 
 Created `users` table with:
@@ -29,7 +43,11 @@ Created `users` table with:
 - Timestamps (created_at, updated_at)
 - Indexes on email, username, and role for performance
 
+<<<<<<< HEAD
 ### 3. **UserService** âœ…
+=======
+### 3. **UserService** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/java/edu/connexion3a36/services/UserService.java`
 
 Complete service layer with methods:
@@ -44,7 +62,11 @@ Complete service layer with methods:
 - Password hashing with SHA-256
 - Password verification
 
+<<<<<<< HEAD
 ### 4. **Authentication Controller** âœ…
+=======
+### 4. **Authentication Controller** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/java/edu/connexion3a36/rankup/controllers/AuthController.java`
 
 Updated login controller with:
@@ -54,7 +76,11 @@ Updated login controller with:
 - Session management after successful login
 - User feedback with alert dialogs (success/error/info)
 
+<<<<<<< HEAD
 ### 5. **Session Manager** âœ…
+=======
+### 5. **Session Manager** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/java/edu/connexion3a36/rankup/app/SessionManager.java`
 
 Enhanced with:
@@ -64,7 +90,11 @@ Enhanced with:
 - `isPlayer()` - Check if current user is player (NEW)
 - `clear()` - Clear session on logout
 
+<<<<<<< HEAD
 ### 6. **RankUpApp Updates** âœ…
+=======
+### 6. **RankUpApp Updates** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java`
 
 Added convenience methods:
@@ -73,7 +103,11 @@ Added convenience methods:
 - `setCurrentUserId(userId)`
 - `getCurrentUserId()`
 
+<<<<<<< HEAD
 ### 7. **Top Navigation Controller** âœ…
+=======
+### 7. **Top Navigation Controller** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/java/edu/connexion3a36/rankup/controllers/TopNavController.java`
 
 Enhanced with:
@@ -83,7 +117,11 @@ Enhanced with:
 - Access control check for admin operations
 - Proper initialization of navigation on controller load
 
+<<<<<<< HEAD
 ### 8. **Top Navigation UI** âœ…
+=======
+### 8. **Top Navigation UI** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/resources/views/common/TopNavBar.fxml`
 
 Updates:
@@ -91,7 +129,11 @@ Updates:
 - Dynamic text updates in controller
 - Conditional menu items based on role
 
+<<<<<<< HEAD
 ### 9. **Test Credentials** âœ…
+=======
+### 9. **Test Credentials** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 Pre-configured test accounts with SHA-256 hashed passwords:
 
 ```
@@ -111,28 +153,44 @@ Player Account 2:
   Role: player
 ```
 
+<<<<<<< HEAD
 ### 10. **Password Hash Generator** âœ…
+=======
+### 10. **Password Hash Generator** ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 **File:** `src/main/java/edu/connexion3a36/tools/PasswordHashGenerator.java`
 
 Utility for generating SHA-256 hashes for test data and documentation.
 
 ---
 
+<<<<<<< HEAD
 ## ðŸš€ How to Test
+=======
+## 🚀 How to Test
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Step 1: Import Users Table
 Run the setup script in your database:
 
 **Via PhpMyAdmin:**
 1. Open http://localhost/phpmyadmin
+<<<<<<< HEAD
 2. Select database `esportdevvvvvv-2`
+=======
+2. Select database `esportdevvvvvv`
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 3. Click "Import" tab
 4. Choose `database/setup_users.sql`
 5. Click "Go"
 
 **Via Command Line:**
 ```bash
+<<<<<<< HEAD
 mysql -h 127.0.0.1 -u root esportdevvvvvv-2 < database/setup_users.sql
+=======
+mysql -h 127.0.0.1 -u root esportdevvvvvv < database/setup_users.sql
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 **Via Direct SQL Query:**
@@ -155,40 +213,71 @@ cd C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36
 - Expected: Dashboard loads, top nav shows "player1 (player)", No Admin Panel in menu
 
 ### Step 5: Test Role-Based Access
+<<<<<<< HEAD
 - Log in as admin, click "Admin Panel" â†’ should load admin dashboard
 - Log in as player, try to access admin features â†’ should show error
+=======
+- Log in as admin, click "Admin Panel" → should load admin dashboard
+- Log in as player, try to access admin features → should show error
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - Logout and verify session clears
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ” Security Features
 
 âœ… **Password Hashing**
+=======
+## 🔐 Security Features
+
+✅ **Password Hashing**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - SHA-256 hashing algorithm
 - Passwords never stored in plaintext
 - Ready for BCrypt upgrade (see code comments)
 
+<<<<<<< HEAD
 âœ… **Active User Check**
 - Only active users can authenticate
 - Inactive users locked out
 
 âœ… **Role-Based Access Control**
+=======
+✅ **Active User Check**
+- Only active users can authenticate
+- Inactive users locked out
+
+✅ **Role-Based Access Control**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - Admin and Player roles
 - Different UI based on role
 - Access checks on sensitive operations
 
+<<<<<<< HEAD
 âœ… **Session Management**
+=======
+✅ **Session Management**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - User info stored securely in memory
 - Session cleared on logout
 - Ready for additional session features
 
+<<<<<<< HEAD
 âœ… **Input Validation**
+=======
+✅ **Input Validation**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - Email and password validation
 - SQL injection prevention with PreparedStatements
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“Š Database Schema
+=======
+## 📊 Database Schema
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ```sql
 CREATE TABLE users (
@@ -209,23 +298,35 @@ CREATE TABLE users (
 
 ---
 
+<<<<<<< HEAD
 ## ðŸŽ¯ User Interface Changes
+=======
+## 🎯 User Interface Changes
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Login Screen (Before)
 - Generic login without database validation
 - Random role assignment based on email format
 
 ### Login Screen (Now)
+<<<<<<< HEAD
 - âœ… Database authentication required
 - âœ… Input validation
 - âœ… Error messages for invalid credentials
 - âœ… Success confirmation on login
+=======
+- ✅ Database authentication required
+- ✅ Input validation
+- ✅ Error messages for invalid credentials
+- ✅ Success confirmation on login
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Top Navigation (Before)
 - Generic "Account" button
 - Standard menu items
 
 ### Top Navigation (Now)
+<<<<<<< HEAD
 - âœ… Dynamic button text: "username (role)"
 - âœ… "Admin Panel" menu item for admins only
 - âœ… Role-aware interface
@@ -262,10 +363,49 @@ RankUpApp/
 â”‚   â””â”€â”€ users_table.sql                  (NEW)
 â”‚
 â””â”€â”€ LOGIN_GUIDE.md                       (NEW)
+=======
+- ✅ Dynamic button text: "username (role)"
+- ✅ "Admin Panel" menu item for admins only
+- ✅ Role-aware interface
+
+---
+
+## 📁 File Structure
+
+```
+RankUpApp/
+├── src/main/java/edu/connexion3a36/
+│   ├── entities/
+│   │   └── User.java                    (NEW)
+│   ├── services/
+│   │   └── UserService.java            (NEW)
+│   ├── tools/
+│   │   └── PasswordHashGenerator.java   (NEW)
+│   └── rankup/
+│       ├── app/
+│       │   ├── SessionManager.java      (UPDATED)
+│       │   └── RankUpApp.java           (UPDATED)
+│       └── controllers/
+│           ├── AuthController.java      (UPDATED)
+│           └── TopNavController.java    (UPDATED)
+│
+├── src/main/resources/views/
+│   ├── auth/
+│   │   └── login.fxml
+│   └── common/
+│       └── TopNavBar.fxml               (UPDATED)
+│
+├── database/
+│   ├── setup_users.sql                  (NEW)
+│   └── users_table.sql                  (NEW)
+│
+└── LOGIN_GUIDE.md                       (NEW)
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ”„ Authentication Flow
 
 ```
@@ -279,22 +419,49 @@ RankUpApp/
                     â†“
 5. Password hash comparison (SHA-256)
                     â†“
+=======
+## 🔄 Authentication Flow
+
+```
+1. User enters credentials in Login Screen
+                    ↓
+2. AuthController validates input (not empty)
+                    ↓
+3. UserService.authenticate() called
+                    ↓
+4. Database query: SELECT ... WHERE email = ? AND status = 'active'
+                    ↓
+5. Password hash comparison (SHA-256)
+                    ↓
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 6. If match:
    - User object created
    - Session stored (username, email, role, userId)
    - Dashboard loads
    - RankUpApp.showBase() called
+<<<<<<< HEAD
                     â†“
 7. TopNavController.initialize() updates navigation
    - Button text shows "username (role)"
    - Admin Panel added if user is admin
                     â†“
+=======
+                    ↓
+7. TopNavController.initialize() updates navigation
+   - Button text shows "username (role)"
+   - Admin Panel added if user is admin
+                    ↓
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 8. User navigates application with role-based restrictions
 ```
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ§ª Test Scenarios
+=======
+## 🧪 Test Scenarios
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Scenario 1: Admin Login
 ```
@@ -347,7 +514,11 @@ Expected:
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ”® Future Enhancements
+=======
+## 🔮 Future Enhancements
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 - [ ] Implement BCrypt for production password hashing
 - [ ] Add "Sign Up" functionality
@@ -362,6 +533,7 @@ Expected:
 
 ---
 
+<<<<<<< HEAD
 ## âœ¨ Key Features Summary
 
 | Feature | Status | Details |
@@ -380,6 +552,26 @@ Expected:
 ---
 
 ## ðŸ“ Notes
+=======
+## ✨ Key Features Summary
+
+| Feature | Status | Details |
+|---------|--------|---------|
+| Email/Password Login | ✅ | Database-validated |
+| Role-Based UI | ✅ | Admin panel conditional display |
+| Session Management | ✅ | User info stored in memory |
+| Password Hashing | ✅ | SHA-256 implementation |
+| Input Validation | ✅ | Email/password required |
+| Access Control | ✅ | Role-based restrictions |
+| Error Handling | ✅ | User-friendly messages |
+| User Entity | ✅ | Complete with all fields |
+| Database Schema | ✅ | Optimized with indexes |
+| Test Credentials | ✅ | Pre-configured accounts |
+
+---
+
+## 📝 Notes
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 1. **Current Password Hashing:** SHA-256 (suitable for development/testing)
 2. **Production Recommendation:** Upgrade to BCrypt or Argon2
@@ -389,7 +581,11 @@ Expected:
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“ž Support
+=======
+## 📞 Support
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 For issues or questions:
 1. Check the LOGIN_GUIDE.md for troubleshooting
@@ -400,5 +596,9 @@ For issues or questions:
 ---
 
 Generated: 2026-04-29
+<<<<<<< HEAD
 Status: Ready for Testing âœ…
+=======
+Status: Ready for Testing ✅
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 

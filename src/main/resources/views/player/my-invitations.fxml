@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="edu.connexion3a36.rankup.controllers.player.MyInvitationsController"
+      spacing="16" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <VBox spacing="6" styleClass="card">
+            <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+            <children>
+                <Label text="My Team Invitations" styleClass="page-title" />
+                <Label text="View and manage your pending team invitations" styleClass="page-subtitle" wrapText="true" />
+            </children>
+        </VBox>
+
+        <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            <children>
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <children>
+                        <Label fx:id="statusLabel" text="Loading invitations..." styleClass="section-title" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="Refresh" onAction="#refreshInvitations" styleClass="btn-secondary" />
+                    </children>
+                </HBox>
+                <TableView fx:id="invitationsTable" prefHeight="400" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="teamIdCol" text="Team ID" prefWidth="70" />
+                        <TableColumn fx:id="teamNameCol" text="Team Name" prefWidth="200" />
+                        <TableColumn fx:id="teamGameCol" text="Game" prefWidth="120" />
+                        <TableColumn fx:id="teamLevelCol" text="Level" prefWidth="100" />
+                        <TableColumn fx:id="messageCol" text="Message" prefWidth="300" />
+                        <TableColumn fx:id="createdAtCol" text="Received" prefWidth="120" />
+                        <TableColumn fx:id="actionsCol" text="Actions" prefWidth="180" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</VBox>

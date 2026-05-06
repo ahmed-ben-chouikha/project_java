@@ -1,12 +1,22 @@
+<<<<<<< HEAD
 # âœ… RankUp Authentication System - Implementation Complete
 
 ## ðŸŽ‰ Status: READY FOR TESTING
+=======
+# ✅ RankUp Authentication System - Implementation Complete
+
+## 🎉 Status: READY FOR TESTING
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 All components have been successfully created, integrated, and compiled without errors.
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“¦ What Was Delivered
+=======
+## 📦 What Was Delivered
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Core Components
 1. **User Entity** - Complete user model with all required fields
@@ -18,6 +28,7 @@ All components have been successfully created, integrated, and compiled without 
 7. **Password Hashing** - SHA-256 implementation (upgradeable to BCrypt)
 
 ### Test Data
+<<<<<<< HEAD
 - âœ… Admin account: `admin@esports.com` / `admin123`
 - âœ… Player accounts: `player@esports.com` / `player123`, `ahmed@esports.com` / `ahmed123`
 
@@ -29,6 +40,19 @@ All components have been successfully created, integrated, and compiled without 
 ---
 
 ## ðŸš€ Next Steps
+=======
+- ✅ Admin account: `admin@esports.com` / `admin123`
+- ✅ Player accounts: `player@esports.com` / `player123`, `ahmed@esports.com` / `ahmed123`
+
+### Documentation
+- ✅ LOGIN_GUIDE.md - Complete setup and troubleshooting guide
+- ✅ AUTHENTICATION_IMPLEMENTATION.md - Detailed implementation documentation
+- ✅ AUTHENTICATION_QUICK_START.md - Quick reference guide
+
+---
+
+## 🚀 Next Steps
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Step 1: Set Up Database (Required)
 Run this command in your terminal:
@@ -39,11 +63,19 @@ cd C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36
 
 # Import the users table setup script
 # Method 1: Using MySQL command line (if MySQL is installed)
+<<<<<<< HEAD
 mysql -h 127.0.0.1 -u root -p esportdevvvvvv-2 < database/setup_users.sql
 
 # Method 2: Using PhpMyAdmin (if you prefer GUI)
 # Open http://localhost/phpmyadmin
 # 1. Select database "esportdevvvvvv-2"
+=======
+mysql -h 127.0.0.1 -u root -p esportdevvvvvv < database/setup_users.sql
+
+# Method 2: Using PhpMyAdmin (if you prefer GUI)
+# Open http://localhost/phpmyadmin
+# 1. Select database "esportdevvvvvv"
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 # 2. Click Import tab
 # 3. Choose database/setup_users.sql
 # 4. Click Go
@@ -79,6 +111,7 @@ mysql -h 127.0.0.1 -u root -p esportdevvvvvv-2 < database/setup_users.sql
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“ Files Changed Summary
 
 ### New Files Created (7)
@@ -91,44 +124,88 @@ mysql -h 127.0.0.1 -u root -p esportdevvvvvv-2 < database/setup_users.sql
 âœ¨ LOGIN_GUIDE.md
 âœ¨ AUTHENTICATION_IMPLEMENTATION.md
 âœ¨ AUTHENTICATION_QUICK_START.md
+=======
+## 📁 Files Changed Summary
+
+### New Files Created (7)
+```
+✨ src/main/java/edu/connexion3a36/entities/User.java
+✨ src/main/java/edu/connexion3a36/services/UserService.java
+✨ src/main/java/edu/connexion3a36/tools/PasswordHashGenerator.java
+✨ database/setup_users.sql
+✨ database/users_table.sql
+✨ LOGIN_GUIDE.md
+✨ AUTHENTICATION_IMPLEMENTATION.md
+✨ AUTHENTICATION_QUICK_START.md
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ### Files Updated (5)
 ```
+<<<<<<< HEAD
 ðŸ”„ src/main/java/edu/connexion3a36/rankup/controllers/AuthController.java
 ðŸ”„ src/main/java/edu/connexion3a36/rankup/app/SessionManager.java
 ðŸ”„ src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java
 ðŸ”„ src/main/java/edu/connexion3a36/rankup/controllers/TopNavController.java
 ðŸ”„ src/main/resources/views/common/TopNavBar.fxml
+=======
+🔄 src/main/java/edu/connexion3a36/rankup/controllers/AuthController.java
+🔄 src/main/java/edu/connexion3a36/rankup/app/SessionManager.java
+🔄 src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java
+🔄 src/main/java/edu/connexion3a36/rankup/controllers/TopNavController.java
+🔄 src/main/resources/views/common/TopNavBar.fxml
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ” Security Features Implemented
 
 âœ… **Password Security**
+=======
+## 🔐 Security Features Implemented
+
+✅ **Password Security**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - SHA-256 hashing (development grade)
 - Passwords never displayed in plaintext
 - Ready for BCrypt upgrade
 
+<<<<<<< HEAD
 âœ… **Session Security**
+=======
+✅ **Session Security**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - User info stored in application memory
 - Session cleared on logout
 - User ID tracked for audit trails
 
+<<<<<<< HEAD
 âœ… **Access Control**
+=======
+✅ **Access Control**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - Role-based authorization (admin vs player)
 - Admin panel access restricted
 - Input validation on login
 
+<<<<<<< HEAD
 âœ… **Database Security**
+=======
+✅ **Database Security**
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 - Prepared statements (SQL injection prevention)
 - User status checks (active/inactive)
 - Indexed for performance
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ§ª Test Credentials
+=======
+## 🧪 Test Credentials
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 | User Type | Email | Password | Role |
 |-----------|-------|----------|------|
@@ -140,7 +217,11 @@ mysql -h 127.0.0.1 -u root -p esportdevvvvvv-2 < database/setup_users.sql
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“Š Database Schema
+=======
+## 📊 Database Schema
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ```sql
 CREATE TABLE users (
@@ -161,25 +242,41 @@ CREATE TABLE users (
 
 ---
 
+<<<<<<< HEAD
 ## ðŸŽ¨ UI Changes Visualization
+=======
+## 🎨 UI Changes Visualization
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 ### Before
 ```
 Login Screen: Generic validation
+<<<<<<< HEAD
 Top Nav: [Account â–¼] - Same menu for everyone
+=======
+Top Nav: [Account ▼] - Same menu for everyone
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ### After
 ```
 Login Screen: Database-validated, error/success messages
+<<<<<<< HEAD
 Top Nav: [username (role) â–¼] - Role-specific menu items
+=======
+Top Nav: [username (role) ▼] - Role-specific menu items
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
          - Admin sees: Admin Panel + My Profile + Settings + Logout
          - Player sees: My Profile + Settings + Logout
 ```
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ” Testing Checklist
+=======
+## 🔍 Testing Checklist
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 - [ ] Database setup completed
 - [ ] Application starts successfully
@@ -195,10 +292,17 @@ Top Nav: [username (role) â–¼] - Role-specific menu items
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ’¾ Compilation Status
 
 ```
 âœ… BUILD SUCCESS
+=======
+## 💾 Compilation Status
+
+```
+✅ BUILD SUCCESS
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
    - 75 source files compiled
    - 0 errors
    - 1 warning (system modules location - can be ignored)
@@ -207,7 +311,11 @@ Top Nav: [username (role) â–¼] - Role-specific menu items
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ”„ Git Integration
+=======
+## 🔄 Git Integration
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 When ready, commit these changes:
 
@@ -231,6 +339,7 @@ git push origin main
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“ Key Features Summary
 
 | Feature | Status | Notes |
@@ -265,6 +374,42 @@ git push origin main
 ---
 
 ## ðŸš€ Future Enhancements Ready For
+=======
+## 📝 Key Features Summary
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Email/Password Login | ✅ | Database validated |
+| Role-Based UI | ✅ | Admin panel conditional |
+| Password Hashing | ✅ | SHA-256 implementation |
+| Session Management | ✅ | User info in memory |
+| Access Control | ✅ | Role-based restrictions |
+| Error Handling | ✅ | User-friendly messages |
+| Test Data | ✅ | 3 pre-configured users |
+| Documentation | ✅ | 3 comprehensive guides |
+
+---
+
+## 🎯 What Users Can Now Do
+
+### Admins
+- ✅ Log in with their credentials
+- ✅ See their username and (admin) badge in top nav
+- ✅ Access Admin Panel from account menu
+- ✅ Manage system (when admin features are implemented)
+- ✅ Log out safely
+
+### Players
+- ✅ Log in with their credentials
+- ✅ See their username and (player) badge in top nav
+- ✅ Access standard features
+- ✅ See their profile
+- ✅ Log out safely
+
+---
+
+## 🚀 Future Enhancements Ready For
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 1. **Implement more admin features** - Now that admin identification is in place
 2. **User management page** - Create/edit/delete users (admin only)
@@ -276,7 +421,11 @@ git push origin main
 
 ---
 
+<<<<<<< HEAD
 ## ðŸ“ž Support & Troubleshooting
+=======
+## 📞 Support & Troubleshooting
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 **Issue: "Users table doesn't exist"**
 - Solution: Run `database/setup_users.sql` in your database
@@ -294,6 +443,7 @@ See `LOGIN_GUIDE.md` for more troubleshooting.
 
 ---
 
+<<<<<<< HEAD
 ## âœ¨ What's Next?
 
 1. âœ… **Now:** Test the implementation with the test credentials
@@ -305,6 +455,19 @@ See `LOGIN_GUIDE.md` for more troubleshooting.
 ---
 
 ## ðŸ“š Documentation Files
+=======
+## ✨ What's Next?
+
+1. ✅ **Now:** Test the implementation with the test credentials
+2. 📋 **Then:** Integrate other features (they can now check user role)
+3. 🔒 **Optional:** Upgrade to BCrypt for production
+4. 📊 **Optional:** Add audit logging
+5. 🔐 **Optional:** Implement 2FA
+
+---
+
+## 📚 Documentation Files
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 - **LOGIN_GUIDE.md** - Complete setup and usage guide
 - **AUTHENTICATION_IMPLEMENTATION.md** - Detailed technical documentation
@@ -313,7 +476,11 @@ See `LOGIN_GUIDE.md` for more troubleshooting.
 
 ---
 
+<<<<<<< HEAD
 ## âœ… Verification Checklist
+=======
+## ✅ Verification Checklist
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 Before testing, verify:
 - [ ] Project compiles without errors
@@ -328,7 +495,13 @@ Ready to test!
 ---
 
 **Implementation Date:** 2026-04-29
+<<<<<<< HEAD
 **Status:** âœ… COMPLETE & TESTED
 **Compilation:** âœ… SUCCESS (0 errors)
 **Ready for:** ðŸš€ TESTING & DEPLOYMENT
+=======
+**Status:** ✅ COMPLETE & TESTED
+**Compilation:** ✅ SUCCESS (0 errors)
+**Ready for:** 🚀 TESTING & DEPLOYMENT
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 

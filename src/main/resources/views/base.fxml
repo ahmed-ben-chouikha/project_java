@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
@@ -12,12 +13,14 @@
         <fx:include source="common/SideNavigation.fxml" />
     </left>
     <center>
-        <StackPane styleClass="content-shell">
-            <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
-            <children>
-                <StackPane fx:id="contentPane" styleClass="content-pane" />
-            </children>
-        </StackPane>
+        <ScrollPane fitToWidth="true" styleClass="content-scroll" pannable="false">
+            <StackPane styleClass="content-shell">
+                <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                <children>
+                    <StackPane fx:id="contentPane" styleClass="content-pane" />
+                </children>
+            </StackPane>
+        </ScrollPane>
     </center>
 </BorderPane>
 

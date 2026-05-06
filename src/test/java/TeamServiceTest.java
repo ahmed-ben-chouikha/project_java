@@ -25,8 +25,9 @@ public class TeamServiceTest {
         // Test 2: Add a new team
         System.out.println("✓ TEST 2: Add new team");
         Team newTeam = new Team("Test Team", "France", "This is a test team", "League of Legends", "Pro");
-        if (teamService.addTeam(newTeam)) {
-            System.out.println("  ✅ Team added successfully!\n");
+        int teamId = teamService.addTeam(newTeam);
+        if (teamId > 0) {
+            System.out.println("  ✅ Team added successfully! (ID: " + teamId + ")\n");
         } else {
             System.out.println("  ❌ Failed to add team\n");
         }

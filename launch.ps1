@@ -1,15 +1,16 @@
-# EsportDev Arena Launcher
-# This script sets up Maven PATH and runs the app
+# RankUp E-Sports Launcher
+# Script pour lancer l'application avec Java 17 et Maven
 
 Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host "   EsportDev Arena - JavaFX Esports Dashboard" -ForegroundColor Cyan
+Write-Host "   RankUp E-Sports Platform" -ForegroundColor Cyan
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Use JDK (not JRE) and Maven extracted folder
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-22"
-$env:PATH = "$env:JAVA_HOME\bin;C:\Apache\apache-maven-3.9.6\bin;" + $env:PATH
+$javaExe = $null
+function Resolve-JavaHome {
+    $candidates = @()
 
+<<<<<<< HEAD
 Write-Host "[1/3] Checking Maven installation..." -ForegroundColor Yellow
 $mavenCheck = & mvn --version 2>&1
 if ($LASTEXITCODE -eq 0) {
@@ -25,21 +26,129 @@ Write-Host ""
 Write-Host "[2/3] Navigating to project..." -ForegroundColor Yellow
 cd "C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36"
 Write-Host "✓ Project directory ready" -ForegroundColor Green
+=======
+    if ($env:JAVA_HOME) {
+        $candidates += $env:JAVA_HOME
+    }
+
+    $searchRoots = @(
+        'C:\Program Files\Java',
+        'C:\Program Files\Eclipse Adoptium',
+        'C:\Program Files\Microsoft\jdk',
+        'C:\Program Files\Zulu',
+        'C:\Program Files\Amazon Corretto',
+        'C:\Java'
+    )
+
+    foreach ($root in $searchRoots) {
+        if (Test-Path $root) {
+            Get-ChildItem $root -Directory | ForEach-Object { $candidates += $_.FullName }
+        }
+    }
+
+    foreach ($candidate in $candidates | Select-Object -Unique) {
+        $javaPath = Join-Path $candidate 'bin\java.exe'
+        if (Test-Path $javaPath) {
+            return $candidate
+        }
+    }
+
+    return $null
+}
+
+$detectedJavaHome = Resolve-JavaHome
+if ($detectedJavaHome) {
+    $env:JAVA_HOME = $detectedJavaHome
+    if ($env:Path -notlike "$detectedJavaHome\bin*") {
+        $env:Path = "$detectedJavaHome\bin;" + $env:Path
+    }
+    $javaExe = Join-Path $detectedJavaHome 'bin\java.exe'
+}
+
+if (-not $javaExe) {
+    Write-Host "ERREUR: Java introuvable. Installez un JDK 17+ ou definissez JAVA_HOME." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "[1/2] Verification de Java..." -ForegroundColor Yellow
+& $javaExe -version 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERREUR: Impossible de verifier Java." -ForegroundColor Red
+    exit 1
+}
+
+$javaVersionText = (& $javaExe -version 2>&1 | Select-Object -First 1)
+if ($javaVersionText -match 'version "([0-9]+)(?:\.([0-9]+))?') {
+    $major = [int]$Matches[1]
+    if ($major -eq 1 -or $major -lt 17) {
+        Write-Host "ERREUR: Java 17+ requis. La version detectee est: $javaVersionText" -ForegroundColor Red
+        Write-Host "Installez un JDK 17 ou 21, puis relancez le script." -ForegroundColor Yellow
+        exit 1
+    }
+}
+
+Write-Host "[OK] Java pret" -ForegroundColor Green
+
+function Import-LocalEnvFile {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$FilePath
+    )
+
+    if (-not (Test-Path $FilePath)) {
+        return
+    }
+
+    Get-Content $FilePath | ForEach-Object {
+        $line = $_.Trim()
+        if ([string]::IsNullOrWhiteSpace($line) -or $line.StartsWith('#')) {
+            return
+        }
+
+        $parts = $line -split '=', 2
+        if ($parts.Length -ne 2) {
+            return
+        }
+
+        $name = $parts[0].Trim()
+        $value = $parts[1].Trim()
+
+        if ($value.StartsWith('"') -and $value.EndsWith('"') -and $value.Length -ge 2) {
+            $value = $value.Substring(1, $value.Length - 2)
+        }
+
+        if ($name) {
+            [System.Environment]::SetEnvironmentVariable($name, $value, 'Process')
+            Set-Item -Path "Env:$name" -Value $value
+        }
+    }
+}
+
+$localEnvPath = Join-Path $PSScriptRoot 'local.env'
+Import-LocalEnvFile -FilePath $localEnvPath
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 Write-Host ""
-Write-Host "[3/3] Building and launching application..." -ForegroundColor Yellow
-Write-Host "This may take a few moments on first run..." -ForegroundColor Gray
+Write-Host "[2/2] Lancement de l'application JavaFX..." -ForegroundColor Yellow
+Write-Host "Le projet $((Get-Location).Path)" -ForegroundColor Gray
 Write-Host ""
 
-# Run Maven
-& mvn clean javafx:run
+& "$PSScriptRoot\mvn.ps1" javafx:run
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host ""
+<<<<<<< HEAD
     Write-Host "✗ Launch failed. Check the output above for errors." -ForegroundColor Red
     exit 1
 } else {
     Write-Host ""
     Write-Host "✓ Application completed successfully" -ForegroundColor Green
+=======
+    Write-Host "ERREUR: Le lancement Maven a echoue." -ForegroundColor Red
+    exit $LASTEXITCODE
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 }
+
+Write-Host ""
+Write-Host "Application fermee." -ForegroundColor Yellow
 

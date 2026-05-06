@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.UserSideNavController" fitToWidth="true" pannable="false" styleClass="nav-scroll user-nav-scroll">
+    <VBox fx:id="sideNavRoot" spacing="8" prefWidth="220" fillWidth="true" styleClass="side-nav user-side-nav">
+        <padding><Insets top="16" right="12" bottom="16" left="12"/></padding>
+        <children>
+            <Label text="PLAYER SPACE" styleClass="nav-section-label" />
+            <Button text="Dashboard" onAction="#goDashboard" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-th-large" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Matches" onAction="#goMatches" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-play-circle" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Tournaments" onAction="#goTournaments" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-trophy" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="My Invitations" onAction="#goMyInvitations" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-envelope-open" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Buy Tickets" onAction="#goBuyTickets" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-ticket-alt" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="teamChatButton" text="My Chat" onAction="#goTeamChat" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-comments" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+
+            <Label text="MANAGER" styleClass="nav-section-label" />
+            <Button fx:id="createTeamButton" text="Create Team" onAction="#goCreateTeam" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-users-cog" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="myTeamsButton" text="My Teams" onAction="#goMyTeams" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-flag" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="myBudgetButton" text="My Budget" onAction="#goMyBudget" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-wallet" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="chatbotButton" text="Chatbot" onAction="#goChatbot" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-robot" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="statButton" text="Statistique" onAction="#goStatistique" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-chart-pie" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="applyManagerButton" text="Apply as Manager" onAction="#goManagerApplication" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-user-tie" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+
+            <Label text="PROFILE" styleClass="nav-section-label" />
+            <Button text="My Profile" onAction="#goProfile" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-user-circle" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+        </children>
+    </VBox>
+</ScrollPane>

@@ -22,11 +22,10 @@ public class Review {
     }
 
     // Constructor without id (for creation)
-    public Review(String playerName, int tournamentId, String tournamentName, int rating,
+    public Review(String playerName, int tournamentId, int rating,
                   String comment, LocalDate reviewDate) {
         this.playerName = playerName;
         this.tournamentId = tournamentId;
-        this.tournamentName = tournamentName;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
@@ -75,14 +74,6 @@ public class Review {
         this.tournamentId = tournamentId;
     }
 
-    public String getTournamentName() {
-        return tournamentName;
-    }
-
-    public void setTournamentName(String tournamentName) {
-        this.tournamentName = tournamentName;
-    }
-
     public int getRating() {
         return rating;
     }
@@ -111,6 +102,14 @@ public class Review {
 
     public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
+    }
+
+    public String getTournamentName() {
+        return tournamentName;
+    }
+
+    public void setTournamentName(String tournamentName) {
+        this.tournamentName = tournamentName;
     }
 
     public String getStatus() {
@@ -161,11 +160,12 @@ public class Review {
     @Override
     public String toString() {
         return "Review{" +
-                "id=" + id +
-                ", playerName='" + playerName + '\'' +
-                ", tournamentName='" + tournamentName + '\'' +
-                ", rating=" + rating +
-                ", status='" + status + '\'' +
-                '}';
+            "id=" + id +
+            ", playerName='" + playerName + '\'' +
+            ", tournamentId=" + tournamentId +
+            ", tournamentName='" + tournamentName + '\'' +
+            ", rating=" + rating +
+            ", status='" + status + '\'' +
+            '}';
     }
 }

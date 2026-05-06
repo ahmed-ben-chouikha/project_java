@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.BudgetStatsController" style="-fx-background-color: linear-gradient(to bottom right, #070d1a, #0d1325 45%, #111827 100%);">
+    <top>
+        <HBox spacing="10" style="-fx-padding: 12px; -fx-alignment: CENTER_LEFT; -fx-background-color: transparent;">
+            <Label text="Statistiques Budget &amp; Dépenses" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #e7edf8;" />
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Actualiser" onAction="#onRefresh" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" pannable="true" style="-fx-background-color: transparent;">
+            <content>
+                <VBox spacing="16" style="-fx-padding: 16px; -fx-background-color: transparent;">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="Équipe:" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                        <ComboBox fx:id="teamCombo" prefWidth="220" />
+                        <Region HBox.hgrow="ALWAYS" />
+                    </HBox>
+
+                    <HBox spacing="12">
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Budget Alloué" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="allocatedLabel" text="0.00€" style="-fx-font-size:18; -fx-text-fill:#10b981; -fx-font-weight:bold;" />
+                        </VBox>
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Montant Utilisé" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="usedLabel" text="0.00€" style="-fx-font-size:18; -fx-text-fill:#f59e0b; -fx-font-weight:bold;" />
+                        </VBox>
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Budget Restant" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="remainingLabel" text="0.00€" style="-fx-font-size:18; -fx-text-fill:#38bdf8; -fx-font-weight:bold;" />
+                        </VBox>
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Pourcentage d'utilisation" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="utilizationLabel" text="0.00%" style="-fx-font-size:18; -fx-text-fill:#f59e0b; -fx-font-weight:bold;" />
+                        </VBox>
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Équipes en dépassement" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="overspentTeamsLabel" text="0" style="-fx-font-size:18; -fx-text-fill:#ef4444; -fx-font-weight:bold;" />
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;">
+                        <Label text="Budget alloué / utilisé / restant par équipe" style="-fx-text-fill:#94a3b8; -fx-font-size:12; -fx-padding:0 0 6 0;" />
+                        <StackPane fx:id="budgetByTeamChartContainer" prefHeight="320.0" prefWidth="800.0" />
+                    </VBox>
+
+                    <HBox spacing="12">
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Dépenses par équipe" style="-fx-text-fill:#94a3b8; -fx-font-size:12; -fx-padding:0 0 6 0;" />
+                            <StackPane fx:id="depensesByTeamChartContainer" prefHeight="300.0" />
+                        </VBox>
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Dépenses par catégorie" style="-fx-text-fill:#94a3b8; -fx-font-size:12; -fx-padding:0 0 6 0;" />
+                            <StackPane fx:id="depensesByCategoryChartContainer" prefHeight="300.0" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="12">
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Total Dépenses" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="totalDepensesLabel" text="0.00€" style="-fx-font-size:18; -fx-text-fill:#38bdf8; -fx-font-weight:bold;" />
+                        </VBox>
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="Dépenses Approuvées" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="depensesApproveesLabel" text="0.00€" style="-fx-font-size:18; -fx-text-fill:#10b981; -fx-font-weight:bold;" />
+                        </VBox>
+                        <VBox spacing="6" style="-fx-padding:12; -fx-border-color:#1e293b; -fx-background-color:#071122; -fx-border-radius:6; -fx-background-radius:6;" HBox.hgrow="ALWAYS">
+                            <Label text="En Attente" style="-fx-text-fill:#94a3b8; -fx-font-size:12;" />
+                            <Label fx:id="depensesAttenteLabel" text="0" style="-fx-font-size:18; -fx-text-fill:#f59e0b; -fx-font-weight:bold;" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox style="-fx-padding: 10px; -fx-alignment: CENTER_RIGHT;">
+            <Label text="© 2026 Finance Overview" styleClass="muted" />
+        </HBox>
+    </bottom>
+</BorderPane>

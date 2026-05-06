@@ -33,6 +33,10 @@ public class TournamentsController {
     @FXML private TableColumn<Tournament, String> statusCol;
     @FXML private TableColumn<Tournament, String> ratingsCol;
     @FXML private TableColumn<Tournament, Void> reviewCol;
+<<<<<<< HEAD
+=======
+    @FXML private TableColumn<Tournament, Void> registerCol;
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     @FXML private Pagination pagination;
 
     private final TournamentService tournamentService = new TournamentService();
@@ -49,6 +53,7 @@ public class TournamentsController {
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
         setupRatingsColumn();
         setupReviewColumn();
+        setupRegisterColumn();
 
         filtered = new FilteredList<>(FXCollections.observableArrayList());
 
@@ -70,6 +75,51 @@ public class TournamentsController {
     }
 
     @FXML
+<<<<<<< HEAD
+=======
+    void onRawgSearch(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("RAWG Game Search");
+        dialog.setHeaderText("Search for a game");
+        dialog.setContentText("Enter game name:");
+
+        dialog.showAndWait().ifPresent(query -> {
+            if (query.trim().isEmpty()) {
+                showInfo("No input", "Please enter a game name.");
+                return;
+            }
+            try {
+                String apiKey = "14f9f7e72508416cb8d4c0ea21607d36";
+                String url = "https://api.rawg.io/api/games?key=" + apiKey + "&search=" + java.net.URLEncoder.encode(query, "UTF-8");
+                java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+                java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                        .uri(java.net.URI.create(url))
+                        .GET()
+                        .build();
+                java.net.http.HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+                String body = response.body();
+                // Simple extraction of game names from JSON
+                java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\\"name\\\":\\\"(.*?)\\\"");
+                java.util.regex.Matcher m = p.matcher(body);
+                StringBuilder results = new StringBuilder();
+                int count = 0;
+                while (m.find() && count < 10) {
+                    results.append("- ").append(m.group(1)).append("\n");
+                    count++;
+                }
+                if (results.length() == 0) {
+                    showInfo("No Results", "No games found for '" + query + "'.");
+                } else {
+                    showInfo("RAWG Results", results.toString());
+                }
+            } catch (Exception e) {
+                showInfo("Error", "Failed to search RAWG API: " + e.getMessage());
+            }
+        });
+    }
+
+    @FXML
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     void onViewTournament(ActionEvent event) {
         Tournament selected = tournamentsTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -205,6 +255,39 @@ public class TournamentsController {
         });
     }
 
+<<<<<<< HEAD
+=======
+    private void setupRegisterColumn() {
+        registerCol.setCellFactory(column -> new TableCell<>() {
+            private final Button registerButton = new Button("Register");
+
+            {
+                registerButton.getStyleClass().add("btn-primary");
+                registerButton.setOnAction(e -> {
+                    Tournament tournament = getTableView().getItems().get(getIndex());
+                    openRegistrationFlow(tournament);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Tournament tournament = getTableView().getItems().get(getIndex());
+                    boolean isPlanned = "planned".equalsIgnoreCase(tournament.getStatus());
+                    registerButton.setDisable(!isPlanned);
+                    registerButton.setStyle(isPlanned ? "" : "-fx-opacity: 0.5;");
+                    HBox box = new HBox(registerButton);
+                    box.setAlignment(Pos.CENTER);
+                    setGraphic(box);
+                }
+            }
+        });
+    }
+
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     private String buildRatingStars(Tournament tournament) {
         try {
             List<Review> reviews = reviewService.getReviewsByTournament(tournament.getId());
@@ -229,6 +312,14 @@ public class TournamentsController {
         RankUpApp.loadInBase("/views/tournaments/tournament-reviews.fxml");
     }
 
+<<<<<<< HEAD
+=======
+    private void openRegistrationFlow(Tournament selected) {
+        TournamentRegistrationState.setSelectedTournament(selected);
+        RankUpApp.loadInBase("/views/tournament_registration.fxml");
+    }
+
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     private void showInfo(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
