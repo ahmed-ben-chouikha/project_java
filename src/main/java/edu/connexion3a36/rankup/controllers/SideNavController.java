@@ -32,6 +32,7 @@ public class SideNavController {
     @FXML private Button myBudgetBtn;
     @FXML private Button myExpensesBtn;
     @FXML private Button chatbotBtn;
+    @FXML private Button teamChatBtn;
     @FXML private Button statBtn;
 
     private final Map<Button, String> buttonLabels = new LinkedHashMap<>();
@@ -60,6 +61,11 @@ public class SideNavController {
             // Make chatbot available to all users
             chatbotBtn.setVisible(true);
             chatbotBtn.setManaged(true);
+        }
+        if (teamChatBtn != null) {
+            // Make team chat available to all users
+            teamChatBtn.setVisible(true);
+            teamChatBtn.setManaged(true);
         }
         if (statBtn != null) {
             statBtn.setVisible(true);
@@ -178,6 +184,16 @@ public class SideNavController {
     @FXML
     void goChatbot(ActionEvent event) {
         RankUpApp.loadInBase("/views/chatbot/chatbot.fxml");
+    }
+
+    @FXML
+    void goTeamChat(ActionEvent event) {
+        // allow any logged-in user to open team chat; chat controller will pick the team
+        if (SessionManager.getCurrentUserId() <= 0) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/chat/chat-room.fxml");
     }
 
     @FXML

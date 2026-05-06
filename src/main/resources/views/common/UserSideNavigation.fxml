@@ -21,11 +21,14 @@
             <Button text="Tournaments" onAction="#goTournaments" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-trophy" styleClass="nav-btn-icon" /></graphic>
             </Button>
-            <Button text="My Invitations" onAction="#goMyInvitations" styleClass="nav-btn nav-btn-primary">
+            <Button text="My Invitations" onAction="#goMyInvitations" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-envelope-open" styleClass="nav-btn-icon" /></graphic>
             </Button>
-            <Button text="Buy Tickets" onAction="#goBuyTickets" styleClass="nav-btn nav-btn-primary">
+            <Button text="Buy Tickets" onAction="#goBuyTickets" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-ticket-alt" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="teamChatButton" text="My Chat" onAction="#goTeamChat" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-comments" styleClass="nav-btn-icon" /></graphic>
             </Button>
 
             <Label text="MANAGER" styleClass="nav-section-label" />
@@ -35,13 +38,13 @@
             <Button fx:id="myTeamsButton" text="My Teams" onAction="#goMyTeams" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-flag" styleClass="nav-btn-icon" /></graphic>
             </Button>
-            <Button fx:id="myBudgetButton" text="My Budget" onAction="#goMyBudget" styleClass="nav-btn nav-btn-primary">
+            <Button fx:id="myBudgetButton" text="My Budget" onAction="#goMyBudget" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-wallet" styleClass="nav-btn-icon" /></graphic>
             </Button>
-            <Button fx:id="chatbotButton" text="Chatbot" onAction="#goChatbot" styleClass="nav-btn nav-btn-primary">
+            <Button fx:id="chatbotButton" text="Chatbot" onAction="#goChatbot" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-robot" styleClass="nav-btn-icon" /></graphic>
             </Button>
-            <Button fx:id="statButton" text="Statistique" onAction="#goStatistique" styleClass="nav-btn nav-btn-primary">
+            <Button fx:id="statButton" text="Statistique" onAction="#goStatistique" styleClass="nav-btn">
                 <graphic><FontIcon iconLiteral="fas-chart-pie" styleClass="nav-btn-icon" /></graphic>
             </Button>
             <Button fx:id="applyManagerButton" text="Apply as Manager" onAction="#goManagerApplication" styleClass="nav-btn">
