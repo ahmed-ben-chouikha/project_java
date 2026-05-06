@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RankUp (javafx:run)" type="MavenRunConfiguration" factoryName="Maven">
+    <MavenSettings>
+      <option name="myGoals" value="javafx:run"/>
+      <option name="myWorkingDirPath" value="$PROJECT_DIR$"/>
+      <option name="myPomFileName" value="pom.xml"/>
+    </MavenSettings>
+    <method v="2"/>
+  </configuration>
+</component>

@@ -1,9 +1,8 @@
 package edu.connexion3a36.rankup.controllers;
 
+import edu.connexion3a36.entities.User;
 import edu.connexion3a36.rankup.app.RankUpApp;
-import edu.connexion3a36.rankup.entities.UserAccount;
-import edu.connexion3a36.rankup.services.AuthService;
-import edu.connexion3a36.rankup.session.SessionContext;
+import edu.connexion3a36.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,30 +11,43 @@ import javafx.scene.control.TextField;
 
 public class AuthController {
 
-    private final AuthService authService = new AuthService();
-
     @FXML
     private TextField emailField;
 
     @FXML
     private PasswordField passwordField;
 
+    private final UserService userService = new UserService();
+
     @FXML
     void onSignIn(ActionEvent event) {
         if (emailField.getText().isBlank() || passwordField.getText().isBlank()) {
-            showInfo("Validation", "Email and password are required.");
+            showError("Validation", "Email and password are required.");
             return;
         }
+
         try {
-            UserAccount user = authService.login(emailField.getText(), passwordField.getText());
-            if (user == null) {
-                showInfo("Login failed", "Invalid email or password.");
-                return;
+            String email = emailField.getText().trim();
+            String password = passwordField.getText();
+
+            // Authenticate against database
+            User user = userService.authenticate(email, password);
+
+            if (user != null) {
+                // Store user info in session
+                RankUpApp.setCurrentPlayerName(user.getUsername());
+                RankUpApp.setCurrentRole(user.getRole());
+                RankUpApp.setCurrentUserId(user.getId());
+                RankUpApp.setCurrentEmail(email);
+
+                showSuccess("Success", "Welcome " + user.getUsername() + "!");
+                RankUpApp.showBase();
+            } else {
+                showError("Authentication Failed", "Invalid email or password.");
             }
-            SessionContext.setCurrentUser(user);
-            RankUpApp.showBase();
         } catch (Exception e) {
-            showInfo("Login error", e.getMessage());
+            showError("Database Error", "An error occurred: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -51,6 +63,22 @@ public class AuthController {
 
     private void showInfo(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showSuccess(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

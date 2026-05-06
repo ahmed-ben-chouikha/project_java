@@ -13,6 +13,7 @@ public class Depense {
     private Integer teamId;
     private String teamName;
     private String facture;
+    private float montantRestant;
 
     // Constructors
     public Depense() {}
@@ -68,6 +69,9 @@ public class Depense {
 
     public String getFacture() { return facture; }
     public void setFacture(String facture) { this.facture = facture; }
+
+    public float getMontantRestant() { return montantRestant; }
+    public void setMontantRestant(float montantRestant) { this.montantRestant = montantRestant; }
 
     @Override
     public String toString() {

@@ -31,6 +31,42 @@ public final class RankUpApp {
         baseController = controller;
     }
 
+    public static void setCurrentPlayerName(String playerName) {
+        SessionManager.setCurrentPlayerName(playerName);
+    }
+
+    public static String getCurrentPlayerName() {
+        return SessionManager.getCurrentPlayerName();
+    }
+
+    public static void setCurrentRole(String role) {
+        SessionManager.setCurrentRole(role);
+    }
+
+    public static String getCurrentRole() {
+        return SessionManager.getCurrentRole();
+    }
+
+    public static void setCurrentEmail(String email) {
+        SessionManager.setCurrentEmail(email);
+    }
+
+    public static String getCurrentEmail() {
+        return SessionManager.getCurrentEmail();
+    }
+
+    public static void setCurrentUserId(int userId) {
+        SessionManager.setCurrentUserId(userId);
+    }
+
+    public static int getCurrentUserId() {
+        return SessionManager.getCurrentUserId();
+    }
+
+    public static boolean isAdmin() {
+        return SessionManager.isAdmin();
+    }
+
     public static void showLogin() {
         setRoot("/views/auth/login.fxml", 1100, 760);
     }
@@ -87,6 +123,7 @@ public final class RankUpApp {
 
     public static void logout() {
         baseController = null;
+        SessionManager.clear();
         showLogin();
     }
 
@@ -95,12 +132,19 @@ public final class RankUpApp {
             FXMLLoader loader = new FXMLLoader(RankUpApp.class.getResource(fxml));
             Parent root = loader.load();
             Scene scene = new Scene(root, width, height);
-            scene.getStylesheets().add(RankUpApp.class.getResource("/styles.css").toExternalForm());
+            addStylesheetIfPresent(scene, "/styles.css");
+            addStylesheetIfPresent(scene, "/styles/esports.css");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load view: " + fxml, e);
         }
     }
-}
 
+    private static void addStylesheetIfPresent(Scene scene, String path) {
+        java.net.URL css = RankUpApp.class.getResource(path);
+        if (css != null) {
+            scene.getStylesheets().add(css.toExternalForm());
+        }
+    }
+}

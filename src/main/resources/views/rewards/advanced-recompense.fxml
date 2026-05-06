@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="edu.connexion3a36.rankup.controllers.rewards.AdvancedRecompenseController"
+            style="-fx-font-size: 11px;">
+    <top>
+        <VBox style="-fx-padding: 10px; -fx-border-color: #CCCCCC; -fx-border-width: 0 0 1 0;">
+            <Label text="Gestion Avancée des Récompenses" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <!-- Tab Statistiques -->
+            <Tab text="Statistiques">
+                <VBox style="-fx-padding: 20px;" spacing="15">
+                    <VBox spacing="10">
+                        <Label text="Statistiques des Demandes" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <GridPane hgap="20" vgap="15">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="25"/>
+                                <ColumnConstraints percentWidth="25"/>
+                                <ColumnConstraints percentWidth="25"/>
+                                <ColumnConstraints percentWidth="25"/>
+                            </columnConstraints>
+                            <children>
+                                <VBox GridPane.columnIndex="0" style="-fx-border-color: #DDDDDD; -fx-padding: 10px;">
+                                    <Label text="Total Demandes" style="-fx-font-weight: bold;"/>
+                                    <Label fx:id="totalDemandesLabel" text="0" style="-fx-font-size: 20px; -fx-text-fill: #0066CC;"/>
+                                </VBox>
+                                <VBox GridPane.columnIndex="1" style="-fx-border-color: #DDDDDD; -fx-padding: 10px;">
+                                    <Label text="Approuvées" style="-fx-font-weight: bold;"/>
+                                    <Label fx:id="approuveesLabel" text="0" style="-fx-font-size: 20px; -fx-text-fill: #00AA00;"/>
+                                </VBox>
+                                <VBox GridPane.columnIndex="2" style="-fx-border-color: #DDDDDD; -fx-padding: 10px;">
+                                    <Label text="Rejetées" style="-fx-font-weight: bold;"/>
+                                    <Label fx:id="rejeteesLabel" text="0" style="-fx-font-size: 20px; -fx-text-fill: #CC0000;"/>
+                                </VBox>
+                                <VBox GridPane.columnIndex="3" style="-fx-border-color: #DDDDDD; -fx-padding: 10px;">
+                                    <Label text="En Attente" style="-fx-font-weight: bold;"/>
+                                    <Label fx:id="enAttenteLabel" text="0" style="-fx-font-size: 20px; -fx-text-fill: #FF9900;"/>
+                                </VBox>
+                            </children>
+                        </GridPane>
+                        <HBox spacing="20">
+                            <VBox style="-fx-border-color: #DDDDDD; -fx-padding: 10px; -fx-pref-width: 200;">
+                                <Label text="Taux d'Approbation" style="-fx-font-weight: bold;"/>
+                                <Label fx:id="scoreLabel" text="0%" style="-fx-font-size: 18px; -fx-text-fill: #0066CC;"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <Separator/>
+
+                    <VBox spacing="10">
+                        <Label text="Statistiques des Récompenses" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <GridPane hgap="20" vgap="15">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="33"/>
+                                <ColumnConstraints percentWidth="33"/>
+                                <ColumnConstraints percentWidth="33"/>
+                            </columnConstraints>
+                            <children>
+                                <VBox GridPane.columnIndex="0" style="-fx-border-color: #DDDDDD; -fx-padding: 10px;">
+                                    <Label text="Total Récompenses" style="-fx-font-weight: bold;"/>
+                                    <Label fx:id="totalRecompensesLabel" text="0" style="-fx-font-size: 20px; -fx-text-fill: #0066CC;"/>
+                                </VBox>
+                                <VBox GridPane.columnIndex="1" style="-fx-border-color: #DDDDDD; -fx-padding: 10px;">
+                                    <Label text="Coût Total" style="-fx-font-weight: bold;"/>
+                                    <Label fx:id="coutTotalLabel" text="0 €" style="-fx-font-size: 20px; -fx-text-fill: #00AA00;"/>
+                                </VBox>
+                                <VBox GridPane.columnIndex="2" style="-fx-border-color: #DDDDDD; -fx-padding: 10px;">
+                                    <Label text="Coût Moyen" style="-fx-font-weight: bold;"/>
+                                    <Label fx:id="coutMoyenLabel" text="0 €" style="-fx-font-size: 20px; -fx-text-fill: #0066CC;"/>
+                                </VBox>
+                            </children>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+            </Tab>
+
+            <!-- Tab Rapports -->
+            <Tab text="Rapports">
+                <VBox style="-fx-padding: 20px;" spacing="15">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Date Début:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="startDatePicker" style="-fx-pref-width: 150;"/>
+                        <Label text="Date Fin:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="endDatePicker" style="-fx-pref-width: 150;"/>
+                        <Label text="Type:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="reportTypeCombo" style="-fx-pref-width: 200;"/>
+                    </HBox>
+                    <HBox spacing="10">
+                        <Button fx:id="generateReportBtn" text="Générer Rapport" onAction="#onGenerateReport" style="-fx-padding: 10px 20px;"/>
+                        <Button fx:id="exportCSVBtn" text="Exporter CSV" onAction="#onExportCSV" style="-fx-padding: 10px 20px;"/>
+                    </HBox>
+                    <Label text="Résultat du Rapport:" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="reportOutput" style="-fx-control-inner-background: #F5F5F5; -fx-font-family: 'Courier New';" wrapText="true"/>
+                </VBox>
+            </Tab>
+
+            <!-- Tab Approbation Automatique -->
+            <Tab text="Approbation Automatique">
+                <VBox style="-fx-padding: 20px;" spacing="15">
+                    <VBox spacing="10">
+                        <Label text="Actions d'Approbation Automatique" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <HBox spacing="10">
+                            <Button fx:id="autoApproveBtn" text="Approuver les Demandes (Auto)" onAction="#onAutoApprove" style="-fx-padding: 12px 25px; -fx-font-size: 12px;"/>
+                        </HBox>
+                        <Label fx:id="autoApproveResultLabel" text="" style="-fx-text-fill: #00AA00; -fx-font-weight: bold;"/>
+                    </VBox>
+
+                    <Separator/>
+
+                    <VBox spacing="10">
+                        <Label text="Règles d'Approbation Actives" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <ListView fx:id="rulesListView" style="-fx-control-inner-background: #F5F5F5;" prefHeight="300"/>
+                    </VBox>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>
+

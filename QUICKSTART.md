@@ -1,135 +1,147 @@
-# Quick Start Guide
+# Quick Start Guide (Windows + PowerShell)
 
-## 1. Prerequisites Setup
+This project is configured with Maven and JavaFX (`javafx-maven-plugin` in `pom.xml`) and targets Java 17.
 
-### Install Maven (if not already installed)
-- Download: https://maven.apache.org/download.cgi
-- Extract to `C:\Apache\maven` (or your preferred path)
-- Add to PATH: `C:\Apache\maven\bin`
-- Verify: `mvn --version`
+## 1) Prerequisites
 
-### Ensure MySQL is Running
-```bash
-# Start XAMPP MySQL (or MySQL Server)
-# Verify connection
-mysql -u root -h localhost -e "SELECT 1;"
+- Windows PowerShell
+- JDK 17 or newer (21/22 is fine)
+- Maven 3.8+ (or use the local script `mvn.ps1`)
+- XAMPP MySQL running on `localhost:3306`
+
+## 2) Open the Project Folder
+
+```powershell
+Set-Location "C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36"
 ```
 
-### Create the Database
-```sql
--- Connect to MySQL
-mysql -u root
+## 3) Check Java and Maven
 
--- Create database and table
-CREATE DATABASE IF NOT EXISTS esportdevvvvvv;
-USE esportdevvvvvv;
-
-CREATE TABLE IF NOT EXISTS personne (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nom VARCHAR(255) NOT NULL,
-  prenom VARCHAR(255) NOT NULL
-);
-
--- Optional: Insert sample data
-INSERT INTO personne (nom, prenom) VALUES 
-  ('Nova', 'Crew'),
-  ('Eclipse', 'Squad'),
-  ('Apex', 'Drift');
+```powershell
+java -version
+.\mvn.ps1 -version
 ```
 
-## 2. Build the App
+If `java -version` shows Java 8 or lower, switch to JDK 17+ before running.
 
-```bash
-# Navigate to project
-cd C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36
+## 4) Start and Prepare the Database
 
-# Clean and compile
-mvn clean compile
+Start MySQL from XAMPP, then run:
 
-# Run via Maven plugin
-mvn javafx:run
-
-# OR: Package and run standalone
-mvn clean package
-java -jar target/Connexion3A36-1.0-SNAPSHOT.jar
+```powershell
+mysql -u root -h localhost -e "CREATE DATABASE IF NOT EXISTS esportdevvvvvv;"
 ```
 
-## 3. Verify Installation
+If your `mysql` command is not in PATH, use the XAMPP binary directly:
 
-1. **App starts successfully**: Main dashboard appears with dark theme
-2. **Navigation works**: Click sidebar buttons to switch pages
-3. **Database connects**: Check console for "Connection établie!" message
-4. **Tournament join works**: Fill form and click "Join tournament"
-
-## 4. Common Issues
-
-### "Connection refused" / "Unknown database 'esportdevvvvvv'"
-- **Fix**: Start XAMPP MySQL and create the database (see step 1)
-
-### "Cannot find symbol: class StackPane"
-- **Fix**: Ensure JavaFX SDK is in IDE classpath (Project → Libraries)
-
-### App doesn't launch
-- **Fix**: Check Java version: `java -version` (should be 17+)
-- Run: `mvn help:describe -Dplugin=org.openjfx:javafx-maven-plugin`
-
-### CSS not applying (white background instead of dark)
-- **Fix**: Verify CSS file is in `src/main/resources/styles/esports.css`
-- Clean and rebuild: `mvn clean compile`
-
-## 5. IDE Setup (IntelliJ IDEA recommended)
-
-1. **Open Project**: File → Open → Select `pom.xml`
-2. **Configure JDK**: File → Project Structure → Project SDK → jdk-22
-3. **Configure JavaFX SDK**: 
-   - File → Project Structure → Libraries
-   - Add new library → Java
-   - Select JavaFX SDK directory
-4. **Edit Run Configuration**:
-   - Run → Edit Configurations
-   - Main class: `edu.connexion3a36.tests.MainFx`
-   - VM Options: `--module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml`
-5. **Run**: Click Run or press Shift+F10
-
-## 6. Check Build Output
-
-```bash
-# Verify classes were compiled
-ls target/classes/edu/connexion3a36/tests/MainFx.class
-
-# Run with debug output
-mvn -X javafx:run 2>&1 | head -50
+```powershell
+& "C:\xampp\mysql\bin\mysql.exe" -u root -h localhost -e "CREATE DATABASE IF NOT EXISTS esportdevvvvvv;"
 ```
 
-## 7. Next: Connect Real Data
+Create the minimum base table used by older parts of the app:
 
-Edit `src/main/java/edu/connexion3a36/services/EsportsCatalogService.java` to query your MySQL instead of returning mock data:
-
-```java
-public List<TournamentCard> getUpcomingTournaments() {
-    List<TournamentCard> tournaments = new ArrayList<>();
-    try {
-        String query = "SELECT name, game, date, prizePool, slots FROM tournaments WHERE date > NOW()";
-        Statement st = MyConnection.getInstance().getCnx().createStatement();
-        ResultSet rs = st.executeQuery(query);
-        while (rs.next()) {
-            tournaments.add(new TournamentCard(
-                rs.getString("name"),
-                rs.getString("game"),
-                rs.getString("date"),
-                rs.getString("prizePool"),
-                rs.getString("slots"),
-                true
-            ));
-        }
-    } catch (SQLException e) {
-        System.err.println("Database error: " + e.getMessage());
-    }
-    return tournaments;
-}
+```powershell
+mysql -u root -h localhost -D esportdevvvvvv -e "CREATE TABLE IF NOT EXISTS personne (id INT AUTO_INCREMENT PRIMARY KEY, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL);"
 ```
+
+Optional sample rows:
+
+```powershell
+mysql -u root -h localhost -D esportdevvvvvv -e "INSERT INTO personne (nom, prenom) VALUES ('Nova','Crew'),('Eclipse','Squad'),('Apex','Drift');"
+```
+
+## 5) Run the App
+
+Use one of these methods.
+
+### Method A (recommended): launcher script
+
+```powershell
+.\launch.ps1
+```
+
+### Method B: direct Maven command via local script
+
+```powershell
+.\mvn.ps1 clean javafx:run
+```
+
+### Method C: global Maven (if installed in PATH)
+
+```powershell
+mvn clean javafx:run
+```
+
+## 6) Quick Verification After Launch
+
+- The main JavaFX window opens.
+- Sidebar navigation switches pages.
+- DB-driven pages load without SQL errors.
+
+## 7) Common Errors and Fixes
+
+### `mvn` is not recognized
+
+Use the project script instead of global Maven:
+
+```powershell
+.\mvn.ps1 clean javafx:run
+```
+
+Or install Maven and add `<maven>\bin` to PATH.
+
+### `Java 17+ requis` / Java 8 detected
+
+Set Java 17+ for the current terminal session:
+
+```powershell
+$env:JAVA_HOME = "C:\Program Files\Java\jdk-22"
+$env:Path = "$env:JAVA_HOME\bin;" + $env:Path
+java -version
+```
+
+### `No plugin found for prefix 'javafx'`
+
+This usually means Maven was run from the wrong folder. Ensure you are in the folder that contains `pom.xml`:
+
+```powershell
+Set-Location "C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36"
+.\mvn.ps1 clean javafx:run
+```
+
+### `Maven introuvable` from `mvn.ps1`
+
+Install Maven or set `M2_HOME` to your Maven installation root:
+
+```powershell
+$env:M2_HOME = "C:\Apache\maven"
+$env:Path = "$env:M2_HOME\bin;" + $env:Path
+.\mvn.ps1 -version
+```
+
+### Database/table errors (unknown table, missing column)
+
+Run the SQL scripts in the `database/` folder and top-level `*.sql` files against `esportdevvvvvv`.
+
+Example:
+
+```powershell
+mysql -u root -h localhost esportdevvvvvv < .\database\reviews_table.sql
+```
+
+## 8) Build Only (No Launch)
+
+```powershell
+.\mvn.ps1 clean compile
+```
+
+## 9) IDE Run (IntelliJ)
+
+- Open `pom.xml` as a Maven project.
+- Set Project SDK to JDK 17+.
+- Run Maven goal `javafx:run`, or run `edu.connexion3a36.rankup.app.Main`.
 
 ---
 
-**Questions?** Check console output with `mvn -X` flag or increase logging in `logback.xml`.
+If you want, I can also generate a one-command `dev-run.ps1` that starts MySQL checks, validates Java/Maven, and launches the app in one shot.
 
