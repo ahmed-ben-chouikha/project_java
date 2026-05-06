@@ -5,17 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/punitions/PunitionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/punitions/PunitionsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/MyConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/MyConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/esports.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/esports.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/punitions/punitions.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/punitions/punitions.fxml" afterDir="false" />
-=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/admin/AdminDashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/admin/AdminDashboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/OpenAIToxicityChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/OpenAIToxicityChecker.java" afterDir="false" />
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/esports.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/esports.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,11 +27,8 @@
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
-<<<<<<< HEAD
       <entry key="_C:/Users/DIDA/Desktop/esportsnew/project_java" value="3D3EjrWm51YlHgb9OCQjtzahbrg" />
       <entry key="_C:/Users/DIDA/Documents/project_java" value="3DMZlJ5In2UP0MN9aZDnzpWhKxS" />
-=======
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
       <entry key="_C:/Users/melki/OneDrive/Bureau/pidev/project_java" value="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
     </persistenceIdMap>
   </component>
@@ -37,13 +37,8 @@
   </component>
   <component name="CopilotUserSelectedModel">
     <selectedModels>
-<<<<<<< HEAD
       <entry key="chat-panel" value="Auto" />
       <entry key="agent-panel" value="Auto" />
-=======
-      <entry key="chat-panel" value="Claude Haiku 4.5" />
-      <entry key="agent-panel" value="Claude Haiku 4.5" />
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     </selectedModels>
   </component>
   <component name="Git.Settings">
@@ -63,60 +58,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-<<<<<<< HEAD
-    "Maven.Run JavaFX (Maven).executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "punition",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Run JavaFX (Maven).executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;punition&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ammar/OneDrive/Desktop/esportsnew&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
         <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
         <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
-=======
-    "Application.Unnamed.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "spribnt2",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
-  <component name="RunManager">
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="edu.connexion3a36.rankup.app.Main" />
-      <module name="Connexion3A36" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
       </set>
     </attachedChunks>
   </component>
@@ -130,7 +95,6 @@
       <updated>1776201103115</updated>
       <workItem from="1776201104121" duration="28000" />
       <workItem from="1776286448230" duration="281000" />
-<<<<<<< HEAD
       <workItem from="1777502485089" duration="4903000" />
       <workItem from="1777525319201" duration="4541000" />
       <workItem from="1777538668912" duration="564000" />
@@ -150,8 +114,7 @@
       <workItem from="1778094039742" duration="137000" />
       <workItem from="1778094215536" duration="3000" />
       <workItem from="1778094293863" duration="2220000" />
-=======
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
+      <workItem from="1778099014621" duration="417000" />
     </task>
     <servers />
   </component>

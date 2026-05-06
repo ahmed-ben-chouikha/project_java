@@ -12,11 +12,7 @@ import java.io.IOException;
 public final class RankUpApp {
 
     private static Stage primaryStage;
-<<<<<<< HEAD
-    private static BaseController baseController;
-=======
     private static ContentController contentController;
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     private static Integer pendingReclamationFocusId;
     private static Integer pendingAdminResponseFocusId;
     private static Integer pendingPunitionFocusId;
@@ -37,42 +33,6 @@ public final class RankUpApp {
 
     public static void registerBaseController(BaseController controller) {
         contentController = controller;
-    }
-
-    public static void setCurrentPlayerName(String playerName) {
-        SessionManager.setCurrentPlayerName(playerName);
-    }
-
-    public static String getCurrentPlayerName() {
-        return SessionManager.getCurrentPlayerName();
-    }
-
-    public static void setCurrentRole(String role) {
-        SessionManager.setCurrentRole(role);
-    }
-
-    public static String getCurrentRole() {
-        return SessionManager.getCurrentRole();
-    }
-
-    public static void setCurrentEmail(String email) {
-        SessionManager.setCurrentEmail(email);
-    }
-
-    public static String getCurrentEmail() {
-        return SessionManager.getCurrentEmail();
-    }
-
-    public static void setCurrentUserId(int userId) {
-        SessionManager.setCurrentUserId(userId);
-    }
-
-    public static int getCurrentUserId() {
-        return SessionManager.getCurrentUserId();
-    }
-
-    public static boolean isAdmin() {
-        return SessionManager.isAdmin();
     }
 
     public static void setCurrentPlayerName(String playerName) {
@@ -164,11 +124,7 @@ public final class RankUpApp {
     }
 
     public static void logout() {
-<<<<<<< HEAD
-        baseController = null;
-=======
         contentController = null;
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
         SessionManager.clear();
         showLogin();
     }

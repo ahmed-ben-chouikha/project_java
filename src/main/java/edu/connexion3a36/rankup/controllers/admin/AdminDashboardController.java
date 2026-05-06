@@ -23,8 +23,6 @@ public class AdminDashboardController {
     }
 
     @FXML
-<<<<<<< HEAD
-=======
     void openPlayerRequests(ActionEvent event) {
         if (!SessionManager.isAdmin()) {
             showAccessDenied();
@@ -70,7 +68,6 @@ public class AdminDashboardController {
     }
 
     @FXML
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     void placeholder(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Placeholder");

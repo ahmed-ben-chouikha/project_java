@@ -6,11 +6,13 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,8 +26,15 @@ public class SideNavController {
 
     @FXML private VBox sideNavRoot;
     @FXML private ToggleButton collapseToggle;
+    @FXML private FontIcon collapseIcon;
     @FXML private Label reclamationsBadge;
     @FXML private StackPane reclamationsBtnStack;
+    @FXML private Button teamChatBtn;
+    @FXML private Button myBudgetBtn;
+    @FXML private Button myExpensesBtn;
+    @FXML private Button chatbotBtn;
+    @FXML private Button statBtn;
+    @FXML private Button depenseBtn;
 
     private ScheduledExecutorService executorService;
     private LocalDateTime lastCheckedTime;
@@ -134,6 +143,11 @@ public class SideNavController {
     }
 
     @FXML
+    void goBuyTickets(ActionEvent event) {
+        RankUpApp.loadInBase("/views/tickets/buy-ticket.fxml");
+    }
+
+    @FXML
     void goTeams(ActionEvent event) { 
         RankUpApp.loadInBase("/views/teams/teams.fxml"); 
     }
@@ -149,6 +163,11 @@ public class SideNavController {
     }
 
     @FXML
+    void goTeamChat(ActionEvent event) {
+        RankUpApp.loadInBase("/views/chat/chat-room.fxml");
+    }
+
+    @FXML
     void goTournamentReviews(ActionEvent event) { 
         RankUpApp.loadInBase("/views/tournaments/tournament-reviews.fxml"); 
     }
@@ -156,6 +175,26 @@ public class SideNavController {
     @FXML
     void goBudget(ActionEvent event) { 
         RankUpApp.loadInBase("/views/budget/budget-dashboard.fxml"); 
+    }
+
+    @FXML
+    void goMyBudget(ActionEvent event) {
+        RankUpApp.loadInBase("/views/budget/budget-dashboard.fxml");
+    }
+
+    @FXML
+    void goMyExpenses(ActionEvent event) {
+        RankUpApp.loadInBase("/views/depense/depenses.fxml");
+    }
+
+    @FXML
+    void goChatbot(ActionEvent event) {
+        RankUpApp.loadInBase("/views/chatbot/chatbot.fxml");
+    }
+
+    @FXML
+    void goStatistique(ActionEvent event) {
+        RankUpApp.loadInBase("/views/budget/budget-stats.fxml");
     }
 
     @FXML
@@ -201,6 +240,26 @@ public class SideNavController {
     @FXML
     void goAdmin(ActionEvent event) { 
         RankUpApp.loadInBase("/views/admin/admin-dashboard.fxml"); 
+    }
+
+    @FXML
+    void goPlayerRequests(ActionEvent event) {
+        RankUpApp.loadInBase("/views/admin/player-requests.fxml");
+    }
+
+    @FXML
+    void goManagerRequests(ActionEvent event) {
+        RankUpApp.loadInBase("/views/admin/manager-requests.fxml");
+    }
+
+    @FXML
+    void goTeamApprovals(ActionEvent event) {
+        RankUpApp.loadInBase("/views/admin/team-approvals.fxml");
+    }
+
+    @FXML
+    void goPaymentsDashboard(ActionEvent event) {
+        RankUpApp.loadInBase("/views/admin/payments.fxml");
     }
 
     /**

@@ -5,7 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class OpenAIToxicityChecker {
-  ;String apiKey = System.getenv("OPENAI_API_KEY");
+    private static final String API_KEY = System.getenv("OPENAI_API_KEY");
     private static final String API_URL = "https://api.openai.com/v1/moderations";
 
     public static boolean isToxic(String text) throws IOException {

@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-public class BaseController {
+public class BaseController implements ContentController {
 
     @FXML
     private StackPane contentPane;
@@ -19,6 +19,7 @@ public class BaseController {
         loadCenter("/views/dashboard/home.fxml");
     }
 
+    @Override
     public void loadCenter(String fxmlPath) {
         try {
             Node view = FXMLLoader.load(getClass().getResource(fxmlPath));

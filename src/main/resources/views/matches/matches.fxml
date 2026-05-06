@@ -13,11 +13,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<<<<<<< HEAD
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.matches.MatchesController" spacing="12" styleClass="page-root">
-=======
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.matches.MatchesController" spacing="16" styleClass="page-root matches-page">
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
         <VBox spacing="10" styleClass="card matches-hero">
@@ -45,19 +41,12 @@
         </TableView>
         <HBox spacing="10" styleClass="matches-footer">
             <children>
-<<<<<<< HEAD
-                <Button text="View" onAction="#onViewMatch" />
-                <Button text="Edit" onAction="#onEditMatch" />
-                <Button text="Delete" onAction="#onDeleteMatch" styleClass="btn-danger" />
-=======
                 <Button text="View" onAction="#onViewMatch" styleClass="btn-secondary action-btn-view" />
                 <Button text="Edit" onAction="#onEditMatch" styleClass="btn-secondary action-btn-edit" />
                 <Button text="Delete" onAction="#onDeleteMatch" styleClass="btn-danger action-btn-delete" />
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
                 <Region HBox.hgrow="ALWAYS" />
                 <Pagination fx:id="pagination" prefWidth="260" styleClass="matches-pagination" />
             </children>
         </HBox>
     </children>
 </VBox>
-

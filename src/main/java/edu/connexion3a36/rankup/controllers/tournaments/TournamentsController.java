@@ -33,10 +33,7 @@ public class TournamentsController {
     @FXML private TableColumn<Tournament, String> statusCol;
     @FXML private TableColumn<Tournament, String> ratingsCol;
     @FXML private TableColumn<Tournament, Void> reviewCol;
-<<<<<<< HEAD
-=======
     @FXML private TableColumn<Tournament, Void> registerCol;
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     @FXML private Pagination pagination;
 
     private final TournamentService tournamentService = new TournamentService();
@@ -75,8 +72,6 @@ public class TournamentsController {
     }
 
     @FXML
-<<<<<<< HEAD
-=======
     void onRawgSearch(ActionEvent event) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("RAWG Game Search");
@@ -119,7 +114,6 @@ public class TournamentsController {
     }
 
     @FXML
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     void onViewTournament(ActionEvent event) {
         Tournament selected = tournamentsTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -255,8 +249,6 @@ public class TournamentsController {
         });
     }
 
-<<<<<<< HEAD
-=======
     private void setupRegisterColumn() {
         registerCol.setCellFactory(column -> new TableCell<>() {
             private final Button registerButton = new Button("Register");
@@ -286,8 +278,6 @@ public class TournamentsController {
             }
         });
     }
-
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     private String buildRatingStars(Tournament tournament) {
         try {
             List<Review> reviews = reviewService.getReviewsByTournament(tournament.getId());
@@ -312,14 +302,10 @@ public class TournamentsController {
         RankUpApp.loadInBase("/views/tournaments/tournament-reviews.fxml");
     }
 
-<<<<<<< HEAD
-=======
     private void openRegistrationFlow(Tournament selected) {
         TournamentRegistrationState.setSelectedTournament(selected);
         RankUpApp.loadInBase("/views/tournament_registration.fxml");
     }
-
->>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
     private void showInfo(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

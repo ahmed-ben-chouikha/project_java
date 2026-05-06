@@ -318,13 +318,13 @@
 
 .chatbot-message-content {
     -fx-font-size: 14px;
-    -fx-text-fill: #000000;
+    -fx-text-fill: white;
     -fx-wrap-text: true;
     -fx-line-spacing: 2;
 }
 
 .chatbot-admin-message .chatbot-message-content {
-    -fx-text-fill: #000000;
+    -fx-text-fill: white;
 }
 
 .chatbot-input-area {
