@@ -1,10 +1,16 @@
 package edu.connexion3a36.rankup.controllers.reclamations;
 
+import edu.connexion3a36.entities.AdminResponse;
+import edu.connexion3a36.entities.Punition;
 import edu.connexion3a36.entities.Reclamation;
 import edu.connexion3a36.rankup.app.RankUpApp;
+import edu.connexion3a36.rankup.models.ReclamationNotification;
+import edu.connexion3a36.services.AdminResponseService;
+import edu.connexion3a36.services.PunitionService;
 import edu.connexion3a36.services.ReclamationService;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -20,12 +26,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.scene.control.Tooltip;
+import javafx.scene.Scene;
+import edu.connexion3a36.rankup.services.AIApiClient;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Modality;
+import javafx.fxml.FXMLLoader;
 import javafx.util.Duration;
+import javafx.geometry.Insets;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ReclamationsController {
 
@@ -64,6 +84,7 @@ public class ReclamationsController {
     @FXML private TextArea descriptionArea;
     @FXML private ComboBox<String> typeCombo;
     @FXML private Label etatLabel;
+    @FXML private VBox etatBox;
     @FXML private ComboBox<String> etatCombo;
     @FXML private ComboBox<PlayerChoice> playerIdCombo;
     @FXML private TextField attachmentField;
@@ -73,25 +94,119 @@ public class ReclamationsController {
     @FXML private TextField updatedAtField;
     @FXML private VBox reclamationCardsBox;
     @FXML private Button submitButton;
+    @FXML private Button notificationButton;
+    @FXML private Label notificationBadge;
 
     private final ReclamationService service = new ReclamationService();
+    private final AdminResponseService adminResponseService = new AdminResponseService();
     private final ObservableList<Reclamation> rows = FXCollections.observableArrayList();
     private final FilteredList<Reclamation> filtered = new FilteredList<>(rows, item -> true);
+    private final ObservableList<ReclamationNotification> notifications = FXCollections.observableArrayList();
+    private final Set<Integer> seenAdminResponseIds = new HashSet<>();
+    private final Set<Integer> seenPunitionIds = new HashSet<>();
+    private final PunitionService punitionService = new PunitionService();
+    
     private Integer editingReclamationId;
     private Integer focusedReclamationId;
+    private Thread notificationPollingThread;
 
     @FXML
     void initialize() {
-        typeCombo.getItems().setAll(List.of(TYPE_JOUEUR, TYPE_TECHNIQUE));
-        etatCombo.getItems().setAll(List.of(ETAT_EN_COURS, ETAT_APPROUVE, ETAT_REJETE));
-        createdAtField.setEditable(false);
-        updatedAtField.setEditable(false);
-        typeCombo.valueProperty().addListener((obs, oldValue, newValue) -> syncPlayerAvailabilityWithType());
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
+        if (typeCombo != null) {
+            typeCombo.getItems().setAll(List.of(TYPE_JOUEUR, TYPE_TECHNIQUE));
+            typeCombo.valueProperty().addListener((obs, oldValue, newValue) -> syncPlayerAvailabilityWithType());
+        }
+        if (etatCombo != null) {
+            etatCombo.getItems().setAll(List.of(ETAT_EN_COURS, ETAT_RESOLU, ETAT_APPROUVE, ETAT_REJETE));
+        }
+        if (createdAtField != null) {
+            createdAtField.setEditable(false);
+        }
+        if (updatedAtField != null) {
+            updatedAtField.setEditable(false);
+        }
+        if (searchField != null) {
+            searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
+        }
 
         loadPlayerIds();
         loadData();
+        
+        if (typeCombo != null) {
+            clearForm();
+        }
+        
+        // Start notification polling in background thread
+        startNotificationPolling();
+    }
+
+    @FXML
+    void onOpenCreatePopup(ActionEvent event) {
         clearForm();
+        openFormPopup("Create New Reclamation", null);
+    }
+
+    private void openFormPopup(String title, Reclamation reclamationToEdit) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/reclamations/reclamation-form.fxml"));
+            loader.setController(this);
+            VBox root = loader.load();
+            
+            // Re-bind elements from the loaded FXML
+            ComboBox<String> popupEtatCombo = (ComboBox<String>) root.lookup("#etatCombo");
+            if (popupEtatCombo != null) {
+                this.etatCombo = popupEtatCombo;
+                this.etatCombo.getItems().setAll(List.of(ETAT_EN_COURS, ETAT_RESOLU, ETAT_APPROUVE, ETAT_REJETE));
+            }
+            
+            // Populate form if in edit mode
+            if (reclamationToEdit != null) {
+                fillForm(reclamationToEdit);
+                if (etatBox != null) {
+                    etatBox.setVisible(true);
+                    etatBox.setManaged(true);
+                }
+            }
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setTitle(title);
+            
+            Scene scene = new Scene(root);
+            scene.setFill(null);
+            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+            stage.setScene(scene);
+            
+            // Re-bind buttons from the loaded FXML
+            Button popupSubmit = (Button) root.lookup("#submitButton");
+            Button popupCancel = (Button) root.lookup("#cancelButton");
+            Label titleLabel = (Label) root.lookup("#formTitle");
+            if (titleLabel != null) titleLabel.setText(title);
+
+            popupCancel.setOnAction(e -> stage.close());
+            popupSubmit.setOnAction(e -> {
+                onCreateReclamation(null);
+                if (editingReclamationId == null) { // Success clears editingId
+                    stage.close();
+                }
+            });
+
+            // Set state for update mode
+            if (editingReclamationId != null) {
+                VBox etatBox = (VBox) root.lookup("#etatBox");
+                if (etatBox != null) {
+                    etatBox.setVisible(true);
+                    etatBox.setManaged(true);
+                }
+                popupSubmit.setText("UPDATE RECLAMATION");
+            }
+
+            stage.show();
+        } catch (Exception e) {
+            showError("Popup Error", "Unable to open form: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -173,31 +288,32 @@ public class ReclamationsController {
         if (reclamation == null) {
             return;
         }
-        titreField.setText(reclamation.getTitre());
-        descriptionArea.setText(reclamation.getDescription());
-        typeCombo.setValue(normalizeType(reclamation.getType()));
-        etatCombo.setValue(normalizeEtat(reclamation.getEtat()));
+        if (titreField != null) titreField.setText(reclamation.getTitre());
+        if (descriptionArea != null) descriptionArea.setText(reclamation.getDescription());
+        if (typeCombo != null) typeCombo.setValue(normalizeType(reclamation.getType()));
+        if (etatCombo != null) etatCombo.setValue(normalizeEtat(reclamation.getEtat()));
         setPlayerSelection(reclamation.getPlayerId());
-        attachmentField.setText(reclamation.getAttachmentFilename() == null ? "" : reclamation.getAttachmentFilename());
-        createdAtField.setText(formatDateTime(reclamation.getCreatedAt()));
-        updatedAtField.setText(formatDateTime(reclamation.getUpdatedAt()));
+        if (attachmentField != null) attachmentField.setText(reclamation.getAttachmentFilename() == null ? "" : reclamation.getAttachmentFilename());
+        if (createdAtField != null) createdAtField.setText(formatDateTime(reclamation.getCreatedAt()));
+        if (updatedAtField != null) updatedAtField.setText(formatDateTime(reclamation.getUpdatedAt()));
     }
 
     private void clearForm() {
         editingReclamationId = null;
-        titreField.clear();
-        descriptionArea.clear();
-        typeCombo.setValue(TYPE_JOUEUR);
-        etatCombo.setValue(ETAT_EN_COURS);
-        playerIdCombo.setValue(null);
-        attachmentField.clear();
-        createdAtField.clear();
-        updatedAtField.clear();
+        if (titreField != null) titreField.clear();
+        if (descriptionArea != null) descriptionArea.clear();
+        if (typeCombo != null) typeCombo.setValue(TYPE_JOUEUR);
+        if (etatCombo != null) etatCombo.setValue(ETAT_EN_COURS);
+        if (playerIdCombo != null) playerIdCombo.setValue(null);
+        if (attachmentField != null) attachmentField.clear();
+        if (createdAtField != null) createdAtField.clear();
+        if (updatedAtField != null) updatedAtField.clear();
         setStatusAndAuditVisibility(false);
-        submitButton.setText("➤");
+        if (submitButton != null) submitButton.setText("➤");
     }
 
     private void loadPlayerIds() {
+        if (playerIdCombo == null) return;
         try {
             List<PlayerChoice> choices = service.getAvailablePlayers().stream()
                     .map(player -> new PlayerChoice(player.getId(), player.getNickname()))
@@ -209,6 +325,7 @@ public class ReclamationsController {
     }
 
     private void setPlayerSelection(Integer playerId) {
+        if (playerIdCombo == null) return;
         if (playerId == null) {
             playerIdCombo.setValue(null);
             return;
@@ -233,18 +350,30 @@ public class ReclamationsController {
     }
 
     private void setStatusAndAuditVisibility(boolean visible) {
-        etatLabel.setVisible(visible);
-        etatLabel.setManaged(visible);
-        etatCombo.setVisible(visible);
-        etatCombo.setManaged(visible);
-        createdAtLabel.setVisible(visible);
-        createdAtLabel.setManaged(visible);
-        createdAtField.setVisible(visible);
-        createdAtField.setManaged(visible);
-        updatedAtLabel.setVisible(visible);
-        updatedAtLabel.setManaged(visible);
-        updatedAtField.setVisible(visible);
-        updatedAtField.setManaged(visible);
+        if (etatLabel != null) {
+            etatLabel.setVisible(visible);
+            etatLabel.setManaged(visible);
+        }
+        if (etatCombo != null) {
+            etatCombo.setVisible(visible);
+            etatCombo.setManaged(visible);
+        }
+        if (createdAtLabel != null) {
+            createdAtLabel.setVisible(visible);
+            createdAtLabel.setManaged(visible);
+        }
+        if (createdAtField != null) {
+            createdAtField.setVisible(visible);
+            createdAtField.setManaged(visible);
+        }
+        if (updatedAtLabel != null) {
+            updatedAtLabel.setVisible(visible);
+            updatedAtLabel.setManaged(visible);
+        }
+        if (updatedAtField != null) {
+            updatedAtField.setVisible(visible);
+            updatedAtField.setManaged(visible);
+        }
     }
 
     private void loadData() {
@@ -289,10 +418,23 @@ public class ReclamationsController {
         VBox card = new VBox(8);
         card.getStyleClass().addAll("card", "reclamation-item-card");
 
+        HBox header = new HBox();
+        header.setAlignment(Pos.CENTER_LEFT);
+        
         Label title = new Label(reclamation.getTitre() == null || reclamation.getTitre().isBlank()
                 ? "Reclamation"
                 : reclamation.getTitre());
         title.getStyleClass().add("card-title");
+        
+        Region headerSpacer = new Region();
+        HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+        
+        Button aiAgent = new Button("✨ AI ANALYST");
+        aiAgent.getStyleClass().addAll("btn-secondary", "ai-agent-btn");
+        aiAgent.setTooltip(new Tooltip("Launch AI Sentiment & Urgency Analysis"));
+        aiAgent.setOnAction(event -> handleAiAnalysis(reclamation, aiAgent));
+        
+        header.getChildren().addAll(title, headerSpacer, aiAgent);
 
         HBox metaRow = new HBox(12);
         metaRow.getStyleClass().add("reclamation-meta-row");
@@ -301,8 +443,28 @@ public class ReclamationsController {
         typeBadge.getStyleClass().addAll("reclamation-meta-badge", "reclamation-meta-type");
 
         String etat = normalizeEtat(reclamation.getEtat());
-        Label etatBadge = new Label("Etat: " + etat);
+        ComboBox<String> etatBadge = new ComboBox<>();
+        etatBadge.getItems().setAll(List.of(ETAT_EN_COURS, ETAT_RESOLU, ETAT_APPROUVE, ETAT_REJETE));
+        etatBadge.setValue(etat);
         etatBadge.getStyleClass().addAll("reclamation-meta-badge", getEtatBadgeClass(etat));
+        etatBadge.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-background-insets: 0;");
+        
+        etatBadge.setOnAction(e -> {
+            String newVal = etatBadge.getValue();
+            if (newVal != null && !newVal.equals(reclamation.getEtat())) {
+                try {
+                    reclamation.setEtat(newVal);
+                    service.updateEntity(reclamation.getId(), reclamation);
+                    
+                    // Update style classes
+                    etatBadge.getStyleClass().removeAll("reclamation-meta-etat-en-cours", "reclamation-meta-etat-resolu", "reclamation-meta-etat-rejete");
+                    etatBadge.getStyleClass().add(getEtatBadgeClass(newVal));
+                } catch (SQLException ex) {
+                    showError("Update failed", "Could not update status: " + ex.getMessage());
+                    etatBadge.setValue(reclamation.getEtat()); // Revert on failure
+                }
+            }
+        });
 
         Label playerBadge = new Label("Player: " + (reclamation.getPlayerId() == null ? "N/A" : reclamation.getPlayerId()));
         playerBadge.getStyleClass().addAll("reclamation-meta-badge", "reclamation-meta-player");
@@ -331,15 +493,13 @@ public class ReclamationsController {
         HBox.setHgrow(spacer, Priority.ALWAYS);
         actions.getChildren().addAll(edit, delete, spacer, response);
 
-        card.getChildren().addAll(title, metaRow, description, attachment, created, updated, actions);
+        card.getChildren().addAll(header, metaRow, description, attachment, created, updated, actions);
         return card;
     }
 
     private void beginEdit(Reclamation reclamation) {
         editingReclamationId = reclamation.getId();
-        fillForm(reclamation);
-        setStatusAndAuditVisibility(true);
-        submitButton.setText("➤");
+        openFormPopup("Edit Reclamation #" + reclamation.getId(), reclamation);
     }
 
     private void deleteReclamationCard(Reclamation reclamation) {
@@ -453,6 +613,323 @@ public class ReclamationsController {
             }
         }
         return false;
+    }
+
+    // ===== Notification Methods =====
+    
+    @FXML
+    void onOpenNotifications(ActionEvent event) {
+        if (notifications.isEmpty()) {
+            showInfo("Notifications", "No new notifications.");
+            return;
+        }
+        showNotificationsDialog();
+    }
+
+    private void startNotificationPolling() {
+        if (notificationPollingThread != null && notificationPollingThread.isAlive()) {
+            return;
+        }
+        
+        notificationPollingThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    checkForNewAdminResponses();
+                    checkForNewPunitions();
+                    Thread.sleep(15000); // Check every 15 seconds
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                } catch (Exception e) {
+                    System.err.println("Error checking notifications: " + e.getMessage());
+                }
+            }
+        });
+        notificationPollingThread.setDaemon(true);
+        notificationPollingThread.start();
+    }
+
+    private void checkForNewAdminResponses() throws SQLException {
+        List<AdminResponse> allResponses = adminResponseService.getData();
+        
+        for (AdminResponse response : allResponses) {
+            if (!seenAdminResponseIds.contains(response.getId())) {
+                seenAdminResponseIds.add(response.getId());
+                
+                // Get reclamation details
+                Reclamation reclamation = adminResponseService.getReclamationById(response.getReclamationId());
+                String reclamationTitre = reclamation != null ? reclamation.getTitre() : "Reclamation #" + response.getReclamationId();
+                
+                ReclamationNotification notification = new ReclamationNotification(
+                    response.getId() * 10, // Avoid ID collision
+                    response.getId(),
+                    response.getMessage(),
+                    response.getReclamationId(),
+                    reclamationTitre,
+                    response.getCreatedAt(),
+                    "RESPONSE"
+                );
+                
+                Platform.runLater(() -> {
+                    notifications.add(0, notification);
+                    updateNotificationBadge();
+                });
+            }
+        }
+    }
+
+    private void checkForNewPunitions() throws SQLException {
+        List<Punition> allPunitions = punitionService.getDataWithReclamation();
+        
+        for (Punition punition : allPunitions) {
+            if (!seenPunitionIds.contains(punition.getId())) {
+                seenPunitionIds.add(punition.getId());
+                
+                String reclamationTitre = punition.getReclamation() != null ? punition.getReclamation().getTitre() : "Reclamation #" + punition.getReclamationId();
+                
+                ReclamationNotification notification = new ReclamationNotification(
+                    punition.getId() * 10 + 1, // Avoid ID collision
+                    punition.getId(),
+                    "Action: " + punition.getPlayerStatus(),
+                    punition.getReclamationId(),
+                    reclamationTitre,
+                    punition.getStartAt(),
+                    "PUNITION"
+                );
+                
+                Platform.runLater(() -> {
+                    notifications.add(0, notification);
+                    updateNotificationBadge();
+                });
+            }
+        }
+    }
+
+    private void updateNotificationBadge() {
+        if (notificationBadge == null) return;
+        int count = notifications.size();
+        if (count > 0) {
+            notificationBadge.setText(String.valueOf(count));
+            notificationBadge.setVisible(true);
+            notificationBadge.setManaged(true);
+        } else {
+            notificationBadge.setVisible(false);
+            notificationBadge.setManaged(false);
+        }
+    }
+
+
+    private void showNotificationsDialog() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setTitle("Recent Updates");
+
+        VBox root = new VBox(20);
+        root.getStyleClass().add("ai-popup-container");
+        root.setPrefWidth(500);
+        root.setPadding(new Insets(25));
+
+        Label title = new Label("Recent Activity (" + notifications.size() + ")");
+        title.getStyleClass().add("ai-header-title");
+        root.getChildren().add(title);
+
+        VBox list = new VBox(12);
+        list.setStyle("-fx-background-color: transparent;");
+
+        // Sort notifications: most recent first
+        List<ReclamationNotification> sorted = notifications.stream()
+                .sorted((a, b) -> b.getTimestamp().compareTo(a.getTimestamp()))
+                .toList();
+
+        for (ReclamationNotification notif : sorted) {
+            VBox card = new VBox(8);
+            boolean isResponse = "RESPONSE".equals(notif.getType());
+            String color = isResponse ? "#38bdf8" : "#f43f5e";
+            String bg = isResponse ? "rgba(56, 189, 248, 0.08)" : "rgba(244, 63, 94, 0.08)";
+            
+            card.setStyle("-fx-background-color: " + bg + "; -fx-padding: 15; -fx-background-radius: 12; -fx-border-color: " + color + "44; -fx-border-width: 1; -fx-border-radius: 12;");
+            
+            HBox header = new HBox(10);
+            header.setAlignment(Pos.CENTER_LEFT);
+            Label icon = new Label(isResponse ? "💬" : "⚖️");
+            icon.setStyle("-fx-font-size: 16px;");
+            Label type = new Label(isResponse ? "ADMIN RESPONSE" : "DISCIPLINARY ACTION");
+            type.setStyle("-fx-text-fill: " + color + "; -fx-font-weight: 900; -fx-font-size: 11px; -fx-text-transform: uppercase;");
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+            Label time = new Label(notif.getFormattedTimestamp());
+            time.setStyle("-fx-text-fill: #94a3b8; -fx-font-size: 11px;");
+            header.getChildren().addAll(icon, type, spacer, time);
+            
+            Label ref = new Label("Ref: " + notif.getReclamationTitre());
+            ref.setStyle("-fx-text-fill: #f1f5f9; -fx-font-weight: 700; -fx-font-size: 13px;");
+            
+            Label msg = new Label(notif.getAdminMessage());
+            msg.setStyle("-fx-text-fill: #cbd5e1; -fx-font-size: 13px;");
+            msg.setWrapText(true);
+            
+            card.getChildren().addAll(header, ref, msg);
+            list.getChildren().add(card);
+        }
+
+        javafx.scene.control.ScrollPane scroll = new javafx.scene.control.ScrollPane(list);
+        scroll.setFitToWidth(true);
+        scroll.setPrefHeight(450);
+        scroll.setStyle("-fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0;");
+        scroll.setHbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER);
+        
+        Button close = new Button("CLOSE");
+        close.getStyleClass().add("ai-close-btn");
+        close.setPrefWidth(Double.MAX_VALUE);
+        close.setOnAction(e -> stage.close());
+
+        root.getChildren().addAll(scroll, close);
+
+        Scene scene = new Scene(root);
+        scene.setFill(null);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void handleAiAnalysis(Reclamation reclamation, Button btn) {
+        String originalText = btn.getText();
+        btn.setText("⏳");
+        btn.setDisable(true);
+
+        Thread thread = new Thread(() -> {
+            try {
+                String result = AIApiClient.analyzeUrgency(reclamation.getDescription());
+                Platform.runLater(() -> {
+                    btn.setText(originalText);
+                    btn.setDisable(false);
+                    showAiResult(reclamation, result);
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    btn.setText(originalText);
+                    btn.setDisable(false);
+                    showError("AI Agent Error", "Failed to analyze: " + e.getMessage());
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void showAiResult(Reclamation reclamation, String result) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        
+        VBox root = new VBox(25);
+        root.getStyleClass().add("ai-popup-container");
+        root.setPrefWidth(550);
+        
+        // Header
+        HBox header = new HBox(15);
+        header.getStyleClass().add("ai-header-box");
+        Label icon = new Label("✨");
+        icon.setStyle("-fx-font-size: 28px;");
+        VBox titleBox = new VBox(2);
+        Label title = new Label("AI Urgency Analysis");
+        title.getStyleClass().add("ai-header-title");
+        Label subtitle = new Label("Mistral-powered sentiment engine");
+        subtitle.setStyle("-fx-text-fill: #64748b; -fx-font-size: 13px;");
+        titleBox.getChildren().addAll(title, subtitle);
+        header.getChildren().addAll(icon, titleBox);
+        
+        // Parsing logic
+        String urgency = parseField(result, "URGENCY LEVEL");
+        String sentiment = parseField(result, "SENTIMENT");
+        String summary = parseField(result, "SUMMARY");
+        String recommendation = parseField(result, "RECOMMENDATION");
+        
+        // Metrics Grid
+        GridPane grid = new GridPane();
+        grid.getStyleClass().add("ai-analysis-grid");
+        
+        VBox urgencyCard = createMetricCard("Urgency", urgency);
+        VBox sentimentCard = createMetricCard("Sentiment", sentiment);
+        
+        grid.add(urgencyCard, 0, 0);
+        grid.add(sentimentCard, 1, 0);
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(50);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(50);
+        grid.getColumnConstraints().addAll(col1, col2);
+        
+        // Summary & Recommendation
+        VBox detailsBox = new VBox(15);
+        
+        VBox summaryBox = new VBox(8);
+        summaryBox.getStyleClass().add("ai-summary-area");
+        Label summaryLabel = new Label("SUMMARY");
+        summaryLabel.setStyle("-fx-text-fill: #94a3b8; -fx-font-weight: bold; -fx-font-size: 11px;");
+        Label summaryText = new Label(summary);
+        summaryText.getStyleClass().add("ai-summary-text");
+        summaryText.setWrapText(true);
+        summaryBox.getChildren().addAll(summaryLabel, summaryText);
+        
+        VBox recBox = new VBox(8);
+        recBox.getStyleClass().add("ai-summary-area");
+        recBox.setStyle("-fx-border-color: rgba(99, 102, 241, 0.2);");
+        Label recLabel = new Label("ADVISORY");
+        recLabel.setStyle("-fx-text-fill: #a855f7; -fx-font-weight: bold; -fx-font-size: 11px;");
+        Label recText = new Label(recommendation);
+        recText.getStyleClass().add("ai-summary-text");
+        recText.setStyle("-fx-text-fill: #e2e8f0;");
+        recText.setWrapText(true);
+        recBox.getChildren().addAll(recLabel, recText);
+        
+        detailsBox.getChildren().addAll(summaryBox, recBox);
+        
+        // Footer
+        HBox footer = new HBox();
+        footer.setAlignment(Pos.CENTER_RIGHT);
+        Button closeBtn = new Button("ACKNOWLEDGE");
+        closeBtn.getStyleClass().add("ai-finish-btn");
+        closeBtn.setOnAction(e -> stage.close());
+        footer.getChildren().add(closeBtn);
+        
+        root.getChildren().addAll(header, grid, detailsBox, footer);
+        
+        Scene scene = new Scene(root);
+        scene.setFill(null);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        stage.setScene(scene);
+        
+        // Center on screen
+        stage.show();
+    }
+
+    private VBox createMetricCard(String label, String value) {
+        VBox card = new VBox(5);
+        card.getStyleClass().add("ai-card");
+        Label l = new Label(label);
+        l.getStyleClass().add("ai-card-label");
+        Label v = new Label(value);
+        v.getStyleClass().add("ai-card-value");
+        card.getChildren().addAll(l, v);
+        return card;
+    }
+
+    private String parseField(String text, String field) {
+        try {
+            java.util.regex.Pattern p = java.util.regex.Pattern.compile(field + ".*?:\\s*(.*?)(?=\\d\\.|\\n|$)", java.util.regex.Pattern.CASE_INSENSITIVE);
+            java.util.regex.Matcher m = p.matcher(text);
+            if (m.find()) {
+                return m.group(1).trim().replaceAll("\\*\\*", "");
+            }
+        } catch (Exception e) {}
+        return "Not detected";
+    }
+
+    private String truncateMessage(String message, int maxLength) {
+        if (message == null) return "N/A";
+        return message.length() > maxLength ? message.substring(0, maxLength) + "..." : message;
     }
 }
 

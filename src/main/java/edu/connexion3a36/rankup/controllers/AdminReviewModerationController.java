@@ -1,7 +1,9 @@
 package edu.connexion3a36.rankup.controllers;
 
 import edu.connexion3a36.entities.Review;
+import edu.connexion3a36.entities.Tournament;
 import edu.connexion3a36.services.ReviewService;
+import edu.connexion3a36.services.TournamentService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -26,6 +28,7 @@ public class AdminReviewModerationController implements Initializable {
     @FXML private VBox emptyStateContainer;
 
     private ReviewService reviewService;
+    private TournamentService tournamentService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -36,6 +39,7 @@ public class AdminReviewModerationController implements Initializable {
 
     private void initializeServices() {
         reviewService = new ReviewService();
+        tournamentService = new TournamentService();
     }
 
     private void setupEventHandlers() {
@@ -63,6 +67,27 @@ public class AdminReviewModerationController implements Initializable {
 
     private void populateReviewsTable(List<Review> reviews) {
         reviewsTableView.getItems().setAll(reviews);
+
+        // Custom cell factory for tournament column to display name
+        TableColumn<Review, String> tournamentColumn =
+                (TableColumn<Review, String>) reviewsTableView.getColumns().get(1);
+        tournamentColumn.setCellFactory(column -> new TableCell<Review, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    Review review = getTableView().getItems().get(getIndex());
+                    try {
+                        Tournament tournament = tournamentService.getTournamentById(review.getTournamentId());
+                        setText(tournament != null ? tournament.getName() : "Unknown Tournament");
+                    } catch (SQLException e) {
+                        setText("Error loading tournament");
+                    }
+                }
+            }
+        });
 
         // Custom cell factory for rating column to display stars
         TableColumn<Review, Integer> ratingColumn =

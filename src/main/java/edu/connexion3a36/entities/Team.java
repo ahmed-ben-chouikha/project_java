@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Team {
     private int id;
+    private Integer creatorId;
     private String name;
     private String country;
     private String description;
@@ -30,9 +31,12 @@ public class Team {
         this.score = 0;
     }
 
+    public Integer getCreatorId() { return creatorId; }
+    public void setCreatorId(Integer creatorId) { this.creatorId = creatorId; }
+
     public Team(int id, String name, String country, String description, String detailedDescription,
                 String logo, String jeu, String niveau, String statut,
-                Date dateValidation, int score, Date createdAt, Date updatedAt) {
+            Date dateValidation, int score, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.country = country;

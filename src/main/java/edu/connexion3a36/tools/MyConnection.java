@@ -2,55 +2,29 @@ package edu.connexion3a36.tools;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
 public class MyConnection {
 
-    private static final String DEFAULT_HOST = "localhost";
-    private static final String DEFAULT_PORT = "3306";
-    private static final String DEFAULT_DB = "esportdevvvvvv";
-    private static final String DEFAULT_USER = "root";
-    private static final String DEFAULT_PASSWORD = "";
-
-    private final String url;
-    private final String login;
-    private final String pwd;
+    private final String url="jdbc:mysql://localhost:3306/esportdevvvvvv-2?useSSL=false&serverTimezone=UTC";
+    private final String login="root";
+    private final String pwd="";
 
     private Connection cnx;
 
     public static MyConnection instance;
 
     private MyConnection(){
-        String host = resolve("DB_HOST", "db.host", DEFAULT_HOST);
-        String port = resolve("DB_PORT", "db.port", DEFAULT_PORT);
-        String database = resolve("DB_NAME", "db.name", DEFAULT_DB);
-
-        this.login = resolve("DB_USER", "db.user", DEFAULT_USER);
-        this.pwd = resolve("DB_PASSWORD", "db.password", DEFAULT_PASSWORD);
-        this.url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false&serverTimezone=UTC";
-
         try {
             cnx = DriverManager.getConnection(url,login,pwd);
             initializeSchema();
+            ensureColumnExists("punition", "is_automatic", "TINYINT(1) DEFAULT 0");
             System.out.println("Connection établie!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    private String resolve(String envKey, String sysKey, String fallback) {
-        String envValue = System.getenv(envKey);
-        if (envValue != null && !envValue.trim().isEmpty()) {
-            return envValue.trim();
-        }
-
-        String sysValue = System.getProperty(sysKey);
-        if (sysValue != null && !sysValue.trim().isEmpty()) {
-            return sysValue.trim();
-        }
-
-        return fallback;
     }
 
     private void initializeSchema() throws SQLException {
@@ -65,7 +39,27 @@ public class MyConnection {
         }
     }
 
+    private void ensureColumnExists(String table, String column, String definition) {
+        try (Statement statement = cnx.createStatement()) {
+            // Check if column exists
+            ResultSet rs = statement.executeQuery("SHOW COLUMNS FROM " + table + " LIKE '" + column + "'");
+            if (!rs.next()) {
+                System.out.println("Adding missing column '" + column + "' to table '" + table + "'...");
+                statement.executeUpdate("ALTER TABLE " + table + " ADD COLUMN " + column + " " + definition);
+            }
+        } catch (SQLException e) {
+            System.err.println("Warning: Could not check/add column " + column + ": " + e.getMessage());
+        }
+    }
+
     public Connection getCnx() {
+        try {
+            if (cnx == null || cnx.isClosed()) {
+                cnx = DriverManager.getConnection(url, login, pwd);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error reconnecting: " + e.getMessage());
+        }
         return cnx;
     }
 

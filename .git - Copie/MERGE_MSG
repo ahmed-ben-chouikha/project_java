@@ -1,0 +1,9 @@
+Merge branch 'master' into module-reward
+
+# Conflicts:
+#	.idea/workspace.xml
+#	src/main/java/edu/connexion3a36/rankup/controllers/AuthController.java
+#	src/main/java/edu/connexion3a36/rankup/controllers/RegisterController.java
+#	src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java
+#	src/main/resources/views/auth/register.fxml
+#	src/main/resources/views/common/SideNavigation.fxml

@@ -101,6 +101,17 @@
                         <ListView fx:id="announcementsList" prefHeight="180" styleClass="dashboard-list"/>
                     </children>
                 </VBox>
+                <VBox spacing="8" styleClass="card dashboard-panel" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="3">
+                    <children>
+                        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="dashboard-panel-header">
+                            <children>
+                                <Label text="Tournament Leaderboard" styleClass="section-title"/>
+                                <Label text="TIERS" styleClass="badge dashboard-panel-chip"/>
+                            </children>
+                        </HBox>
+                        <ListView fx:id="tournamentTierList" prefHeight="180" styleClass="dashboard-list"/>
+                    </children>
+                </VBox>
             </children>
         </GridPane>
     </children>

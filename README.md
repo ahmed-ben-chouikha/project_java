@@ -2,7 +2,7 @@
 
 A sleek, dark-themed JavaFX application for managing esports tournaments, matches, teams, and player registrations. Connects to your MySQL database.
 
-## 🎯 Features
+## ðŸŽ¯ Features
 
 - **Dashboard**: Live match overview, tournament highlights, featured teams, and admin/user role snapshots
 - **Match Center**: Browse live and upcoming esports matches with broadcast-ready actions
@@ -13,37 +13,37 @@ A sleek, dark-themed JavaFX application for managing esports tournaments, matche
 - **Role-based Navigation**: Toggle between user and admin modes with view-specific content
 - **Modern UI Theme**: Dark neon design with cyan and purple accents, glass-morphism cards, smooth animations
 
-## 📋 Project Structure
+## ðŸ“‹ Project Structure
 
 ```
 Connexion3A36/
-├── src/main/
-│   ├── java/edu/connexion3a36/
-│   │   ├── Controller/
-│   │   │   ├── AjouterPersonneController.java          # Main shell / dashboard controller
-│   │   │   └── AfficherPersonne2Controller.java        # Tournament hub controller
-│   │   ├── services/
-│   │   │   ├── EsportsCatalogService.java             # Mock esports data provider
-│   │   │   └── PersonneService.java                    # (Legacy, can extend for DB)
-│   │   ├── entities/
-│   │   │   └── Personne.java                          # (Legacy, kept for compatibility)
-│   │   ├── tools/
-│   │   │   └── MyConnection.java                       # MySQL connection (esportdevvvvvv DB)
-│   │   └── tests/
-│   │       └── MainFx.java                            # Application entry point
-│   └── resources/
-│       ├── AjouterPersonne.fxml                       # Main shell layout
-│       ├── AfficherPersonne2.fxml                     # Tournament hub layout
-│       └── styles/
-│           └── esports.css                            # Dark neon theme
-├── pom.xml                                            # Maven dependencies (JavaFX, MySQL, JUnit)
-└── target/                                            # Build output
+â”œâ”€â”€ src/main/
+â”‚   â”œâ”€â”€ java/edu/connexion3a36/
+â”‚   â”‚   â”œâ”€â”€ Controller/
+â”‚   â”‚   â”‚   â”œâ”€â”€ AjouterPersonneController.java          # Main shell / dashboard controller
+â”‚   â”‚   â”‚   â””â”€â”€ AfficherPersonne2Controller.java        # Tournament hub controller
+â”‚   â”‚   â”œâ”€â”€ services/
+â”‚   â”‚   â”‚   â”œâ”€â”€ EsportsCatalogService.java             # Mock esports data provider
+â”‚   â”‚   â”‚   â””â”€â”€ PersonneService.java                    # (Legacy, can extend for DB)
+â”‚   â”‚   â”œâ”€â”€ entities/
+â”‚   â”‚   â”‚   â””â”€â”€ Personne.java                          # (Legacy, kept for compatibility)
+â”‚   â”‚   â”œâ”€â”€ tools/
+â”‚   â”‚   â”‚   â””â”€â”€ MyConnection.java                       # MySQL connection (esportdevvvvvv-2 DB)
+â”‚   â”‚   â””â”€â”€ tests/
+â”‚   â”‚       â””â”€â”€ MainFx.java                            # Application entry point
+â”‚   â””â”€â”€ resources/
+â”‚       â”œâ”€â”€ AjouterPersonne.fxml                       # Main shell layout
+â”‚       â”œâ”€â”€ AfficherPersonne2.fxml                     # Tournament hub layout
+â”‚       â””â”€â”€ styles/
+â”‚           â””â”€â”€ esports.css                            # Dark neon theme
+â”œâ”€â”€ pom.xml                                            # Maven dependencies (JavaFX, MySQL, JUnit)
+â””â”€â”€ target/                                            # Build output
 ```
 
-## 🗄️ Database Setup
+## ðŸ—„ï¸ Database Setup
 
 The app connects to your XAMPP MySQL database:
-- **Database Name**: `esportdevvvvvv`
+- **Database Name**: `esportdevvvvvv-2`
 - **Host**: `localhost:3306`
 - **User**: `root`
 - **Password**: (empty by default)
@@ -74,7 +74,7 @@ mvn -Ddb.host=localhost -Ddb.port=3307 -Ddb.name=esportdevvvvvv -Ddb.user=root -
 
 ### Required Table
 
-Create this table in your `esportdevvvvvv` database:
+Create this table in your `esportdevvvvvv-2` database:
 
 ```sql
 CREATE TABLE IF NOT EXISTS personne (
@@ -84,13 +84,13 @@ CREATE TABLE IF NOT EXISTS personne (
 );
 ```
 
-## 🚀 How to Run
+## ðŸš€ How to Run
 
 ### Prerequisites
 - **Java 17+** (ideally 21+)
 - **Maven 3.6+**
 - **JavaFX SDK 21** (specified in pom.xml)
-- **MySQL Server** running with `esportdevvvvvv` database
+- **MySQL Server** running with `esportdevvvvvv-2` database
 
 ### Build and Run
 
@@ -114,7 +114,7 @@ java -p target/classes;$JAVAFX_MODULE_PATH -m javafx.graphics/edu.connexion3a36.
 2. Configure JavaFX SDK in IDE settings
 3. Run `MainFx.java` as the main class
 
-## 🎨 UI Tour
+## ðŸŽ¨ UI Tour
 
 ### Dashboard
 - **Hero Section**: Quick intro with CTA buttons
@@ -140,7 +140,7 @@ java -p target/classes;$JAVAFX_MODULE_PATH -m javafx.graphics/edu.connexion3a36.
 - Admin tools (roster approval, bracket sync, announcements)
 - Moderation queue cards
 
-## 🛠️ Architecture
+## ðŸ› ï¸ Architecture
 
 - **Controllers**: Handle UI events, page navigation, and state management
 - **Services**: Provide mock and database-backed data (EsportsCatalogService for demo data)
@@ -148,7 +148,7 @@ java -p target/classes;$JAVAFX_MODULE_PATH -m javafx.graphics/edu.connexion3a36.
 - **CSS Theme**: Global esports-inspired dark mode with neon accents
 - **MySQL Connection**: Singleton pattern for DB access
 
-## 📝 Key Files Modified
+## ðŸ“ Key Files Modified
 
 - `MainFx.java`: Updated to load new shell and apply theme
 - `AjouterPersonneController.java`: Replaced with full esports dashboard
@@ -157,9 +157,9 @@ java -p target/classes;$JAVAFX_MODULE_PATH -m javafx.graphics/edu.connexion3a36.
 - `AfficherPersonne2.fxml`: Tournament hub layout with registration form
 - `esports.css`: Complete dark neon theme
 - `EsportsCatalogService.java`: New service providing mock esports data
-- `MyConnection.java`: Updated to use `esportdevvvvvv` database
+- `MyConnection.java`: Updated to use `esportdevvvvvv-2` database
 
-## 🔄 Extending the App
+## ðŸ”„ Extending the App
 
 ### Add Real Tournament Data
 Replace `EsportsCatalogService` mock methods with actual database queries:
@@ -184,13 +184,13 @@ public List<TournamentCard> getUpcomingTournaments() {
 2. Build `MatchService`, `TeamService`, `BracketService`
 3. Update controller methods to fetch live data
 
-## 📦 Dependencies
+## ðŸ“¦ Dependencies
 
 - **JavaFX 21.0.2**: UI framework
 - **MySQL Connector 8.0.30**: Database driver
 - **JUnit 5.10.2**: Testing
 
-## 🎯 Next Steps
+## ðŸŽ¯ Next Steps
 
 1. **Database Schema**: Create `tournaments`, `matches`, `teams`, `users` tables
 2. **Real Data Binding**: Update services to query the database
@@ -198,11 +198,11 @@ public List<TournamentCard> getUpcomingTournaments() {
 4. **WebSocket Integration**: Real-time match updates
 5. **Styling Refinements**: Adjust colors and fonts per brand guidelines
 
-## 📄 License
+## ðŸ“„ License
 
 Built with JavaFX and MySQL for educational and esports management purposes.
 
 ---
 
-**EsportDev Arena** — Compete, watch, and manage in one sleek hub.
+**EsportDev Arena** â€” Compete, watch, and manage in one sleek hub.
 

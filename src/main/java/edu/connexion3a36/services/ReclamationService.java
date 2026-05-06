@@ -159,7 +159,8 @@ public class ReclamationService implements IService<Reclamation> {
         return data;
     }
     public List<Reclamation> getDataWithRelations() throws SQLException {
-        List<Reclamation> data = new ArrayList<>();
+        // Use a LinkedHashMap to aggregate multiple punitions per reclamation
+        java.util.LinkedHashMap<Integer, Reclamation> reclamationMap = new java.util.LinkedHashMap<>();
         String query = "SELECT r.id, r.titre, r.description, r.type, r.etat, r.created_at, r.updated_at, r.attachment_filename, r.player_id, "
                 + "ar.id AS ar_id, ar.message, ar.created_at AS ar_created_at, ar.updated_at AS ar_updated_at, ar.reclamation_id AS ar_reclamation_id, "
                 + "p.id AS p_id, p.start_at, p.end_at, p.player_status, p.reclamation_id AS p_reclamation_id "
@@ -170,61 +171,71 @@ public class ReclamationService implements IService<Reclamation> {
         try (Statement st = getConnection().createStatement();
              ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
-                Reclamation reclamation = new Reclamation();
-                reclamation.setId(rs.getInt("id"));
-                reclamation.setTitre(rs.getString("titre"));
-                reclamation.setDescription(rs.getString("description"));
-                reclamation.setType(rs.getString("type"));
-                reclamation.setEtat(rs.getString("etat"));
-                Timestamp createdAt = rs.getTimestamp("created_at");
-                if (createdAt != null) {
-                    reclamation.setCreatedAt(createdAt.toLocalDateTime());
-                }
-                Timestamp updatedAt = rs.getTimestamp("updated_at");
-                if (updatedAt != null) {
-                    reclamation.setUpdatedAt(updatedAt.toLocalDateTime());
-                }
-                reclamation.setAttachmentFilename(rs.getString("attachment_filename"));
-                int playerId = rs.getInt("player_id");
-                reclamation.setPlayerId(rs.wasNull() ? null : playerId);
-                int adminResponseId = rs.getInt("ar_id");
-                if (!rs.wasNull()) {
-                    AdminResponse adminResponse = new AdminResponse();
-                    adminResponse.setId(adminResponseId);
-                    adminResponse.setMessage(rs.getString("message"));
-                    Timestamp arCreated = rs.getTimestamp("ar_created_at");
-                    if (arCreated != null) {
-                        adminResponse.setCreatedAt(arCreated.toLocalDateTime());
+                int recId = rs.getInt("id");
+                Reclamation reclamation = reclamationMap.get(recId);
+                if (reclamation == null) {
+                    reclamation = new Reclamation();
+                    reclamation.setId(recId);
+                    reclamation.setTitre(rs.getString("titre"));
+                    reclamation.setDescription(rs.getString("description"));
+                    reclamation.setType(rs.getString("type"));
+                    reclamation.setEtat(rs.getString("etat"));
+                    Timestamp createdAt = rs.getTimestamp("created_at");
+                    if (createdAt != null) {
+                        reclamation.setCreatedAt(createdAt.toLocalDateTime());
                     }
-                    Timestamp arUpdated = rs.getTimestamp("ar_updated_at");
-                    if (arUpdated != null) {
-                        adminResponse.setUpdatedAt(arUpdated.toLocalDateTime());
+                    Timestamp updatedAt = rs.getTimestamp("updated_at");
+                    if (updatedAt != null) {
+                        reclamation.setUpdatedAt(updatedAt.toLocalDateTime());
                     }
-                    adminResponse.setReclamationId(rs.getInt("ar_reclamation_id"));
-                    adminResponse.setReclamation(reclamation);
-                    reclamation.setAdminResponse(adminResponse);
+                    reclamation.setAttachmentFilename(rs.getString("attachment_filename"));
+                    int playerId = rs.getInt("player_id");
+                    reclamation.setPlayerId(rs.wasNull() ? null : playerId);
+                    int adminResponseId = rs.getInt("ar_id");
+                    if (!rs.wasNull()) {
+                        AdminResponse adminResponse = new AdminResponse();
+                        adminResponse.setId(adminResponseId);
+                        adminResponse.setMessage(rs.getString("message"));
+                        Timestamp arCreated = rs.getTimestamp("ar_created_at");
+                        if (arCreated != null) {
+                            adminResponse.setCreatedAt(arCreated.toLocalDateTime());
+                        }
+                        Timestamp arUpdated = rs.getTimestamp("ar_updated_at");
+                        if (arUpdated != null) {
+                            adminResponse.setUpdatedAt(arUpdated.toLocalDateTime());
+                        }
+                        adminResponse.setReclamationId(rs.getInt("ar_reclamation_id"));
+                        adminResponse.setReclamation(reclamation);
+                        reclamation.setAdminResponse(adminResponse);
+                    }
+                    reclamationMap.put(recId, reclamation);
                 }
+                // Collect each punition into the list (one-to-many)
                 int punitionId = rs.getInt("p_id");
                 if (!rs.wasNull()) {
-                    Punition punition = new Punition();
-                    punition.setId(punitionId);
-                    Timestamp pStart = rs.getTimestamp("start_at");
-                    if (pStart != null) {
-                        punition.setStartAt(pStart.toLocalDateTime());
+                    // Avoid adding duplicates if multiple admin_response rows cause repeated punition rows
+                    boolean alreadyAdded = reclamation.getPunitions().stream()
+                            .anyMatch(p -> p.getId() == punitionId);
+                    if (!alreadyAdded) {
+                        Punition punition = new Punition();
+                        punition.setId(punitionId);
+                        Timestamp pStart = rs.getTimestamp("start_at");
+                        if (pStart != null) {
+                            punition.setStartAt(pStart.toLocalDateTime());
+                        }
+                        Timestamp pEnd = rs.getTimestamp("end_at");
+                        if (pEnd != null) {
+                            punition.setEndAt(pEnd.toLocalDateTime());
+                        }
+                        punition.setPlayerStatus(rs.getString("player_status"));
+                        punition.setReclamationId(rs.getInt("p_reclamation_id"));
+                        punition.setReclamation(reclamation);
+                        reclamation.addPunition(punition);
                     }
-                    Timestamp pEnd = rs.getTimestamp("end_at");
-                    if (pEnd != null) {
-                        punition.setEndAt(pEnd.toLocalDateTime());
-                    }
-                    punition.setPlayerStatus(rs.getString("player_status"));
-                    punition.setReclamationId(rs.getInt("p_reclamation_id"));
-                    punition.setReclamation(reclamation);
-                    reclamation.setPunition(punition);
                 }
-                data.add(reclamation);
             }
         }
-        return data;
+        return new ArrayList<>(reclamationMap.values());
     }
     public List<PlayerLookup> getAvailablePlayers() throws SQLException {
         List<String> queries = List.of(

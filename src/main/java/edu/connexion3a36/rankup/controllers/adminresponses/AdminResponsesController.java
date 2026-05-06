@@ -19,6 +19,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Modality;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.util.Duration;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -52,7 +58,11 @@ public class AdminResponsesController {
     @FXML private TextField updatedAtField;
     @FXML private TextArea messageArea;
     @FXML private VBox responseCardsBox;
+    @FXML private ComboBox<String> predefinedCombo;
     @FXML private Button submitButton;
+    private static final String REJ_NOT_ENOUGH_PROOF = "not enough proof";
+    private static final String REJ_ALREADY_BANNED = "this player is already banned for this matter";
+    private static final String REJ_ALREADY_DENIED = "this matter is already discussed and denied";
     private final AdminResponseService service = new AdminResponseService();
     private final ObservableList<AdminResponse> rows = FXCollections.observableArrayList();
     private final FilteredList<AdminResponse> filtered = new FilteredList<>(rows, item -> true);
@@ -60,12 +70,31 @@ public class AdminResponsesController {
     private Integer focusedResponseId;
     @FXML
     void initialize() {
-        createdAtField.setEditable(false);
-        updatedAtField.setEditable(false);
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
+        if (createdAtField != null) {
+            createdAtField.setEditable(false);
+        }
+        if (updatedAtField != null) {
+            updatedAtField.setEditable(false);
+        }
+        if (searchField != null) {
+            searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
+        }
+        
         loadReclamationChoices();
         loadData();
-        clearForm();
+        
+        if (reclamationCombo != null) {
+            clearForm();
+        }
+        if (predefinedCombo != null) {
+            predefinedCombo.getItems().setAll(List.of(REJ_NOT_ENOUGH_PROOF, REJ_ALREADY_BANNED, REJ_ALREADY_DENIED));
+            predefinedCombo.setOnAction(e -> {
+                String selected = predefinedCombo.getValue();
+                if (selected != null && messageArea != null) {
+                    messageArea.setText(selected);
+                }
+            });
+        }
     }
     @FXML
     void onCreateResponse() {
@@ -76,6 +105,13 @@ public class AdminResponsesController {
                 service.updateEntity(editingResponseId, response);
             } else {
                 service.addEntity(response);
+                // Auto-reject if using a predefined reason
+                String currentMsg = response.getMessage();
+                if (currentMsg != null && (currentMsg.equals(REJ_NOT_ENOUGH_PROOF) || 
+                                         currentMsg.equals(REJ_ALREADY_BANNED) || 
+                                         currentMsg.equals(REJ_ALREADY_DENIED))) {
+                    service.rejectReclamation(response.getReclamationId());
+                }
             }
             loadData();
             clearForm();
@@ -105,6 +141,56 @@ public class AdminResponsesController {
             showError("Delete failed", e.getMessage());
         }
     }
+    @FXML
+    void onOpenCreatePopup() {
+        clearForm();
+        openFormPopup("Send New Response", null);
+    }
+
+    private void openFormPopup(String title, AdminResponse responseToEdit) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/adminresponses/response-form.fxml"));
+            loader.setController(this);
+            VBox root = loader.load();
+            
+            if (responseToEdit != null) {
+                fillForm(responseToEdit);
+            }
+            
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setTitle(title);
+            
+            Scene scene = new Scene(root);
+            scene.setFill(null);
+            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+            stage.setScene(scene);
+            
+            Button popupSubmit = (Button) root.lookup("#submitButton");
+            Button popupCancel = (Button) root.lookup("#cancelButton");
+            Label titleLabel = (Label) root.lookup("#formTitle");
+            if (titleLabel != null) titleLabel.setText(title);
+
+            popupCancel.setOnAction(e -> stage.close());
+            popupSubmit.setOnAction(e -> {
+                onCreateResponse();
+                if (editingResponseId == null) {
+                    stage.close();
+                }
+            });
+
+            if (editingResponseId != null) {
+                popupSubmit.setText("UPDATE RESPONSE");
+            }
+
+            stage.show();
+        } catch (Exception e) {
+            showError("Popup Error", "Unable to open form: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void onClearForm() {
         clearForm();
@@ -138,26 +224,28 @@ public class AdminResponsesController {
             return;
         }
         editingResponseId = response.getId();
-        messageArea.setText(response.getMessage());
+        if (messageArea != null) messageArea.setText(response.getMessage());
         setSelectedReclamation(response.getReclamationId());
-        createdAtField.setText(formatDateTime(response.getCreatedAt()));
-        updatedAtField.setText(formatDateTime(response.getUpdatedAt()));
+        if (createdAtField != null) createdAtField.setText(formatDateTime(response.getCreatedAt()));
+        if (updatedAtField != null) updatedAtField.setText(formatDateTime(response.getUpdatedAt()));
         setAuditFieldsVisible(true);
-        submitButton.setText("➤");
+        if (submitButton != null) submitButton.setText("➤");
     }
     private void clearForm() {
         editingResponseId = null;
-        messageArea.clear();
-        reclamationCombo.setValue(null);
-        createdAtField.clear();
-        updatedAtField.clear();
+        if (messageArea != null) messageArea.clear();
+        if (reclamationCombo != null) reclamationCombo.setValue(null);
+        if (createdAtField != null) createdAtField.clear();
+        if (updatedAtField != null) updatedAtField.clear();
         setAuditFieldsVisible(false);
-        submitButton.setText("➤");
+        if (submitButton != null) submitButton.setText("➤");
     }
     private void loadReclamationChoices() {
+        if (reclamationCombo == null) return;
         try {
             List<ReclamationChoice> choices = service.getReclamationChoices().stream()
                     .map(item -> new ReclamationChoice(item.getId(), item.getTitre()))
+                    .sorted((a, b) -> Integer.compare(b.getId(), a.getId()))
                     .toList();
             reclamationCombo.getItems().setAll(choices);
         } catch (SQLException e) {
@@ -165,6 +253,7 @@ public class AdminResponsesController {
         }
     }
     private void setSelectedReclamation(int reclamationId) {
+        if (reclamationCombo == null) return;
         for (ReclamationChoice choice : reclamationCombo.getItems()) {
             if (choice.getId() == reclamationId) {
                 reclamationCombo.setValue(choice);
@@ -176,14 +265,22 @@ public class AdminResponsesController {
         reclamationCombo.setValue(fallback);
     }
     private void setAuditFieldsVisible(boolean visible) {
-        createdAtLabel.setVisible(visible);
-        createdAtLabel.setManaged(visible);
-        createdAtField.setVisible(visible);
-        createdAtField.setManaged(visible);
-        updatedAtLabel.setVisible(visible);
-        updatedAtLabel.setManaged(visible);
-        updatedAtField.setVisible(visible);
-        updatedAtField.setManaged(visible);
+        if (createdAtLabel != null) {
+            createdAtLabel.setVisible(visible);
+            createdAtLabel.setManaged(visible);
+        }
+        if (createdAtField != null) {
+            createdAtField.setVisible(visible);
+            createdAtField.setManaged(visible);
+        }
+        if (updatedAtLabel != null) {
+            updatedAtLabel.setVisible(visible);
+            updatedAtLabel.setManaged(visible);
+        }
+        if (updatedAtField != null) {
+            updatedAtField.setVisible(visible);
+            updatedAtField.setManaged(visible);
+        }
     }
     private void loadData() {
         try {
@@ -245,7 +342,9 @@ public class AdminResponsesController {
         HBox actions = new HBox(8);
         Button edit = new Button("✎");
         edit.getStyleClass().addAll("btn-primary", "icon-button");
-        edit.setOnAction(e -> fillForm(response));
+        edit.setOnAction(e -> {
+            openFormPopup("Edit Response #" + response.getId(), response);
+        });
         Button delete = new Button("🗑");
         delete.getStyleClass().addAll("btn-danger", "icon-button");
         delete.setOnAction(e -> deleteResponseCard(response));

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.admin.AdminPaymentsController" spacing="14" styleClass="page-root admin-page">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <HBox styleClass="card admin-hero" spacing="14">
+            <children>
+                <VBox spacing="6">
+                    <children>
+                        <Label text="Payments &amp; Revenue" styleClass="page-title" />
+                        <Label text="Track recent ticket payments, income, and order status from one dashboard." styleClass="muted" />
+                    </children>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Refresh" onAction="#onRefresh" styleClass="btn-primary" />
+                <Button text="Back" onAction="#onBack" styleClass="btn-secondary" />
+            </children>
+            <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+        </HBox>
+
+        <GridPane hgap="12" vgap="12">
+            <children>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="0"><children><Label fx:id="totalPaymentsLabel" text="0" styleClass="stat-value"/><Label text="Total Payments"/><Label text="All payment records" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="1"><children><Label fx:id="totalIncomeLabel" text="\$0.00" styleClass="stat-value"/><Label text="Total Income"/><Label text="Gross revenue" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="2"><children><Label fx:id="averageIncomeLabel" text="\$0.00" styleClass="stat-value"/><Label text="Average Order"/><Label text="Avg payment amount" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="3"><children><Label fx:id="paidCountLabel" text="0" styleClass="stat-value"/><Label text="Paid"/><Label text="Successful checkouts" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="4"><children><Label fx:id="pendingCountLabel" text="0" styleClass="stat-value"/><Label text="Pending"/><Label text="Awaiting completion" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="5"><children><Label fx:id="failedCountLabel" text="0" styleClass="stat-value"/><Label text="Failed"/><Label text="Cancelled or failed" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="6"><children><Label fx:id="totalTicketsLabel" text="0" styleClass="stat-value"/><Label text="Tickets Sold"/><Label text="Total quantity" styleClass="muted"/></children></VBox>
+            </children>
+        </GridPane>
+
+        <HBox spacing="12">
+            <children>
+                <VBox spacing="8" styleClass="card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <children>
+                                <Label text="Recent Payments" styleClass="section-title" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="statusLabel" text="" styleClass="muted" />
+                            </children>
+                        </HBox>
+
+                        <TableView fx:id="paymentsTable" VBox.vgrow="ALWAYS" styleClass="tickets-table">
+                            <columns>
+                                <TableColumn fx:id="idCol" text="#" prefWidth="70" />
+                                <TableColumn fx:id="customerCol" text="Customer" prefWidth="240" />
+                                <TableColumn fx:id="amountCol" text="Amount" prefWidth="100" />
+                                <TableColumn fx:id="quantityCol" text="Qty" prefWidth="70" />
+                                <TableColumn fx:id="statusCol" text="Status" prefWidth="110" />
+                                <TableColumn fx:id="createdAtCol" text="Created" prefWidth="150" />
+                                <TableColumn fx:id="paymentIntentCol" text="Checkout ID" prefWidth="240" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <VBox spacing="8" prefWidth="300" styleClass="card">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <Label text="Insights" styleClass="section-title" />
+                        <Label text="Use this view to see revenue momentum, payment volume, and checkout health." wrapText="true" styleClass="muted" />
+                        <Label text="Good visual cues" styleClass="section-title" />
+                        <Label text="• Income growth over time\n• Pending vs paid ratio\n• Top customers and recent orders\n• Ticket quantity sold" wrapText="true" styleClass="muted" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>

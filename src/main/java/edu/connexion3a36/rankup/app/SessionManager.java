@@ -46,6 +46,9 @@ public final class SessionManager {
         return "admin".equalsIgnoreCase(currentRole);
     }
 
+    public static boolean isManager() {
+        return "manager".equalsIgnoreCase(currentRole);
+    }
     public static boolean isPlayer() {
         return "player".equalsIgnoreCase(currentRole);
     }

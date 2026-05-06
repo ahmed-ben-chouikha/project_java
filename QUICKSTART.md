@@ -29,25 +29,41 @@ If `java -version` shows Java 8 or lower, switch to JDK 17+ before running.
 Start MySQL from XAMPP, then run:
 
 ```powershell
+<<<<<<< HEAD
+mysql -u root -h localhost -e "CREATE DATABASE IF NOT EXISTS esportdevvvvvv-2;"
+=======
 mysql -u root -h localhost -e "CREATE DATABASE IF NOT EXISTS esportdevvvvvv;"
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 If your `mysql` command is not in PATH, use the XAMPP binary directly:
 
 ```powershell
+<<<<<<< HEAD
+& "C:\xampp\mysql\bin\mysql.exe" -u root -h localhost -e "CREATE DATABASE IF NOT EXISTS esportdevvvvvv-2;"
+=======
 & "C:\xampp\mysql\bin\mysql.exe" -u root -h localhost -e "CREATE DATABASE IF NOT EXISTS esportdevvvvvv;"
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 Create the minimum base table used by older parts of the app:
 
 ```powershell
+<<<<<<< HEAD
+mysql -u root -h localhost -D esportdevvvvvv-2 -e "CREATE TABLE IF NOT EXISTS personne (id INT AUTO_INCREMENT PRIMARY KEY, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL);"
+=======
 mysql -u root -h localhost -D esportdevvvvvv -e "CREATE TABLE IF NOT EXISTS personne (id INT AUTO_INCREMENT PRIMARY KEY, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL);"
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 Optional sample rows:
 
 ```powershell
+<<<<<<< HEAD
+mysql -u root -h localhost -D esportdevvvvvv-2 -e "INSERT INTO personne (nom, prenom) VALUES ('Nova','Crew'),('Eclipse','Squad'),('Apex','Drift');"
+=======
 mysql -u root -h localhost -D esportdevvvvvv -e "INSERT INTO personne (nom, prenom) VALUES ('Nova','Crew'),('Eclipse','Squad'),('Apex','Drift');"
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ## 5) Run the App
@@ -121,12 +137,20 @@ $env:Path = "$env:M2_HOME\bin;" + $env:Path
 
 ### Database/table errors (unknown table, missing column)
 
+<<<<<<< HEAD
+Run the SQL scripts in the `database/` folder and top-level `*.sql` files against `esportdevvvvvv-2`.
+=======
 Run the SQL scripts in the `database/` folder and top-level `*.sql` files against `esportdevvvvvv`.
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 
 Example:
 
 ```powershell
+<<<<<<< HEAD
+mysql -u root -h localhost esportdevvvvvv-2 < .\database\reviews_table.sql
+=======
 mysql -u root -h localhost esportdevvvvvv < .\database\reviews_table.sql
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 ```
 
 ## 8) Build Only (No Launch)

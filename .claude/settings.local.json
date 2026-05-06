@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Program Files/apache-maven-3.9.9/**)",
+      "Read(//c/Java/jdk-17.0.12/bin/**)",
+      "Bash(wait)",
+      "Bash(export JAVA_HOME=\"/c/Users/F/.jdks/jbr-17.0.14\")",
+      "Bash(\"/c/apache-maven/bin/mvn.cmd\" compile *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\F\\\\OneDrive\\\\Bureau\\\\project_java\" -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Bash(mvn compile *)",
+      "Bash(./mvn.ps1 compile *)"
+    ]
+  }
+}

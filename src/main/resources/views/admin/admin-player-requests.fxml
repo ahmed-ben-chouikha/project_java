@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.admin.AdminPlayerRequestsController" spacing="14" styleClass="page-root admin-page">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <HBox styleClass="card admin-hero" spacing="14">
+            <children>
+                <VBox spacing="6">
+                    <children>
+                        <Label text="Player Requests" styleClass="page-title" />
+                        <Label text="Review pending player applications and approve or deny them." styleClass="muted" />
+                    </children>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Refresh" onAction="#onRefresh" styleClass="btn-primary" />
+                <Button text="Back" onAction="#onBack" styleClass="btn-secondary" />
+            </children>
+            <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+        </HBox>
+
+        <GridPane hgap="12" vgap="12">
+            <children>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="0"><children><Label fx:id="pendingCountLabel" text="0" styleClass="stat-value"/><Label text="Pending"/><Label text="Applications awaiting review" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="1"><children><Label fx:id="approvedCountLabel" text="0" styleClass="stat-value"/><Label text="Approved"/><Label text="Accepted players" styleClass="muted"/></children></VBox>
+                <VBox styleClass="stat-card admin-stat-card" GridPane.columnIndex="2"><children><Label fx:id="rejectedCountLabel" text="0" styleClass="stat-value"/><Label text="Rejected"/><Label text="Denied players" styleClass="muted"/></children></VBox>
+            </children>
+        </GridPane>
+
+        <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+            <children>
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <children>
+                        <Label text="Pending Player Applications" styleClass="section-title" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="statusLabel" text="" styleClass="muted" />
+                    </children>
+                </HBox>
+
+                <TableView fx:id="requestsTable" VBox.vgrow="ALWAYS" styleClass="tickets-table">
+                    <columns>
+                        <TableColumn fx:id="idCol" text="#" prefWidth="70" />
+                        <TableColumn fx:id="nicknameCol" text="Nickname" prefWidth="150" />
+                        <TableColumn fx:id="firstNameCol" text="First Name" prefWidth="150" />
+                        <TableColumn fx:id="lastNameCol" text="Last Name" prefWidth="150" />
+                        <TableColumn fx:id="birthDateCol" text="Birth Date" prefWidth="120" />
+                        <TableColumn fx:id="roleCol" text="Role" prefWidth="120" />
+                        <TableColumn fx:id="createdAtCol" text="Submitted" prefWidth="170" />
+                        <TableColumn fx:id="statusCol" text="Status" prefWidth="110" />
+                        <TableColumn fx:id="actionsCol" text="Actions" prefWidth="180" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</VBox>

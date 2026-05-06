@@ -1,77 +1,77 @@
-# 📖 EsportDev Arena - Documentation Index
+# ðŸ“– EsportDev Arena - Documentation Index
 
 Welcome! Your JavaFX esports application has been completely transformed and is ready to use. Start here to find what you need.
 
 ---
 
-## 🚀 I Want To... (Quick Links)
+## ðŸš€ I Want To... (Quick Links)
 
 ### "Get this thing running NOW!"
-→ **Read: [QUICKSTART.md](./QUICKSTART.md)** (5 min read)
+â†’ **Read: [QUICKSTART.md](./QUICKSTART.md)** (5 min read)
 - Prerequisites checklist
 - Build commands
 - Common fixes
 
 ### "Understand what was built"
-→ **Read: [README.md](./README.md)** (10 min read)
+â†’ **Read: [README.md](./README.md)** (10 min read)
 - Feature overview
 - Architecture diagram
 - How to extend
 
 ### "See the screens visually"
-→ **Read: [UI_SCREENS_GUIDE.md](./UI_SCREENS_GUIDE.md)** (15 min read)
+â†’ **Read: [UI_SCREENS_GUIDE.md](./UI_SCREENS_GUIDE.md)** (15 min read)
 - ASCII mockups of all 7 screens
 - Color palette
 - Interaction patterns
 
 ### "Understand all the changes"
-→ **Read: [TRANSFORMATION_SUMMARY.md](./TRANSFORMATION_SUMMARY.md)** (20 min read)
+â†’ **Read: [TRANSFORMATION_SUMMARY.md](./TRANSFORMATION_SUMMARY.md)** (20 min read)
 - Line-by-line changes
 - Code highlights
 - Database schema
 
 ### "Verify everything is complete"
-→ **Read: [COMPLETION_CHECKLIST.md](./COMPLETION_CHECKLIST.md)** (5 min read)
+â†’ **Read: [COMPLETION_CHECKLIST.md](./COMPLETION_CHECKLIST.md)** (5 min read)
 - Final checklist
 - Statistics
 - Next steps
 
 ### "Get an overview summary"
-→ **Read: This file + DELIVERY_SUMMARY.md** (10 min read)
+â†’ **Read: This file + DELIVERY_SUMMARY.md** (10 min read)
 - What you're getting
 - Quick start
 - Support info
 
 ---
 
-## 📁 File Organization
+## ðŸ“ File Organization
 
 ### Source Code (Java)
 ```
 src/main/java/edu/connexion3a36/
-├── Controller/
-│   ├── AjouterPersonneController.java         [MODIFIED] Dashboard shell
-│   └── AfficherPersonne2Controller.java       [MODIFIED] Tournament hub
-├── services/
-│   ├── EsportsCatalogService.java            [NEW] Data service
-│   ├── PersonneService.java                  [KEPT] Legacy service
-│   └── IService.java                         [KEPT] Interface
-├── entities/
-│   └── Personne.java                         [KEPT] Data model
-├── tools/
-│   └── MyConnection.java                     [MODIFIED] DB connection
-└── tests/
-    ├── MainFx.java                           [MODIFIED] App launcher
-    └── MainClass.java                        [KEPT] Test class
+â”œâ”€â”€ Controller/
+â”‚   â”œâ”€â”€ AjouterPersonneController.java         [MODIFIED] Dashboard shell
+â”‚   â””â”€â”€ AfficherPersonne2Controller.java       [MODIFIED] Tournament hub
+â”œâ”€â”€ services/
+â”‚   â”œâ”€â”€ EsportsCatalogService.java            [NEW] Data service
+â”‚   â”œâ”€â”€ PersonneService.java                  [KEPT] Legacy service
+â”‚   â””â”€â”€ IService.java                         [KEPT] Interface
+â”œâ”€â”€ entities/
+â”‚   â””â”€â”€ Personne.java                         [KEPT] Data model
+â”œâ”€â”€ tools/
+â”‚   â””â”€â”€ MyConnection.java                     [MODIFIED] DB connection
+â””â”€â”€ tests/
+    â”œâ”€â”€ MainFx.java                           [MODIFIED] App launcher
+    â””â”€â”€ MainClass.java                        [KEPT] Test class
 ```
 
 ### Resources (FXML & CSS)
 ```
 src/main/resources/
-├── AjouterPersonne.fxml                      [MODIFIED] Main shell layout
-├── AfficherPersonne2.fxml                    [MODIFIED] Tournament hub
-└── styles/
-    └── esports.css                           [NEW] Dark neon theme
+â”œâ”€â”€ AjouterPersonne.fxml                      [MODIFIED] Main shell layout
+â”œâ”€â”€ AfficherPersonne2.fxml                    [MODIFIED] Tournament hub
+â””â”€â”€ styles/
+    â””â”€â”€ esports.css                           [NEW] Dark neon theme
 ```
 
 ### Configuration
@@ -81,18 +81,18 @@ pom.xml                                       [KEPT] Maven dependencies
 
 ### Documentation
 ```
-📄 README.md                                  Full project guide
-📄 QUICKSTART.md                              Step-by-step build
-📄 TRANSFORMATION_SUMMARY.md                  Change details
-📄 UI_SCREENS_GUIDE.md                        Visual mockups
-📄 COMPLETION_CHECKLIST.md                    Verification
-📄 DELIVERY_SUMMARY.md                        Overview
-📄 INDEX.md                                   This file
+ðŸ“„ README.md                                  Full project guide
+ðŸ“„ QUICKSTART.md                              Step-by-step build
+ðŸ“„ TRANSFORMATION_SUMMARY.md                  Change details
+ðŸ“„ UI_SCREENS_GUIDE.md                        Visual mockups
+ðŸ“„ COMPLETION_CHECKLIST.md                    Verification
+ðŸ“„ DELIVERY_SUMMARY.md                        Overview
+ðŸ“„ INDEX.md                                   This file
 ```
 
 ---
 
-## 🎯 Reading Guide
+## ðŸŽ¯ Reading Guide
 
 ### Start Here (Everyone)
 1. **DELIVERY_SUMMARY.md** (this level) - Overview
@@ -101,23 +101,23 @@ pom.xml                                       [KEPT] Maven dependencies
 ### Then Read One Of:
 
 **If you want to build it immediately:**
-→ QUICKSTART.md (just the build commands)
+â†’ QUICKSTART.md (just the build commands)
 
 **If you want to understand what's inside:**
-→ README.md + UI_SCREENS_GUIDE.md
+â†’ README.md + UI_SCREENS_GUIDE.md
 
 **If you're a developer:**
-→ TRANSFORMATION_SUMMARY.md + Code inspection
+â†’ TRANSFORMATION_SUMMARY.md + Code inspection
 
 **If you need to troubleshoot:**
-→ QUICKSTART.md troubleshooting section
+â†’ QUICKSTART.md troubleshooting section
 
 **If you want to verify completion:**
-→ COMPLETION_CHECKLIST.md
+â†’ COMPLETION_CHECKLIST.md
 
 ---
 
-## ⚡ Quick Commands
+## âš¡ Quick Commands
 
 ### Build & Run
 ```bash
@@ -127,8 +127,8 @@ mvn clean javafx:run
 
 ### Create Database
 ```sql
-CREATE DATABASE IF NOT EXISTS esportdevvvvvv;
-USE esportdevvvvvv;
+CREATE DATABASE IF NOT EXISTS esportdevvvvvv-2;
+USE esportdevvvvvv-2;
 
 CREATE TABLE IF NOT EXISTS personne (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -146,7 +146,7 @@ mysql --version           # Should be present
 
 ---
 
-## 🎨 What You're Getting
+## ðŸŽ¨ What You're Getting
 
 ### 7 Complete Screens
 1. **Dashboard** - Overview with hero section, stats, previews
@@ -165,7 +165,7 @@ mysql --version           # Should be present
 - 25+ styled components
 
 ### Database Integration
-- MySQL connection to `esportdevvvvvv`
+- MySQL connection to `esportdevvvvvv-2`
 - Singleton connection pattern
 - Ready for real data binding
 
@@ -177,7 +177,7 @@ mysql --version           # Should be present
 
 ---
 
-## 🔍 Documentation Cheat Sheet
+## ðŸ” Documentation Cheat Sheet
 
 | Need | Read This | Time |
 |------|-----------|------|
@@ -190,21 +190,21 @@ mysql --version           # Should be present
 
 ---
 
-## 📊 Project Status
+## ðŸ“Š Project Status
 
-✅ **Status: COMPLETE & READY**
+âœ… **Status: COMPLETE & READY**
 
-- ✅ All source files created/updated
-- ✅ No compilation errors
-- ✅ Database configured
-- ✅ Theme fully styled
-- ✅ All 7 screens implemented
-- ✅ Documentation complete
-- ✅ Ready to build and run
+- âœ… All source files created/updated
+- âœ… No compilation errors
+- âœ… Database configured
+- âœ… Theme fully styled
+- âœ… All 7 screens implemented
+- âœ… Documentation complete
+- âœ… Ready to build and run
 
 ---
 
-## 🚀 Next Steps
+## ðŸš€ Next Steps
 
 ### Step 1: Build It (Now)
 ```bash
@@ -233,7 +233,7 @@ mvn clean javafx:run
 
 ---
 
-## 🎓 Key Features Explained
+## ðŸŽ“ Key Features Explained
 
 ### Sidebar Navigation
 - 6 main buttons (Dashboard, Matches, Tournaments, Teams, User, Admin)
@@ -265,10 +265,10 @@ mvn clean javafx:run
 
 ---
 
-## 💡 Tips & Tricks
+## ðŸ’¡ Tips & Tricks
 
 ### IDE Setup
-- Open `pom.xml` directly in IntelliJ → auto-imports project
+- Open `pom.xml` directly in IntelliJ â†’ auto-imports project
 - Configure JDK 22 in Project Structure
 - Add JavaFX SDK in Libraries
 
@@ -278,7 +278,7 @@ mvn clean javafx:run
 - Use `mvn package` to create JAR
 
 ### Debugging
-- Check console output for "Connection établie!"
+- Check console output for "Connection Ã©tablie!"
 - Verify CSS file in `target/classes/styles/esports.css`
 - Use browser inspect on FXML-rendered elements (not applicable but helps understand structure)
 
@@ -290,7 +290,7 @@ mvn clean javafx:run
 
 ---
 
-## ❓ FAQs
+## â“ FAQs
 
 **Q: Why does the app need MySQL?**
 A: To store tournament data, teams, users, matches. Currently uses mock data, but infrastructure is ready.
@@ -312,7 +312,7 @@ A: Run `mvn package`, distribute the JAR file with Java 17+ requirement.
 
 ---
 
-## 📞 Support Resources
+## ðŸ“ž Support Resources
 
 ### Inside Project
 - See QUICKSTART.md for common issues
@@ -333,20 +333,20 @@ A: Run `mvn package`, distribute the JAR file with Java 17+ requirement.
 
 ---
 
-## ✨ What Makes This Special
+## âœ¨ What Makes This Special
 
-✅ **Production Quality** - Clean, organized, well-structured code
-✅ **Fully Documented** - 1000+ lines of guides included
-✅ **Modern Design** - Professional dark neon theme
-✅ **Extensible** - Easy to add features
-✅ **Database Ready** - MySQL integration configured
-✅ **Responsive** - Scales with window size
-✅ **User Friendly** - Intuitive navigation
-✅ **Role Based** - User and admin views
+âœ… **Production Quality** - Clean, organized, well-structured code
+âœ… **Fully Documented** - 1000+ lines of guides included
+âœ… **Modern Design** - Professional dark neon theme
+âœ… **Extensible** - Easy to add features
+âœ… **Database Ready** - MySQL integration configured
+âœ… **Responsive** - Scales with window size
+âœ… **User Friendly** - Intuitive navigation
+âœ… **Role Based** - User and admin views
 
 ---
 
-## 🎉 You're All Set!
+## ðŸŽ‰ You're All Set!
 
 Everything is ready to go. Your next step is:
 
@@ -357,7 +357,7 @@ mvn clean javafx:run
 
 Then explore the app, read the documentation, and customize as needed.
 
-**Enjoy your sleek esports dashboard! 🚀**
+**Enjoy your sleek esports dashboard! ðŸš€**
 
 ---
 
@@ -369,6 +369,6 @@ Then explore the app, read the documentation, and customize as needed.
 - [COMPLETION_CHECKLIST.md](./COMPLETION_CHECKLIST.md) - Verification
 - [DELIVERY_SUMMARY.md](./DELIVERY_SUMMARY.md) - Overview
 
-**Built with ❤️ using JavaFX 21 & MySQL**
+**Built with â¤ï¸ using JavaFX 21 & MySQL**
 
 

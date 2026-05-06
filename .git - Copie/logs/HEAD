@@ -1,0 +1,11 @@
+0000000000000000000000000000000000000000 a3d6454ddaf3c28cdeb1a44e60fe2193028bf595 Esport Developer <user@esport.dev> 1775916151 +0100	clone: from https://github.com/ahmed-ben-chouikha/project_java.git
+a3d6454ddaf3c28cdeb1a44e60fe2193028bf595 a3d6454ddaf3c28cdeb1a44e60fe2193028bf595 Esport Developer <user@esport.dev> 1776019618 +0100	checkout: moving from master to module-reward
+a3d6454ddaf3c28cdeb1a44e60fe2193028bf595 c846e0cf95adce643b5b81a74f045e6717e488db Esport Developer <user@esport.dev> 1776032521 +0100	commit: feat: Ajouter le module de gestion des récompenses avec CRUD complet
+c846e0cf95adce643b5b81a74f045e6717e488db f74c524b79351a9f1d76bed35dcd452ed4f90edc Esport Developer <user@esport.dev> 1776181923 +0100	commit: Fix: correct ButtonType import in DemandeRecompenseController and resolve compilation errors
+f74c524b79351a9f1d76bed35dcd452ed4f90edc 71cb22e6dfb89243d1e162db7cf44f8b4a317694 Esport Developer <user@esport.dev> 1776289765 +0100	commit (merge): feat(rewards): update demandes validation, limits and navigation label
+71cb22e6dfb89243d1e162db7cf44f8b4a317694 6a0052175d795e2c81730381bb8bedb8cdf0a50f Esport Developer <user@esport.dev> 1776291559 +0100	commit: style: integrate global esports theme
+6a0052175d795e2c81730381bb8bedb8cdf0a50f 6a0052175d795e2c81730381bb8bedb8cdf0a50f Esport Developer <user@esport.dev> 1777490935 +0100	reset: moving to HEAD
+6a0052175d795e2c81730381bb8bedb8cdf0a50f a3d6454ddaf3c28cdeb1a44e60fe2193028bf595 Esport Developer <user@esport.dev> 1777490951 +0100	checkout: moving from module-reward to master
+a3d6454ddaf3c28cdeb1a44e60fe2193028bf595 7f657a918caddcbded589c06b3fb4fd3768eb79f Esport Developer <user@esport.dev> 1777490967 +0100	pull origin master: Fast-forward
+7f657a918caddcbded589c06b3fb4fd3768eb79f 7f657a918caddcbded589c06b3fb4fd3768eb79f Esport Developer <user@esport.dev> 1777492268 +0100	reset: moving to HEAD
+7f657a918caddcbded589c06b3fb4fd3768eb79f 6a0052175d795e2c81730381bb8bedb8cdf0a50f Esport Developer <user@esport.dev> 1777492338 +0100	checkout: moving from master to module-reward

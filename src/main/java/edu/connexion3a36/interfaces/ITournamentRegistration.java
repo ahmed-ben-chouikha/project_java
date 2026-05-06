@@ -29,5 +29,7 @@ public interface ITournamentRegistration extends IService<TournamentRegistration
 
     long getConfirmedCountForTournament(int tournamentId) throws SQLException;
 
+    boolean hasConfirmedRegistration(String playerName, int tournamentId) throws SQLException;
+
     void autoRejectRemaining(int tournamentId, String reason) throws SQLException;
 }

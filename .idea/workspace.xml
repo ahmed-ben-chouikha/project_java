@@ -5,17 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/START_APP.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvn-wrapper.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvn.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project-direct.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-with-java8.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/launch.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/launch.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/admin/AdminDashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/admin/AdminDashboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/OpenAIToxicityChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/OpenAIToxicityChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/esports.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/esports.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +27,8 @@
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
+      <entry key="_C:/Users/DIDA/Desktop/esportsnew/project_java" value="3D3EjrWm51YlHgb9OCQjtzahbrg" />
+      <entry key="_C:/Users/DIDA/Documents/project_java" value="3DMZlJ5In2UP0MN9aZDnzpWhKxS" />
       <entry key="_C:/Users/melki/OneDrive/Bureau/pidev/project_java" value="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
     </persistenceIdMap>
   </component>
@@ -32,8 +37,8 @@
   </component>
   <component name="CopilotUserSelectedModel">
     <selectedModels>
-      <entry key="chat-panel" value="Claude Haiku 4.5" />
-      <entry key="agent-panel" value="Claude Haiku 4.5" />
+      <entry key="chat-panel" value="Auto" />
+      <entry key="agent-panel" value="Auto" />
     </selectedModels>
   </component>
   <component name="Git.Settings">
@@ -46,28 +51,37 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Run JavaFX (Maven).executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;punition&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ammar/OneDrive/Desktop/esportsnew&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
       </set>
     </attachedChunks>
   </component>
@@ -81,6 +95,26 @@
       <updated>1776201103115</updated>
       <workItem from="1776201104121" duration="28000" />
       <workItem from="1776286448230" duration="281000" />
+      <workItem from="1777502485089" duration="4903000" />
+      <workItem from="1777525319201" duration="4541000" />
+      <workItem from="1777538668912" duration="564000" />
+      <workItem from="1777539263425" duration="2910000" />
+      <workItem from="1777986251570" duration="441000" />
+      <workItem from="1777987212691" duration="767000" />
+      <workItem from="1777990457165" duration="2811000" />
+      <workItem from="1778005227456" duration="2831000" />
+      <workItem from="1778070484423" duration="3247000" />
+      <workItem from="1778074004935" duration="2365000" />
+      <workItem from="1778077383673" duration="602000" />
+      <workItem from="1778078684187" duration="1213000" />
+      <workItem from="1778081790856" duration="3487000" />
+      <workItem from="1778087238031" duration="352000" />
+      <workItem from="1778088064711" duration="1461000" />
+      <workItem from="1778089690396" duration="2558000" />
+      <workItem from="1778094039742" duration="137000" />
+      <workItem from="1778094215536" duration="3000" />
+      <workItem from="1778094293863" duration="2220000" />
+      <workItem from="1778099014621" duration="417000" />
     </task>
     <servers />
   </component>

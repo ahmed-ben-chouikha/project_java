@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.connexion3a36.rankup.controllers.admin.AdminTeamApprovalsController"
+            fitToWidth="true" pannable="false" styleClass="content-scroll">
+    <VBox spacing="16" styleClass="page-root">
+        <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+        <children>
+            <VBox spacing="6" styleClass="card">
+                <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                <children>
+                    <Label text="Team Approvals" styleClass="page-title" />
+                    <Label text="Review pending teams and approve or reject them before they go live." styleClass="page-subtitle" />
+                </children>
+            </VBox>
+
+            <HBox spacing="12" styleClass="stats-row">
+                <VBox spacing="4" styleClass="card stat-card">
+                    <Label text="Pending" styleClass="stat-label" />
+                    <Label fx:id="pendingCountLabel" text="0" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card">
+                    <Label text="Approved" styleClass="stat-label" />
+                    <Label fx:id="approvedCountLabel" text="0" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card">
+                    <Label text="Rejected" styleClass="stat-label" />
+                    <Label fx:id="rejectedCountLabel" text="0" styleClass="stat-value" />
+                </VBox>
+            </HBox>
+
+            <HBox spacing="10">
+                <Button text="Refresh" onAction="#onRefresh" styleClass="btn-secondary" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Back" onAction="#onBack" styleClass="btn-secondary" />
+            </HBox>
+
+            <VBox spacing="8" styleClass="card">
+                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                <children>
+                    <Label fx:id="statusLabel" text="Loading..." styleClass="section-subtitle" />
+                    <TableView fx:id="teamsTable" prefHeight="520" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="idCol" text="ID" prefWidth="70" />
+                            <TableColumn fx:id="nameCol" text="Team Name" prefWidth="180" />
+                            <TableColumn fx:id="creatorCol" text="Creator ID" prefWidth="110" />
+                            <TableColumn fx:id="countryCol" text="Country" prefWidth="120" />
+                            <TableColumn fx:id="gameCol" text="Game" prefWidth="140" />
+                            <TableColumn fx:id="levelCol" text="Level" prefWidth="110" />
+                            <TableColumn fx:id="statusCol" text="Status" prefWidth="120" />
+                            <TableColumn fx:id="scoreCol" text="Score" prefWidth="90" />
+                            <TableColumn fx:id="createdAtCol" text="Created" prefWidth="160" />
+                            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="180" />
+                        </columns>
+                    </TableView>
+                </children>
+            </VBox>
+        </children>
+    </VBox>
+</ScrollPane>

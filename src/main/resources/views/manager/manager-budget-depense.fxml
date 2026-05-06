@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.SplitPane?>
+
+<TabPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="edu.connexion3a36.rankup.controllers.manager.ManagerBudgetDepenseController"
+         tabClosingPolicy="UNAVAILABLE" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+
+    <!-- BUDGET TAB -->
+    <Tab text="💰 Team Budget">
+        <VBox spacing="12" style="-fx-padding: 12;">
+            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+
+            <!-- Header -->
+            <VBox spacing="6" styleClass="card">
+                <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                <children>
+                    <Label text="Team Budget Overview" styleClass="page-title" />
+                    <Label text="View your team budget allocated by admin and manage expenses accordingly." styleClass="page-subtitle" />
+                </children>
+            </VBox>
+
+            <!-- Budget Stats -->
+            <HBox spacing="12">
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="Montant Alloué" styleClass="stat-label" />
+                    <Label fx:id="montantAlloueLabel" text="€ 0,00" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="Montant Utilisé" styleClass="stat-label" />
+                    <Label fx:id="montantUtiliseLabel" text="€ 0,00" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="Montant Restant" styleClass="stat-label" />
+                    <Label fx:id="montantRestantLabel" text="€ 0,00" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="Statut" styleClass="stat-label" />
+                    <Label fx:id="budgetStatutLabel" text="N/A" styleClass="stat-value" />
+                </VBox>
+            </HBox>
+
+            <!-- Budget Details -->
+            <VBox spacing="8" styleClass="card">
+                <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                <children>
+                    <Label text="Budget Information" styleClass="section-title" />
+                    <HBox spacing="20">
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Équipe:" styleClass="section-subtitle" />
+                            <Label fx:id="teamNameLabel" text="Loading..." />
+                        </VBox>
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Date d'allocation:" styleClass="section-subtitle" />
+                            <Label fx:id="dateAllocationLabel" text="N/A" />
+                        </VBox>
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Justificatif:" styleClass="section-subtitle" />
+                            <Label fx:id="justificatifLabel" text="N/A" />
+                        </VBox>
+                    </HBox>
+                    <VBox spacing="4">
+                        <Label text="Notes:" styleClass="section-subtitle" />
+                        <Label fx:id="notesLabel" text="Aucune note" wrapText="true" />
+                    </VBox>
+                </children>
+            </VBox>
+
+            <HBox spacing="8">
+                <Button text="🔄 Rafraîchir" onAction="#onRefreshBudget" styleClass="btn-secondary" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="← Retour" onAction="#onBack" styleClass="btn-secondary" />
+            </HBox>
+        </VBox>
+    </Tab>
+
+    <!-- EXPENSES TAB -->
+    <Tab text="💸 My Expenses">
+        <VBox spacing="12" style="-fx-padding: 12;">
+            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+
+            <!-- Header -->
+            <VBox spacing="6" styleClass="card">
+                <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                <children>
+                    <Label text="Team Expenses" styleClass="page-title" />
+                    <Label text="Create and manage expenses for your team from the allocated budget." styleClass="page-subtitle" />
+                </children>
+            </VBox>
+
+            <!-- Expenses Stats -->
+            <HBox spacing="12">
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="Total Dépenses" styleClass="stat-label" />
+                    <Label fx:id="totalDepensesLabel" text="€ 0,00" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="Dépenses Approuvées" styleClass="stat-label" />
+                    <Label fx:id="depensesApproveesLabel" text="€ 0,00" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="En attente" styleClass="stat-label" />
+                    <Label fx:id="depensesAttenteLabel" text="0" styleClass="stat-value" />
+                </VBox>
+                <VBox spacing="4" styleClass="card stat-card" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <Label text="Nombre de dépenses" styleClass="stat-label" />
+                    <Label fx:id="nombreDepensesLabel" text="0" styleClass="stat-value" />
+                </VBox>
+            </HBox>
+
+            <!-- Filters -->
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Rechercher..." HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="categoryFilterCombo" promptText="Filtrer par catégorie" prefWidth="200"/>
+                <ComboBox fx:id="statusFilterCombo" promptText="Filtrer par statut" prefWidth="180"/>
+                <Button text="🔄 Rafraîchir" onAction="#onRefreshExpenses" styleClass="btn-secondary"/>
+            </HBox>
+
+            <!-- Expenses Table with Chatbot -->
+            <SplitPane dividerPositions="0.65" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                <!-- Table Section -->
+                <VBox spacing="8" styleClass="card" SplitPane.resizableWithParent="true">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Liste des Dépenses" styleClass="section-title" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button text="➕ Ajouter Dépense" onAction="#onAddExpense" styleClass="btn-primary" />
+                        </HBox>
+                        <TableView fx:id="depenseTable" VBox.vgrow="ALWAYS" prefHeight="250">
+                            <columns>
+                                <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                                <TableColumn fx:id="titreColumn" text="Titre" prefWidth="150"/>
+                                <TableColumn fx:id="montantColumn" text="Montant" prefWidth="100"/>
+                                <TableColumn fx:id="categorieColumn" text="Catégorie" prefWidth="120"/>
+                                <TableColumn fx:id="dateCreationColumn" text="Date" prefWidth="120"/>
+                                <TableColumn fx:id="statutColumn" text="Statut" prefWidth="100"/>
+                                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- Chatbot Section -->
+                <VBox spacing="14" styleClass="chatbot-panel" SplitPane.resizableWithParent="true">
+                    <HBox spacing="12" alignment="CENTER_LEFT" styleClass="chatbot-header">
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label text="Assistant Budget IA" styleClass="chatbot-title" />
+                            <Label text="Analyse vos dépenses, anticipe les dépassements et répond en temps réel." styleClass="chatbot-subtitle" wrapText="true" />
+                        </VBox>
+                        <Label text="LIVE" styleClass="chatbot-live-badge" />
+                    </HBox>
+
+                    <HBox spacing="10" styleClass="chatbot-metrics-row">
+                        <VBox spacing="2" styleClass="chatbot-metric-card" HBox.hgrow="ALWAYS">
+                            <Label text="Réponses IA" styleClass="chatbot-metric-label" />
+                            <Label text="Budget intelligent" styleClass="chatbot-metric-value" />
+                        </VBox>
+                        <VBox spacing="2" styleClass="chatbot-metric-card" HBox.hgrow="ALWAYS">
+                            <Label text="Temps réel" styleClass="chatbot-metric-label" />
+                            <Label text="Auto-refresh actif" styleClass="chatbot-metric-value" />
+                        </VBox>
+                        <VBox spacing="2" styleClass="chatbot-metric-card" HBox.hgrow="ALWAYS">
+                            <Label text="Conseils" styleClass="chatbot-metric-label" />
+                            <Label text="Alerte si dépassement" styleClass="chatbot-metric-value" />
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="8" styleClass="chatbot-screen">
+                        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="chatbot-screen-top">
+                            <Label text="Conversation" styleClass="chatbot-section-label" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label text="Budget, dépenses, prévisions" styleClass="chatbot-screen-note" />
+                        </HBox>
+                        <TextArea fx:id="chatDisplayArea" editable="false" wrapText="true" styleClass="chatbot-display" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="chatbot-composer">
+                        <HBox spacing="8" styleClass="chatbot-input-row">
+                            <TextField fx:id="chatInputField" promptText="💭 Posez votre question sur votre budget..." HBox.hgrow="ALWAYS" styleClass="chatbot-input" />
+                            <Button fx:id="chatSendBtn" text="➤ Envoyer" onAction="#onChatSend" styleClass="chatbot-send-btn" />
+                        </HBox>
+                        <Label text="Exemples: " styleClass="chatbot-hint-prefix" />
+                        <HBox spacing="8" styleClass="chatbot-chips-row">
+                            <Label text="Comment réduire le budget ?" styleClass="chatbot-chip" />
+                            <Label text="Quel poste coûte le plus ?" styleClass="chatbot-chip" />
+                            <Label text="Risque de dépassement ?" styleClass="chatbot-chip" />
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </SplitPane>
+
+            <HBox spacing="8">
+                <Button text="🔄 Rafraîchir" onAction="#onRefreshExpenses" styleClass="btn-secondary" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="← Retour" onAction="#onBack" styleClass="btn-secondary" />
+            </HBox>
+        </VBox>
+    </Tab>
+</TabPane>

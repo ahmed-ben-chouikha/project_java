@@ -10,6 +10,23 @@ $javaExe = $null
 function Resolve-JavaHome {
     $candidates = @()
 
+<<<<<<< HEAD
+Write-Host "[1/3] Checking Maven installation..." -ForegroundColor Yellow
+$mavenCheck = & mvn --version 2>&1
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "✓ Maven found" -ForegroundColor Green
+    Write-Host $mavenCheck[0] -ForegroundColor Gray
+} else {
+    Write-Host "✗ Maven not found at C:\Apache\apache-maven-3.9.6\bin" -ForegroundColor Red
+    Write-Host "Please ensure Maven is installed correctly." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host ""
+Write-Host "[2/3] Navigating to project..." -ForegroundColor Yellow
+cd "C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36"
+Write-Host "✓ Project directory ready" -ForegroundColor Green
+=======
     if ($env:JAVA_HOME) {
         $candidates += $env:JAVA_HOME
     }
@@ -72,6 +89,45 @@ if ($javaVersionText -match 'version "([0-9]+)(?:\.([0-9]+))?') {
 
 Write-Host "[OK] Java pret" -ForegroundColor Green
 
+function Import-LocalEnvFile {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$FilePath
+    )
+
+    if (-not (Test-Path $FilePath)) {
+        return
+    }
+
+    Get-Content $FilePath | ForEach-Object {
+        $line = $_.Trim()
+        if ([string]::IsNullOrWhiteSpace($line) -or $line.StartsWith('#')) {
+            return
+        }
+
+        $parts = $line -split '=', 2
+        if ($parts.Length -ne 2) {
+            return
+        }
+
+        $name = $parts[0].Trim()
+        $value = $parts[1].Trim()
+
+        if ($value.StartsWith('"') -and $value.EndsWith('"') -and $value.Length -ge 2) {
+            $value = $value.Substring(1, $value.Length - 2)
+        }
+
+        if ($name) {
+            [System.Environment]::SetEnvironmentVariable($name, $value, 'Process')
+            Set-Item -Path "Env:$name" -Value $value
+        }
+    }
+}
+
+$localEnvPath = Join-Path $PSScriptRoot 'local.env'
+Import-LocalEnvFile -FilePath $localEnvPath
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
+
 Write-Host ""
 Write-Host "[2/2] Lancement de l'application JavaFX..." -ForegroundColor Yellow
 Write-Host "Le projet $((Get-Location).Path)" -ForegroundColor Gray
@@ -81,8 +137,16 @@ Write-Host ""
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host ""
+<<<<<<< HEAD
+    Write-Host "✗ Launch failed. Check the output above for errors." -ForegroundColor Red
+    exit 1
+} else {
+    Write-Host ""
+    Write-Host "✓ Application completed successfully" -ForegroundColor Green
+=======
     Write-Host "ERREUR: Le lancement Maven a echoue." -ForegroundColor Red
     exit $LASTEXITCODE
+>>>>>>> 7674b771b07a4d808046f695b8303837ed25ba88
 }
 
 Write-Host ""

@@ -1,6 +1,7 @@
 package edu.connexion3a36.rankup.app;
 
 import edu.connexion3a36.rankup.controllers.BaseController;
+import edu.connexion3a36.rankup.controllers.ContentController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -12,7 +13,7 @@ import java.io.IOException;
 public final class RankUpApp {
 
     private static Stage primaryStage;
-    private static BaseController baseController;
+    private static ContentController contentController;
     private static Integer pendingReclamationFocusId;
     private static Integer pendingAdminResponseFocusId;
     private static Integer pendingPunitionFocusId;
@@ -27,8 +28,12 @@ public final class RankUpApp {
         primaryStage.setMinHeight(760);
     }
 
+    public static void registerContentController(ContentController controller) {
+        contentController = controller;
+    }
+
     public static void registerBaseController(BaseController controller) {
-        baseController = controller;
+        contentController = controller;
     }
 
     public static void setCurrentPlayerName(String playerName) {
@@ -79,9 +84,13 @@ public final class RankUpApp {
         setRoot("/views/base.fxml", 1400, 900);
     }
 
+    public static void showUserBase() {
+        setRoot("/views/user-base.fxml", 1400, 900);
+    }
+
     public static void loadInBase(String viewPath) {
-        if (baseController != null) {
-            baseController.loadCenter(viewPath);
+        if (contentController != null) {
+            contentController.loadCenter(viewPath);
         }
     }
 
@@ -122,7 +131,7 @@ public final class RankUpApp {
     }
 
     public static void logout() {
-        baseController = null;
+        contentController = null;
         SessionManager.clear();
         showLogin();
     }

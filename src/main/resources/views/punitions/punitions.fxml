@@ -6,6 +6,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -13,62 +14,97 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.punitions.PunitionsController" spacing="12" styleClass="page-root">
-    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
-    <children>
-        <Label text="Punitions" styleClass="page-title" />
-
-        <HBox spacing="8">
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fitToWidth="true" styleClass="page-scroll" fx:controller="edu.connexion3a36.rankup.controllers.punitions.PunitionsController">
+    <content>
+        <VBox spacing="12" styleClass="page-root">
+            <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
             <children>
-                <TextField fx:id="searchField" promptText="Search by status or reclamation id" HBox.hgrow="ALWAYS" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Button text="Clear Form" onAction="#onClearForm" />
-            </children>
-        </HBox>
-
-        <HBox spacing="12">
-            <children>
-                <GridPane hgap="10" vgap="8" styleClass="card" HBox.hgrow="ALWAYS">
-                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                <HBox spacing="12" alignment="CENTER_LEFT">
                     <children>
-                        <Label text="Start At" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <DatePicker fx:id="startAtPicker" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                        <Label text="End At" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                        <DatePicker fx:id="endAtPicker" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-
-                        <Label text="Status" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="statusCombo" promptText="Select status" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                        <Label text="Reclamation ID" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="reclamationCombo" promptText="Select reclamation" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label text="Punitions" styleClass="page-title" />
+                        <Button fx:id="gamesNewsButton" text="🎮" styleClass="btn-primary icon-button" onAction="#onOpenGamesNews" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="chatbotIconButton" text="🤖" styleClass="btn-primary icon-button" onAction="#onOpenChatbot" />
                     </children>
-                </GridPane>
+                </HBox>
 
-                <VBox spacing="8" alignment="TOP_CENTER" styleClass="admin-actions-panel">
+                <HBox spacing="12" alignment="CENTER_LEFT">
                     <children>
-                        <Button fx:id="submitButton" text="➤" onAction="#onCreatePunition" styleClass="btn-primary icon-button" maxWidth="Infinity" />
+                        <TextField fx:id="searchField" promptText="Search by status or reclamation id..." HBox.hgrow="ALWAYS" styleClass="search-field" />
+                        <Button text="⚡ APPLY NEW PUNITION" onAction="#onOpenCreatePopup" styleClass="ai-agent-btn" />
                     </children>
-                    <prefWidth>140</prefWidth>
+                </HBox>
+
+                <!-- Punitions List -->
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="card">
+                    <content>
+                        <VBox fx:id="punitionCardsBox" spacing="10" styleClass="punition-cards-panel">
+                            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- Bottom action buttons -->
+                <HBox spacing="8">
+                    <children>
+                        <Button text="✎" onAction="#onUpdatePunition" styleClass="btn-primary icon-button" />
+                        <Button text="🗑" onAction="#onDeletePunition" styleClass="btn-danger icon-button" />
+                        <Region HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <!-- Leaderboard Section -->
+                <VBox spacing="12">
+                    <children>
+                        <Label text="Leaderboard &amp; Statistics" styleClass="section-title" />
+
+                        <!-- Stat Cards (3 columns) -->
+                        <HBox spacing="12">
+                            <children>
+                                <!-- Match Bans Card -->
+                                <VBox styleClass="card,stat-card" spacing="8" HBox.hgrow="ALWAYS">
+                                    <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                                    <children>
+                                        <Label text="Match Bans" styleClass="stat-label" />
+                                        <Label fx:id="matchBanCount" text="0" styleClass="stat-value" />
+                                    </children>
+                                </VBox>
+
+                                <!-- Tournament Bans Card -->
+                                <VBox styleClass="card,stat-card" spacing="8" HBox.hgrow="ALWAYS">
+                                    <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                                    <children>
+                                        <Label text="Tournament Bans" styleClass="stat-label" />
+                                        <Label fx:id="tournamentBanCount" text="0" styleClass="stat-value" />
+                                    </children>
+                                </VBox>
+
+                                <!-- Game Bans Card -->
+                                <VBox styleClass="card,stat-card" spacing="8" HBox.hgrow="ALWAYS">
+                                    <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                                    <children>
+                                        <Label text="Game Bans" styleClass="stat-label" />
+                                        <Label fx:id="gameBanCount" text="0" styleClass="stat-value" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <!-- Most Banned Players Table -->
+                        <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+                            <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                            <children>
+                                <Label text="Most Banned Players" styleClass="section-subtitle" />
+                                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <TableView fx:id="bannedPlayersTable" />
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </children>
                 </VBox>
             </children>
-        </HBox>
-
-        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="card">
-            <content>
-                <VBox fx:id="punitionCardsBox" spacing="10" styleClass="punition-cards-panel">
-                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                </VBox>
-            </content>
-        </ScrollPane>
-
-        <HBox spacing="8">
-            <children>
-                <Button text="✎" onAction="#onUpdatePunition" styleClass="btn-primary icon-button" />
-                <Button text="🗑" onAction="#onDeletePunition" styleClass="btn-danger icon-button" />
-                <Region HBox.hgrow="ALWAYS" />
-            </children>
-        </HBox>
-    </children>
-</VBox>
-
+        </VBox>
+    </content>
+</ScrollPane>

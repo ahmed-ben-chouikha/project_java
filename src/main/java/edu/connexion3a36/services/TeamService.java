@@ -23,27 +23,32 @@ public class TeamService {
     }
 
     // CREATE
-    public boolean addTeam(Team team) {
+    public int addTeam(Team team) {
         if (cnx == null) {
             System.err.println("Error adding team: Database connection is not available.");
-            return false;
+            return -1;
         }
 
         if (team == null || team.getName() == null || team.getName().trim().isEmpty()) {
             System.err.println("Error adding team: Team name is required.");
-            return false;
+            return -1;
         }
 
         if (teamNameExists(team.getName())) {
             System.err.println("Error adding team: Team name already exists.");
-            return false;
+            return -1;
         }
 
         boolean hasStatut = hasColumn("team", "statut");
+        boolean hasCreatorId = hasColumn("team", "creator_id");
         String sql = hasStatut
-                ? "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, statut, score, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"
-                : "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, score, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
-        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+                ? (hasCreatorId
+                ? "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, statut, score, creator_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"
+                : "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, statut, score, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())")
+                : (hasCreatorId
+                ? "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, score, creator_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())"
+                : "INSERT INTO team (name, country, description, detailed_description, logo, jeu, niveau, score, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        try (PreparedStatement pst = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, team.getName());
             pst.setString(2, team.getCountry());
             pst.setString(3, team.getDescription());
@@ -51,18 +56,29 @@ public class TeamService {
             pst.setString(5, team.getLogo());
             pst.setString(6, team.getJeu());
             pst.setString(7, team.getNiveau());
+            int index = 8;
             if (hasStatut) {
-                pst.setString(8, team.getStatut());
-                pst.setInt(9, team.getScore());
-            } else {
-                pst.setInt(8, team.getScore());
+                pst.setString(index++, team.getStatut());
+            }
+            pst.setInt(index++, team.getScore());
+            if (hasCreatorId) {
+                if (team.getCreatorId() == null) {
+                    pst.setNull(index, java.sql.Types.INTEGER);
+                } else {
+                    pst.setInt(index, team.getCreatorId());
+                }
             }
             pst.executeUpdate();
-            System.out.println("Team added successfully!");
-            return true;
+            try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    System.out.println("Team added successfully!");
+                    return (int) generatedKeys.getLong(1);
+                }
+            }
+            return -1;
         } catch (SQLException e) {
             System.err.println("Error adding team: " + e.getMessage());
-            return false;
+            return -1;
         }
     }
 
@@ -222,6 +238,45 @@ public class TeamService {
         return teams;
     }
 
+    public List<Team> getTeamsByCreatorId(int creatorId) {
+        List<Team> teams = new ArrayList<>();
+        if (cnx == null || creatorId <= 0 || !hasColumn("team", "creator_id")) {
+            return teams;
+        }
+
+        String sql = "SELECT * FROM team WHERE creator_id = ? ORDER BY created_at DESC, id DESC";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setInt(1, creatorId);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    teams.add(mapTeam(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching teams by creator: " + e.getMessage());
+        }
+        return teams;
+    }
+
+    public int countTeamsByStatus(String statut) {
+        if (cnx == null) {
+            return 0;
+        }
+
+        String sql = "SELECT COUNT(*) AS total FROM team WHERE statut = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setString(1, statut);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("total");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error counting teams by status: " + e.getMessage());
+        }
+        return 0;
+    }
+
     // Search teams by game (jeu)
     public List<Team> searchTeamsByGame(String jeu) {
         List<Team> teams = new ArrayList<>();
@@ -326,7 +381,7 @@ public class TeamService {
 
     private Team mapTeam(ResultSet rs) throws SQLException {
         Set<String> columns = getColumnNames(rs);
-        return new Team(
+        Team team = new Team(
                 getIntOrDefault(rs, columns, "id", 0),
                 getStringOrDefault(rs, columns, "name", ""),
                 getStringOrDefault(rs, columns, "country", ""),
@@ -341,6 +396,10 @@ public class TeamService {
                 columns.contains("created_at") ? rs.getTimestamp("created_at") : null,
                 columns.contains("updated_at") ? rs.getTimestamp("updated_at") : null
         );
+        if (columns.contains("creator_id")) {
+            team.setCreatorId(rs.getObject("creator_id") == null ? null : rs.getInt("creator_id"));
+        }
+        return team;
     }
 
     private boolean hasColumn(String table, String column) {
@@ -378,5 +437,60 @@ public class TeamService {
             return fallback;
         }
         return rs.getInt(key);
+    }
+
+    public List<TeamMember> getTeamMembers(int teamId) throws SQLException {
+        List<TeamMember> members = new ArrayList<>();
+        if (cnx == null) {
+            return members;
+        }
+
+        String sql = "SELECT p.id, p.nickname, p.first_name, p.last_name, p.role FROM player p WHERE p.team_id = ? ORDER BY p.nickname ASC";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setInt(1, teamId);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    members.add(new TeamMember(
+                            rs.getInt("id"),
+                            rs.getString("nickname"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getString("role")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching team members: " + e.getMessage());
+        }
+        return members;
+    }
+
+    public static class TeamMember {
+        public final int id;
+        public final String nickname;
+        public final String firstName;
+        public final String lastName;
+        public final String role;
+
+        public TeamMember(int id, String nickname, String firstName, String lastName, String role) {
+            this.id = id;
+            this.nickname = nickname;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.role = role;
+        }
+
+        public String getDisplayName() {
+            if (firstName != null && lastName != null && !firstName.isEmpty() && !lastName.isEmpty()) {
+                return firstName + " " + lastName + " (" + nickname + ")";
+            }
+            return nickname;
+        }
+
+        public String getId() { return String.valueOf(id); }
+        public String getNickname() { return nickname; }
+        public String getFirstName() { return firstName; }
+        public String getLastName() { return lastName; }
+        public String getRole() { return role; }
     }
 }
