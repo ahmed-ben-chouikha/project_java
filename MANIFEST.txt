@@ -193,7 +193,7 @@ COMPONENTS
 ═══════════════════════════════════════════════════════════════════════════════
 
 CURRENT SETUP
-  Database:               esportdevvvvvv
+  Database:               esportdevvvvvv-2
   Host:                   localhost:3306
   User:                   root
   Password:               (empty)
@@ -220,7 +220,7 @@ PREREQUISITES
   ✅ Java 17+ (ideally JDK 22)
   ✅ Maven 3.6+
   ✅ MySQL Server running
-  ✅ esportdevvvvvv database created
+   ✅ esportdevvvvvv-2 database created
 
 BUILD & RUN
   $ cd C:\Users\ahmed\Downloads\JAVAFX\Connexion3A36
@@ -272,7 +272,7 @@ IMPLEMENTATION:          ✅ COMPLETE
   • All features:        All implemented
   • Navigation:          Fully functional
   • Theme:              Dark neon applied
-  • Database:           Connected to esportdevvvvvv
+   • Database:           Connected to esportdevvvvvv-2
 
 TESTING:                 ✅ READY
   • Source validation:   PASSED
@@ -341,7 +341,7 @@ STATUS:     ✅ COMPLETE & READY TO USE
 BUILD:      Clean, no errors, ready to compile
 DESIGN:     Modern, professional, sleek dark theme
 FEATURES:   All requested features implemented
-DATABASE:   Connected to esportdevvvvvv (MySQL)
+DATABASE:   Connected to esportdevvvvvv-2 (MySQL)
 DOCS:       Comprehensive guides included (1000+ lines)
 
 READY TO BUILD? Run this command:
@@ -355,7 +355,7 @@ READY TO BUILD? Run this command:
 Delivery Date:   April 11, 2026
 Status:          ✅ COMPLETE
 Version:         1.0
-Database:        esportdevvvvvv (MySQL)
+Database:        esportdevvvvvv-2 (MySQL)
 Java Version:    17+
 JavaFX Version:  21.0.2
 

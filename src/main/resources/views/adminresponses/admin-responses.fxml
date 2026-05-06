@@ -18,39 +18,10 @@
     <children>
         <Label text="Admin Responses" styleClass="page-title" />
 
-        <HBox spacing="8">
+        <HBox spacing="12" alignment="CENTER_LEFT">
             <children>
-                <TextField fx:id="searchField" promptText="Search by message or reclamation id" HBox.hgrow="ALWAYS" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Button text="Clear Form" onAction="#onClearForm" />
-            </children>
-        </HBox>
-
-        <HBox spacing="12">
-            <children>
-                <GridPane hgap="10" vgap="8" styleClass="card" HBox.hgrow="ALWAYS">
-                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-                    <children>
-                        <Label text="Reclamation" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <ComboBox fx:id="reclamationCombo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                        <Label text="Message" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                        <TextArea fx:id="messageArea" promptText="Admin response message" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2" />
-
-                        <Label fx:id="createdAtLabel" text="Created At" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <TextField fx:id="createdAtField" promptText="yyyy-MM-dd HH:mm:ss" editable="false" visible="false" managed="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                        <Label fx:id="updatedAtLabel" text="Updated At" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                        <TextField fx:id="updatedAtField" promptText="yyyy-MM-dd HH:mm:ss" editable="false" visible="false" managed="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                    </children>
-                </GridPane>
-
-                <VBox spacing="8" alignment="TOP_CENTER" styleClass="admin-actions-panel">
-                    <children>
-                        <Button fx:id="submitButton" text="➤" onAction="#onCreateResponse" styleClass="btn-primary icon-button" maxWidth="Infinity" />
-                    </children>
-                    <prefWidth>140</prefWidth>
-                </VBox>
+                <TextField fx:id="searchField" promptText="Search by message or reclamation id..." HBox.hgrow="ALWAYS" styleClass="search-field" />
+                <Button text="✉ SEND NEW RESPONSE" onAction="#onOpenCreatePopup" styleClass="ai-agent-btn" />
             </children>
         </HBox>
 

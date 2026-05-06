@@ -1,26 +1,37 @@
 package edu.connexion3a36.rankup.controllers.matches;
 
 import edu.connexion3a36.rankup.app.RankUpApp;
+import edu.connexion3a36.entities.Match;
+import edu.connexion3a36.services.MatchService;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class MatchesController {
 
+    private static final int PAGE_SIZE = 8;
+
     @FXML private TextField searchField;
     @FXML private ComboBox<String> statusFilter;
-    @FXML private TableView<MatchRow> matchesTable;
-    @FXML private TableColumn<MatchRow, String> team1Col;
-    @FXML private TableColumn<MatchRow, String> scoreCol;
-    @FXML private TableColumn<MatchRow, String> team2Col;
-    @FXML private TableColumn<MatchRow, String> dateCol;
-    @FXML private TableColumn<MatchRow, String> statusCol;
+    @FXML private TableView<Match> matchesTable;
+    @FXML private TableColumn<Match, String> team1Col;
+    @FXML private TableColumn<Match, String> scoreCol;
+    @FXML private TableColumn<Match, String> team2Col;
+    @FXML private TableColumn<Match, String> dateCol;
+    @FXML private TableColumn<Match, String> statusCol;
     @FXML private Pagination pagination;
 
-    private FilteredList<MatchRow> filtered;
+    private final MatchService matchService = new MatchService();
+    private final ObservableList<Match> pageItems = FXCollections.observableArrayList();
+    private FilteredList<Match> filtered;
 
     @FXML
     void initialize() {
@@ -30,12 +41,13 @@ public class MatchesController {
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        filtered = new FilteredList<>(FXCollections.observableArrayList(
-                new MatchRow("Falcons", "2 - 1", "Nova", "2026-04-12 18:30", "Finished"),
-                new MatchRow("Apex", "0 - 0", "Vortex", "2026-04-13 20:00", "Pending"),
-                new MatchRow("Titan", "1 - 1", "Eclipse", "2026-04-11 19:00", "Ongoing"),
-                new MatchRow("Sigma", "-", "Blaze", "2026-04-14 17:00", "Pending")
-        ));
+        filtered = new FilteredList<>(FXCollections.observableArrayList());
+        matchesTable.setItems(pageItems);
+        pagination.setMaxPageIndicatorCount(5);
+        pagination.setPageFactory(pageIndex -> {
+            updateVisibleRows(pageIndex);
+            return new Region();
+        });
 
         statusFilter.setItems(FXCollections.observableArrayList("All", "Pending", "Ongoing", "Finished"));
         statusFilter.setValue("All");
@@ -43,28 +55,59 @@ public class MatchesController {
         searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
         statusFilter.valueProperty().addListener((obs, oldVal, newVal) -> applyFilter());
 
-        matchesTable.setItems(filtered);
-        pagination.setPageCount(1);
+        loadMatches();
     }
 
     @FXML
     void onCreateMatch(ActionEvent event) {
+        MatchFormState.clear();
         RankUpApp.loadInBase("/views/matches/match-form.fxml");
     }
 
     @FXML
     void onViewMatch(ActionEvent event) {
-        RankUpApp.loadInBase("/views/matches/match-details.fxml");
+        Match selected = matchesTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showInfo("No selection", "Select a match first.");
+            return;
+        }
+        showInfo("Match details", selected.getTeam1() + " vs " + selected.getTeam2() + "\nScore: " + selected.getScore() + "\nDate: " + selected.getDate() + "\nStatus: " + selected.getStatus());
     }
 
     @FXML
     void onEditMatch(ActionEvent event) {
+        Match selected = matchesTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showInfo("No selection", "Select a match first.");
+            return;
+        }
+        MatchFormState.setEditingMatch(selected);
         RankUpApp.loadInBase("/views/matches/match-form.fxml");
     }
 
     @FXML
     void onDeleteMatch(ActionEvent event) {
-        showInfo("Placeholder", "Delete handler placeholder.");
+        Match selected = matchesTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showInfo("No selection", "Select a match first.");
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Delete Match");
+        confirm.setHeaderText("Delete selected match?");
+        confirm.setContentText(selected.getTeam1() + " vs " + selected.getTeam2());
+
+        confirm.showAndWait().ifPresent(result -> {
+            if (result == ButtonType.OK) {
+                try {
+                    matchService.deleteMatchById(selected.getId());
+                    loadMatches();
+                } catch (SQLException e) {
+                    showError("Database Error", "Could not delete match.\n" + e.getMessage());
+                }
+            }
+        });
     }
 
     private void applyFilter() {
@@ -78,6 +121,48 @@ public class MatchesController {
                     || row.getDate().toLowerCase().contains(q);
             return statusOk && searchOk;
         });
+
+        refreshPagination(true);
+    }
+
+    private void loadMatches() {
+        try {
+            List<Match> rows = matchService.getAllMatches();
+            filtered = new FilteredList<>(FXCollections.observableArrayList(rows));
+            applyFilter();
+        } catch (SQLException e) {
+            filtered = new FilteredList<>(FXCollections.observableArrayList());
+            refreshPagination(true);
+            showError("Database Error", "Could not load matches from the database.\n" + e.getMessage());
+        }
+    }
+
+    private void refreshPagination(boolean resetToFirstPage) {
+        int totalItems = filtered == null ? 0 : filtered.size();
+        int pageCount = Math.max(1, (int) Math.ceil(totalItems / (double) PAGE_SIZE));
+        pagination.setPageCount(pageCount);
+
+        int targetPage = resetToFirstPage ? 0 : Math.min(pagination.getCurrentPageIndex(), pageCount - 1);
+        if (pagination.getCurrentPageIndex() != targetPage) {
+            pagination.setCurrentPageIndex(targetPage);
+        }
+        updateVisibleRows(targetPage);
+    }
+
+    private void updateVisibleRows(int pageIndex) {
+        if (filtered == null) {
+            pageItems.clear();
+            return;
+        }
+
+        int fromIndex = Math.max(0, pageIndex) * PAGE_SIZE;
+        if (fromIndex >= filtered.size()) {
+            pageItems.clear();
+            return;
+        }
+
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, filtered.size());
+        pageItems.setAll(filtered.subList(fromIndex, toIndex));
     }
 
     private void showInfo(String title, String message) {
@@ -88,26 +173,12 @@ public class MatchesController {
         alert.showAndWait();
     }
 
-    public static class MatchRow {
-        private final String team1;
-        private final String score;
-        private final String team2;
-        private final String date;
-        private final String status;
-
-        public MatchRow(String team1, String score, String team2, String date, String status) {
-            this.team1 = team1;
-            this.score = score;
-            this.team2 = team2;
-            this.date = date;
-            this.status = status;
-        }
-
-        public String getTeam1() { return team1; }
-        public String getScore() { return score; }
-        public String getTeam2() { return team2; }
-        public String getDate() { return date; }
-        public String getStatus() { return status; }
+    private void showError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
 

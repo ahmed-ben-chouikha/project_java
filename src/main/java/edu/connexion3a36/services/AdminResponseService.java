@@ -259,6 +259,15 @@ public class AdminResponseService implements IService<AdminResponse> {
             }
         }
     }
+
+    public void rejectReclamation(int reclamationId) throws SQLException {
+        String query = "UPDATE reclamation SET etat = 'REJETE', updated_at = ? WHERE id = ?";
+        try (PreparedStatement pst = getConnection().prepareStatement(query)) {
+            pst.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            pst.setInt(2, reclamationId);
+            pst.executeUpdate();
+        }
+    }
 }
 
 

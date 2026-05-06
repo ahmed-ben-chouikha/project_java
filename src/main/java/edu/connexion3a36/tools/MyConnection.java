@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class MyConnection {
 
-    private final String url="jdbc:mysql://localhost:3306/esportdevvvvvv?useSSL=false&serverTimezone=UTC";
+    private final String url="jdbc:mysql://localhost:3306/esportdevvvvvv-2?useSSL=false&serverTimezone=UTC";
     private final String login="root";
     private final String pwd="";
 
@@ -38,6 +38,13 @@ public class MyConnection {
     }
 
     public Connection getCnx() {
+        try {
+            if (cnx == null || cnx.isClosed()) {
+                cnx = DriverManager.getConnection(url, login, pwd);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error reconnecting: " + e.getMessage());
+        }
         return cnx;
     }
 

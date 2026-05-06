@@ -16,53 +16,19 @@
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.reclamations.ReclamationsController" spacing="12" styleClass="page-root">
     <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
     <children>
-        <Label text="Reclamations" styleClass="page-title" />
-
-        <HBox spacing="8">
+        <HBox spacing="12" alignment="CENTER_LEFT">
             <children>
-                <TextField fx:id="searchField" promptText="Search by title, type or state" HBox.hgrow="ALWAYS" />
+                <Label text="Reclamations" styleClass="page-title" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="Clear Form" onAction="#onClearForm" />
+                <Button fx:id="notificationButton" text="🔔" styleClass="btn-primary icon-button" onAction="#onOpenNotifications" />
+                <Label fx:id="notificationBadge" text="0" styleClass="notification-badge" visible="false" managed="false" />
             </children>
         </HBox>
 
-        <HBox spacing="12">
+        <HBox spacing="12" alignment="CENTER_LEFT">
             <children>
-                <GridPane hgap="10" vgap="8" styleClass="card" HBox.hgrow="ALWAYS">
-                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-                    <children>
-                        <Label text="Titre" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <TextField fx:id="titreField" promptText="Reclamation title" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                        <Label text="Type" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                        <ComboBox fx:id="typeCombo" promptText="Select type" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-
-                        <Label fx:id="etatLabel" text="Etat" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="etatCombo" promptText="State" visible="false" managed="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                        <Label text="Player" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="playerIdCombo" promptText="Select player" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-
-                        <Label text="Attachment" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <TextField fx:id="attachmentField" promptText="Filename" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                        <Label fx:id="createdAtLabel" text="Created At" visible="false" managed="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <TextField fx:id="createdAtField" promptText="yyyy-MM-dd HH:mm:ss" editable="false" visible="false" managed="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-
-                        <Label fx:id="updatedAtLabel" text="Updated At" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                        <TextField fx:id="updatedAtField" promptText="yyyy-MM-dd HH:mm:ss" editable="false" visible="false" managed="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                        <Label text="Description" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                        <TextArea fx:id="descriptionArea" promptText="Description" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.columnSpan="3" />
-                    </children>
-                </GridPane>
-
-                <VBox spacing="8" alignment="TOP_CENTER" styleClass="admin-actions-panel">
-                    <children>
-                        <Button fx:id="submitButton" text="➤" onAction="#onCreateReclamation" styleClass="btn-primary icon-button" style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-opacity: 1; -fx-border-color: #1d4ed8;" maxWidth="Infinity" />
-                    </children>
-                    <prefWidth>140</prefWidth>
-                </VBox>
+                <TextField fx:id="searchField" promptText="Search by title, type or state..." HBox.hgrow="ALWAYS" styleClass="search-field" />
+                <Button text="✨ CREATE NEW RECLAMATION" onAction="#onOpenCreatePopup" styleClass="ai-agent-btn" />
             </children>
         </HBox>
 
