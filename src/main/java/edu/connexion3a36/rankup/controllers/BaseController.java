@@ -24,6 +24,8 @@ public class BaseController {
             Node view = FXMLLoader.load(getClass().getResource(fxmlPath));
             contentPane.getChildren().setAll(view);
         } catch (IOException e) {
+            System.err.println("❌ ERROR LOADING FXML: " + fxmlPath);
+            e.printStackTrace();
             throw new RuntimeException("Cannot load content: " + fxmlPath, e);
         }
     }

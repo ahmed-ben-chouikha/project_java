@@ -104,6 +104,7 @@ public class PunitionsController {
     @FXML private VBox punitionCardsBox;
     @FXML private Button submitButton;
     @FXML private Button chatbotIconButton;
+    @FXML private Button gamesNewsButton;
     @FXML private Label matchBanCount;
     @FXML private Label tournamentBanCount;
     @FXML private Label gameBanCount;
@@ -174,6 +175,40 @@ public class PunitionsController {
             chatbotStage.show();
         } catch (IOException e) {
             showError("Chatbot Error", "Unable to open chatbot: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Open the Games News popup
+     */
+    @FXML
+    void onOpenGamesNews(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/punitions/games-news.fxml"));
+            VBox newsPane = loader.load();
+            
+            Stage newsStage = new Stage();
+            newsStage.setTitle("Latest Gaming News");
+            newsStage.setWidth(600);
+            newsStage.setHeight(800);
+            
+            Scene scene = new Scene(newsPane);
+            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+            newsStage.setScene(scene);
+            
+            // Center on parent
+            javafx.stage.Window owner = gamesNewsButton.getScene().getWindow();
+            if (owner != null) {
+                newsStage.initOwner(owner);
+                newsStage.initModality(Modality.WINDOW_MODAL);
+                newsStage.setX(owner.getX() + (owner.getWidth() - newsStage.getWidth()) / 2);
+                newsStage.setY(owner.getY() + (owner.getHeight() - newsStage.getHeight()) / 2);
+            }
+            
+            newsStage.show();
+        } catch (IOException e) {
+            showError("News Error", "Unable to open games news: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

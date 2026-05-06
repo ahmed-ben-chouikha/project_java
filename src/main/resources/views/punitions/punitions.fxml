@@ -22,6 +22,7 @@
                 <HBox spacing="12" alignment="CENTER_LEFT">
                     <children>
                         <Label text="Punitions" styleClass="page-title" />
+                        <Button fx:id="gamesNewsButton" text="🎮" styleClass="btn-primary icon-button" onAction="#onOpenGamesNews" />
                         <Region HBox.hgrow="ALWAYS" />
                         <Button fx:id="chatbotIconButton" text="🤖" styleClass="btn-primary icon-button" onAction="#onOpenChatbot" />
                     </children>
