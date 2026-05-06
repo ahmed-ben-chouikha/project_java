@@ -5,7 +5,6 @@ import edu.connexion3a36.entities.Tournament;
 import edu.connexion3a36.rankup.app.SessionManager;
 import edu.connexion3a36.rankup.controllers.tournaments.TournamentReviewState;
 import edu.connexion3a36.services.ReviewService;
-import edu.connexion3a36.services.TournamentRegistrationService;
 import edu.connexion3a36.services.TournamentService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,7 +39,6 @@ public class TournamentReviewsController implements Initializable {
     @FXML private VBox emptyStateContainer;
 
     private ReviewService reviewService;
-    private TournamentRegistrationService registrationService;
     private TournamentService tournamentService;
     private int selectedRating = 0;
     private List<Button> starButtons = new ArrayList<>();
@@ -56,7 +54,6 @@ public class TournamentReviewsController implements Initializable {
 
     private void initializeServices() {
         reviewService = new ReviewService();
-        registrationService = new TournamentRegistrationService();
         tournamentService = new TournamentService();
     }
 
@@ -178,11 +175,12 @@ public class TournamentReviewsController implements Initializable {
     private void loadEligibleTournaments() {
         try {
             playerNameField.setText(currentPlayerName());
-            List<Tournament> eligibleTournaments = registrationService.getConfirmedTournamentsByPlayer(currentPlayerName());
+            // Load ALL tournaments - no registration required to review
+            List<Tournament> allTournaments = tournamentService.getData();
 
-            tournamentComboBox.getItems().setAll(eligibleTournaments);
-            if (eligibleTournaments.isEmpty()) {
-                showError("No confirmed tournament registrations available to review.");
+            tournamentComboBox.getItems().setAll(allTournaments);
+            if (allTournaments.isEmpty()) {
+                showError("No tournaments available to review.");
                 tournamentComboBox.setDisable(true);
                 submitButton.setDisable(true);
             } else {
@@ -191,7 +189,7 @@ public class TournamentReviewsController implements Initializable {
                 submitButton.setDisable(false);
                 if (TournamentReviewState.hasSelectedTournament()) {
                     Tournament selected = TournamentReviewState.getSelectedTournament();
-                    for (Tournament tournament : eligibleTournaments) {
+                    for (Tournament tournament : allTournaments) {
                         if (tournament.getId() == selected.getId()) {
                             tournamentComboBox.setValue(tournament);
                             break;

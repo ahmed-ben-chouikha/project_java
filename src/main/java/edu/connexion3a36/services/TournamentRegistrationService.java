@@ -45,16 +45,14 @@ public class TournamentRegistrationService implements ITournamentRegistration {
         }
 
         // Insert registration with pending status
-        String query = "INSERT INTO " + registrationTable + " (player_name, team_name, team_members, contact_info, tournament_id, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO " + registrationTable + " (player_name, team_name, tournament_id, status) " +
+                "VALUES (?, ?, ?, ?)";
 
         PreparedStatement pst = cnx.prepareStatement(query);
         pst.setString(1, registration.getPlayerName().trim());
         pst.setString(2, registration.getTeamName().trim());
-        pst.setString(3, registration.getTeamMembers() != null ? registration.getTeamMembers().trim() : "");
-        pst.setString(4, registration.getContactInfo() != null ? registration.getContactInfo().trim() : "");
-        pst.setInt(5, registration.getTournamentId());
-        pst.setString(6, "pending");
+        pst.setInt(3, registration.getTournamentId());
+        pst.setString(4, "pending");
 
         pst.executeUpdate();
         System.out.println("Registration added successfully");
@@ -96,14 +94,12 @@ public class TournamentRegistrationService implements ITournamentRegistration {
             throw new SQLException("Registration cannot be null");
         }
 
-        String query = "UPDATE " + registrationTable + " SET team_name = ?, team_members = ?, contact_info = ?, status = ? WHERE id = ?";
+        String query = "UPDATE " + registrationTable + " SET team_name = ?, status = ? WHERE id = ?";
 
         PreparedStatement pst = cnx.prepareStatement(query);
         pst.setString(1, registration.getTeamName().trim());
-        pst.setString(2, registration.getTeamMembers() != null ? registration.getTeamMembers().trim() : "");
-        pst.setString(3, registration.getContactInfo() != null ? registration.getContactInfo().trim() : "");
-        pst.setString(4, registration.getStatus() != null ? registration.getStatus() : "pending");
-        pst.setInt(5, id);
+        pst.setString(2, registration.getStatus() != null ? registration.getStatus() : "pending");
+        pst.setInt(3, id);
 
         int result = pst.executeUpdate();
         if (result > 0) {
@@ -440,8 +436,9 @@ public class TournamentRegistrationService implements ITournamentRegistration {
         tr.setId(rs.getInt("id"));
         tr.setPlayerName(rs.getString("player_name"));
         tr.setTeamName(rs.getString("team_name"));
-        tr.setTeamMembers(rs.getString("team_members"));
-        tr.setContactInfo(rs.getString("contact_info"));
+        tr.setTeamMembers("");  // Not used
+        tr.setContactInfo("");  // Not used
+        
         tr.setTournamentId(rs.getInt("tournament_id"));
         tr.setTournamentName(rs.getString("tournament_name"));
         tr.setRegistrationDate(rs.getTimestamp("registration_date").toLocalDateTime());

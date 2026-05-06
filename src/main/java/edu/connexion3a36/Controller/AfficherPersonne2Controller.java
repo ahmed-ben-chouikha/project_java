@@ -122,6 +122,7 @@ public class AfficherPersonne2Controller {
             return;
         }
 
+        // TODO: Replace this with actual registration logic (e.g., call a service to persist registration)
         feedbackLabel.setText("Registered " + gamerTag + " from " + team + " for " + tournament + ".");
         showMessage("Tournament registration", feedbackLabel.getText());
     }

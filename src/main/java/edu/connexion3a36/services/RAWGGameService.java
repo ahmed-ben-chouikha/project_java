@@ -1,9 +1,7 @@
 package edu.connexion3a36.services;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.connexion3a36.entities.Game;
 
 import java.io.IOException;
@@ -22,9 +20,21 @@ import java.util.List;
  */
 public class RAWGGameService {
     private static final String RAWG_API_BASE_URL = "https://api.rawg.io/api";
-    // Get your API key from https://rawg.io/api
-    private static final String API_KEY = "14f9f7e72508416cb8d4c0ea21607d36";
+    private static final String API_KEY = getApiKeyFromConfig();
     private static final HttpClient httpClient = HttpClient.newHttpClient();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    
+    /**
+     * Get API key from environment variables or config
+     */
+    private static String getApiKeyFromConfig() {
+        String apiKey = System.getenv("RAWG_API_KEY");
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            apiKey = "14f9f7e72508416cb8d4c0ea21607d36"; // Fallback for development
+            System.out.println("WARNING: RAWG_API_KEY not set in environment. Using fallback key.");
+        }
+        return apiKey;
+    }
 
     /**
      * Search for games by name
@@ -133,13 +143,12 @@ public class RAWGGameService {
         List<Game> games = new ArrayList<>();
 
         try {
-            JsonObject root = JsonParser.parseString(jsonResponse).getAsJsonObject();
-            JsonArray results = root.getAsJsonArray("results");
+            JsonNode root = objectMapper.readTree(jsonResponse);
+            JsonNode results = root.path("results");
 
-            if (results != null) {
-                for (JsonElement element : results) {
-                    JsonObject gameObj = element.getAsJsonObject();
-                    Game game = parseGameObject(gameObj);
+            if (results.isArray()) {
+                for (JsonNode element : results) {
+                    Game game = parseGameObject(element);
                     if (game != null) {
                         games.add(game);
                     }
@@ -157,7 +166,7 @@ public class RAWGGameService {
      */
     private Game parseGameDetail(String jsonResponse) {
         try {
-            JsonObject gameObj = JsonParser.parseString(jsonResponse).getAsJsonObject();
+            JsonNode gameObj = objectMapper.readTree(jsonResponse);
             return parseGameObject(gameObj);
         } catch (Exception e) {
             System.err.println("ERROR parsing game detail: " + e.getMessage());
@@ -168,16 +177,16 @@ public class RAWGGameService {
     /**
      * Parse a game object from JSON
      */
-    private Game parseGameObject(JsonObject gameObj) {
+    private Game parseGameObject(JsonNode gameObj) {
         try {
-            long id = gameObj.has("id") ? gameObj.get("id").getAsLong() : 0L;
-            String name = gameObj.has("name") ? gameObj.get("name").getAsString() : "Unknown";
-            String description = gameObj.has("description") ? gameObj.get("description").getAsString() : "";
-            double rating = gameObj.has("rating") ? gameObj.get("rating").getAsDouble() : 0.0;
-            int reviewCount = gameObj.has("reviews_count") ? gameObj.get("reviews_count").getAsInt() : 0;
-            String backgroundImage = gameObj.has("background_image") ? gameObj.get("background_image").getAsString() : "";
-            String url = gameObj.has("url") ? gameObj.get("url").getAsString() : "";
-            String releaseDate = gameObj.has("released") ? gameObj.get("released").getAsString() : "N/A";
+            long id = gameObj.path("id").asLong(0L);
+            String name = gameObj.path("name").asText("Unknown");
+            String description = gameObj.path("description").asText("");
+            double rating = gameObj.path("rating").asDouble(0.0);
+            int reviewCount = gameObj.path("reviews_count").asInt(0);
+            String backgroundImage = gameObj.path("background_image").asText("");
+            String url = gameObj.path("url").asText("");
+            String releaseDate = gameObj.path("released").asText("N/A");
 
             // Extract genres
             String[] genres = extractGenres(gameObj);
@@ -196,13 +205,13 @@ public class RAWGGameService {
     /**
      * Extract genres from game object
      */
-    private String[] extractGenres(JsonObject gameObj) {
+    private String[] extractGenres(JsonNode gameObj) {
         try {
             if (gameObj.has("genres")) {
-                JsonArray genresArray = gameObj.getAsJsonArray("genres");
+                JsonNode genresArray = gameObj.get("genres");
                 String[] genres = new String[genresArray.size()];
                 for (int i = 0; i < genresArray.size(); i++) {
-                    genres[i] = genresArray.get(i).getAsJsonObject().get("name").getAsString();
+                    genres[i] = genresArray.get(i).get("name").asText();
                 }
                 return genres;
             }
@@ -215,14 +224,13 @@ public class RAWGGameService {
     /**
      * Extract platforms from game object
      */
-    private String[] extractPlatforms(JsonObject gameObj) {
+    private String[] extractPlatforms(JsonNode gameObj) {
         try {
             if (gameObj.has("platforms")) {
-                JsonArray platformsArray = gameObj.getAsJsonArray("platforms");
+                JsonNode platformsArray = gameObj.get("platforms");
                 String[] platforms = new String[platformsArray.size()];
                 for (int i = 0; i < platformsArray.size(); i++) {
-                    platforms[i] = platformsArray.get(i).getAsJsonObject()
-                            .getAsJsonObject("platform").get("name").getAsString();
+                    platforms[i] = platformsArray.get(i).get("platform").get("name").asText();
                 }
                 return platforms;
             }
@@ -233,11 +241,9 @@ public class RAWGGameService {
     }
 
     /**
-     * Update your API key
-     * @param apiKey Your RAWG API key from https://rawg.io/api
+     * Check if API key is configured
      */
-    public static void setApiKey(String apiKey) {
-        // Note: In production, store API key in environment variables or config files
-        System.out.println("API Key updated. Use environment variable or config in production.");
+    public static boolean isApiKeyConfigured() {
+        return API_KEY != null && !API_KEY.isEmpty();
     }
 }

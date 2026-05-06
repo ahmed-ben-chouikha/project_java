@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/START_APP.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvn-wrapper.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvn.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project-direct.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-with-java8.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/launch.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/launch.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/tournament_registrations_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/tournament_registrations_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentRegistrationUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentRegistrationUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentReviewsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentReviewsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/RAWGGameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/RAWGGameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentRegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentRegistrationService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,17 +48,29 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.Unnamed.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "spribnt2",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
     "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.connexion3a36.rankup.app.Main" />
+      <module name="Connexion3A36" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

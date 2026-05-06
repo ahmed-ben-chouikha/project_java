@@ -24,8 +24,6 @@ public class TournamentRegistrationUserController {
     // Registration Form Section
     @FXML private TextField playerNameField;
     @FXML private TextField teamNameField;
-    @FXML private TextArea teamMembersField;
-    @FXML private TextField contactInfoField;
     @FXML private ComboBox<TournamentComboItem> tournamentComboBox;
     @FXML private Label formErrorLabel;
     @FXML private Label successLabel;
@@ -34,8 +32,6 @@ public class TournamentRegistrationUserController {
     @FXML private TableView<RegistrationRow> myRegistrationsTable;
     @FXML private TableColumn<RegistrationRow, String> tournamentCol;
     @FXML private TableColumn<RegistrationRow, String> teamCol;
-    @FXML private TableColumn<RegistrationRow, String> teamMembersCol;
-    @FXML private TableColumn<RegistrationRow, String> contactInfoCol;
     @FXML private TableColumn<RegistrationRow, String> dateCol;
     @FXML private TableColumn<RegistrationRow, String> statusCol;
     @FXML private ComboBox<String> myStatusFilter;
@@ -109,8 +105,6 @@ public class TournamentRegistrationUserController {
     private void setupRegistrationsTable() {
         tournamentCol.setCellValueFactory(new PropertyValueFactory<>("tournamentName"));
         teamCol.setCellValueFactory(new PropertyValueFactory<>("teamName"));
-        teamMembersCol.setCellValueFactory(new PropertyValueFactory<>("teamMembers"));
-        contactInfoCol.setCellValueFactory(new PropertyValueFactory<>("contactInfo"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("registrationDate"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
@@ -138,8 +132,6 @@ public class TournamentRegistrationUserController {
             try {
                 String playerName = SessionManager.getCurrentPlayerName();
                 String teamName = teamNameField.getText().trim();
-                String teamMembers = teamMembersField.getText().trim();
-                String contactInfo = contactInfoField.getText().trim();
                 int tournamentId = tournamentComboBox.getValue().getId();
 
                 Tournament selectedTournament = tournamentService.getTournamentById(tournamentId);
@@ -148,7 +140,7 @@ public class TournamentRegistrationUserController {
                     return;
                 }
 
-                TournamentRegistration registration = new TournamentRegistration(playerName, teamName, teamMembers, contactInfo, tournamentId, "pending");
+                TournamentRegistration registration = new TournamentRegistration(playerName, teamName, "", "", tournamentId, "pending");
                 registrationService.addEntity(registration);
 
                 showSuccessForm("Registration submitted. Waiting for admin approval.");
@@ -247,8 +239,6 @@ public class TournamentRegistrationUserController {
     void clearRegistrationForm(ActionEvent event) {
         playerNameField.setText(SessionManager.getCurrentPlayerName());
         teamNameField.clear();
-        teamMembersField.clear();
-        contactInfoField.clear();
         tournamentComboBox.setValue(null);
         formErrorLabel.setText("");
         successLabel.setText("");
@@ -257,8 +247,6 @@ public class TournamentRegistrationUserController {
     private void clearRegistrationFormInternal() {
         playerNameField.setText(SessionManager.getCurrentPlayerName());
         teamNameField.clear();
-        teamMembersField.clear();
-        contactInfoField.clear();
         tournamentComboBox.setValue(null);
         formErrorLabel.setText("");
         successLabel.setText("");
@@ -288,32 +276,26 @@ public class TournamentRegistrationUserController {
         private final int id;
         private final String tournamentName;
         private final String teamName;
-        private final String teamMembers;
-        private final String contactInfo;
         private final String registrationDate;
         private final String status;
 
-        public RegistrationRow(int id, String tournamentName, String teamName, String teamMembers,
-                               String contactInfo, String registrationDate, String status) {
+        public RegistrationRow(int id, String tournamentName, String teamName,
+                               String registrationDate, String status) {
             this.id = id;
             this.tournamentName = tournamentName;
             this.teamName = teamName;
-            this.teamMembers = teamMembers;
-            this.contactInfo = contactInfo;
             this.registrationDate = registrationDate;
             this.status = status;
         }
 
         public static RegistrationRow fromRegistration(TournamentRegistration tr) {
             return new RegistrationRow(tr.getId(), tr.getTournamentName(), tr.getTeamName(),
-                tr.getTeamMembers(), tr.getContactInfo(), tr.getRegistrationDate().format(DATE_FORMATTER), tr.getStatus());
+                tr.getRegistrationDate().format(DATE_FORMATTER), tr.getStatus());
         }
 
         public int getId() { return id; }
         public String getTournamentName() { return tournamentName; }
         public String getTeamName() { return teamName; }
-        public String getTeamMembers() { return teamMembers; }
-        public String getContactInfo() { return contactInfo; }
         public String getRegistrationDate() { return registrationDate; }
         public String getStatus() { return status; }
     }
