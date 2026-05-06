@@ -24,6 +24,11 @@
                 <Region HBox.hgrow="ALWAYS" />
                 <Button text="Open User Management" onAction="#openUserManagement" styleClass="btn-primary" />
                 <Button text="Review Moderation" onAction="#openReviewModeration" styleClass="btn-secondary" />
+                <Button text="Player Requests" onAction="#openPlayerRequests" styleClass="btn-secondary" />
+                <Button text="Manager Requests" onAction="#openManagerRequests" styleClass="btn-secondary" />
+                <Button text="Team Approvals" onAction="#openTeamApprovals" styleClass="btn-secondary" />
+                <Button text="💰 Budget Management" onAction="#openBudgetManagement" styleClass="btn-secondary" />
+                <Button text="Payments" onAction="#openPaymentsDashboard" styleClass="btn-secondary" />
             </children>
             <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
         </HBox>
@@ -56,6 +61,11 @@
                         <Label text="Quick Actions" styleClass="section-title" />
                         <Button text="User Management" onAction="#openUserManagement" styleClass="btn-primary" maxWidth="1.7976931348623157E308" />
                         <Button text="Review Moderation" onAction="#openReviewModeration" maxWidth="1.7976931348623157E308" />
+                        <Button text="Player Requests" onAction="#openPlayerRequests" maxWidth="1.7976931348623157E308" />
+                        <Button text="Manager Requests" onAction="#openManagerRequests" maxWidth="1.7976931348623157E308" />
+                        <Button text="Team Approvals" onAction="#openTeamApprovals" maxWidth="1.7976931348623157E308" />
+                        <Button text="💰 Budget Management" onAction="#openBudgetManagement" maxWidth="1.7976931348623157E308" />
+                        <Button text="Payments &amp; Revenue" onAction="#openPaymentsDashboard" maxWidth="1.7976931348623157E308" />
                         <Button text="Team Management" onAction="#placeholder" maxWidth="1.7976931348623157E308" />
                         <Button text="Tournament Management" onAction="#placeholder" maxWidth="1.7976931348623157E308" />
                         <Button text="System Settings" onAction="#placeholder" maxWidth="1.7976931348623157E308" />

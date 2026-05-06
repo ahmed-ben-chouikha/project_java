@@ -250,7 +250,8 @@ public class TeamsController {
                 newTeam.setStatut(statut != null ? statut : "en attente");
                 newTeam.setScore(scoreSpinner.getValue());
 
-                if (teamService.addTeam(newTeam)) {
+                int teamId = teamService.addTeam(newTeam);
+                if (teamId > 0) {
                     teamList.add(newTeam);
                     showInfo("Succès", "Équipe ajoutée avec succès!");
                 } else {

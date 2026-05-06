@@ -21,6 +21,10 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.32), 18, 0.0, 0, 6);
 }
 
+.user-content-pane {
+    -fx-background-color: rgba(7, 13, 25, 0.94);
+}
+
 .admin-page,
 .login-root {
     -fx-background-color: linear-gradient(to bottom right, #050816, #091225 44%, #0f172a 100%);
@@ -112,6 +116,10 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 18, 0.0, 0, 4);
 }
 
+.user-side-nav {
+    -fx-background-color: linear-gradient(to bottom, rgba(7, 13, 25, 0.98), rgba(14, 23, 42, 0.98));
+}
+
 .side-nav-collapsed {
     -fx-padding: 16 8 16 8;
 }
@@ -172,6 +180,11 @@
     -fx-effect: dropshadow(gaussian, rgba(56, 189, 248, 0.18), 10, 0.0, 0, 2);
 }
 
+.nav-btn-primary {
+    -fx-background-color: linear-gradient(to right, rgba(34, 211, 238, 0.24), rgba(59, 130, 246, 0.22));
+    -fx-border-color: rgba(125, 211, 252, 0.38);
+}
+
 .nav-btn-admin {
     -fx-background-color: linear-gradient(to right, rgba(96, 165, 250, 0.16), rgba(168, 85, 247, 0.14));
     -fx-border-color: rgba(125, 211, 252, 0.28);
@@ -206,6 +219,191 @@
     -fx-text-fill: #60d9ff;
 }
 
+.chatbot-panel {
+    -fx-padding: 16;
+    -fx-background-color: linear-gradient(to bottom right, rgba(8, 15, 29, 0.98), rgba(13, 27, 48, 0.94));
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(125, 211, 252, 0.28);
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(14, 165, 233, 0.18), 22, 0.0, 0, 8);
+}
+
+.chatbot-header {
+    -fx-padding: 2 2 6 2;
+    -fx-border-color: transparent transparent rgba(148, 163, 184, 0.14) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.chatbot-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #f8fbff;
+}
+
+.chatbot-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #9db3cf;
+}
+
+.chatbot-live-badge {
+    -fx-padding: 6 12 6 12;
+    -fx-background-color: linear-gradient(to right, rgba(16, 185, 129, 0.24), rgba(14, 165, 233, 0.28));
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-color: rgba(34, 211, 238, 0.40);
+    -fx-text-fill: #dffbf1;
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+}
+
+.chatbot-metrics-row {
+    -fx-padding: 0 0 2 0;
+}
+
+.chatbot-metric-card {
+    -fx-padding: 11 12 11 12;
+    -fx-background-color: rgba(17, 24, 39, 0.84);
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: rgba(96, 165, 250, 0.18);
+    -fx-border-width: 1;
+}
+
+.chatbot-metric-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #8aa6c6;
+    -fx-font-weight: 700;
+}
+
+.chatbot-metric-value {
+    -fx-font-size: 13px;
+    -fx-text-fill: #eff7ff;
+    -fx-font-weight: 800;
+}
+
+.chatbot-screen {
+    -fx-padding: 12;
+    -fx-background-color: rgba(5, 10, 20, 0.80);
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(125, 211, 252, 0.20);
+    -fx-border-width: 1;
+}
+
+.chatbot-screen-top {
+    -fx-padding: 0 2 4 2;
+}
+
+.chatbot-section-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #d8f1ff;
+    -fx-font-weight: 800;
+}
+
+.chatbot-screen-note {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7db9de;
+}
+
+.chatbot-display {
+    -fx-control-inner-background: linear-gradient(to bottom, #0f172a, #111c31);
+    -fx-background-color: linear-gradient(to bottom right, rgba(15, 23, 42, 0.98), rgba(8, 15, 29, 0.98));
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: rgba(148, 163, 184, 0.16);
+    -fx-border-width: 1;
+    -fx-text-fill: #eef6ff;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-padding: 14;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-highlight-fill: rgba(56, 189, 248, 0.25);
+    -fx-highlight-text-fill: #ffffff;
+}
+
+.chatbot-display .content {
+    -fx-background-color: transparent;
+}
+
+.chatbot-display .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.chatbot-composer {
+    -fx-padding: 2 0 0 0;
+}
+
+.chatbot-input-row {
+    -fx-alignment: center-left;
+}
+
+.chatbot-input {
+    -fx-background-color: rgba(15, 23, 42, 0.96);
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(125, 211, 252, 0.30);
+    -fx-border-width: 1;
+    -fx-text-fill: #f1f7ff;
+    -fx-prompt-text-fill: #6f86a4;
+    -fx-padding: 12 14 12 14;
+    -fx-font-size: 13px;
+}
+
+.chatbot-input:focused {
+    -fx-border-color: rgba(56, 189, 248, 0.80);
+    -fx-effect: dropshadow(gaussian, rgba(56, 189, 248, 0.20), 12, 0.0, 0, 3);
+}
+
+.chatbot-send-btn {
+    -fx-background-color: linear-gradient(to right, #38bdf8, #8b5cf6);
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-width: 0;
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+    -fx-padding: 12 16 12 16;
+    -fx-cursor: hand;
+}
+
+.chatbot-send-btn:hover {
+    -fx-background-color: linear-gradient(to right, #22d3ee, #a855f7);
+    -fx-effect: dropshadow(gaussian, rgba(56, 189, 248, 0.36), 14, 0.0, 0, 4);
+}
+
+.chatbot-send-btn:pressed {
+    -fx-opacity: 0.88;
+}
+
+.chatbot-hint-prefix {
+    -fx-font-size: 11px;
+    -fx-text-fill: #87a6c6;
+    -fx-font-weight: 700;
+}
+
+.chatbot-chips-row {
+    -fx-wrap-text: true;
+}
+
+.chatbot-chip {
+    -fx-padding: 6 10 6 10;
+    -fx-background-color: rgba(56, 189, 248, 0.14);
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-color: rgba(125, 211, 252, 0.24);
+    -fx-border-width: 1;
+    -fx-text-fill: #cdefff;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+}
+
+.chatbot-chip:hover {
+    -fx-background-color: rgba(56, 189, 248, 0.22);
+    -fx-border-color: rgba(125, 211, 252, 0.42);
+}
+
 .page-title {
     -fx-font-size: 30px;
     -fx-font-weight: 700;
@@ -226,6 +424,32 @@
 
 .dashboard-page {
     -fx-spacing: 16;
+}
+
+.user-dashboard-page {
+    -fx-spacing: 16;
+}
+
+.user-hero {
+    -fx-background-color: linear-gradient(to right, rgba(16, 185, 129, 0.18), rgba(37, 99, 235, 0.16));
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(34, 211, 238, 0.24);
+    -fx-padding: 18;
+    -fx-alignment: center-left;
+}
+
+.user-hero-summary {
+    -fx-pref-width: 280;
+    -fx-padding: 14;
+    -fx-background-color: rgba(6, 11, 24, 0.84);
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: rgba(125, 211, 252, 0.16);
+}
+
+.user-stat-card {
+    -fx-min-width: 220;
 }
 
 .dashboard-hero {

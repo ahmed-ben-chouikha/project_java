@@ -23,6 +23,51 @@ public class AdminDashboardController {
     }
 
     @FXML
+    void openPlayerRequests(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-player-requests.fxml");
+    }
+
+    @FXML
+    void openManagerRequests(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-manager-requests.fxml");
+    }
+
+    @FXML
+    void openTeamApprovals(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-team-approvals.fxml");
+    }
+
+    @FXML
+    void openPaymentsDashboard(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-payments.fxml");
+    }
+
+    @FXML
+    void openBudgetManagement(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/budget/budget-list.fxml");
+    }
+
+    @FXML
     void placeholder(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Placeholder");

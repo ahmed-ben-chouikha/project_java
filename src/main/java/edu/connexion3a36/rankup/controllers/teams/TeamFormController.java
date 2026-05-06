@@ -2,11 +2,14 @@ package edu.connexion3a36.rankup.controllers.teams;
 
 import edu.connexion3a36.entities.Team;
 import edu.connexion3a36.rankup.app.RankUpApp;
+import edu.connexion3a36.rankup.app.SessionManager;
+import edu.connexion3a36.services.ManagerRequestService;
 import edu.connexion3a36.services.TeamService;
 import edu.connexion3a36.tools.ValidationUtil;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -26,10 +29,16 @@ public class TeamFormController {
     @FXML private Label feedbackLabel;
 
     private final TeamService teamService = new TeamService();
+    private final ManagerRequestService managerRequestService = new ManagerRequestService();
     private Team editingTeam;
 
     @FXML
     void initialize() {
+        if (!canManageTeams()) {
+            showAccessDenied();
+            return;
+        }
+
         gameCombo.setItems(FXCollections.observableArrayList("League of Legends", "Valorant", "CS2", "Dota 2", "Rocket League", "Other"));
         levelCombo.setItems(FXCollections.observableArrayList("Beginner", "Intermediate", "Pro"));
 
@@ -45,6 +54,11 @@ public class TeamFormController {
 
     @FXML
     void onSave(ActionEvent event) {
+        if (!canManageTeams()) {
+            showAccessDenied();
+            return;
+        }
+
         feedbackLabel.setText("");
 
         String name = safe(nameField.getText());
@@ -86,15 +100,51 @@ public class TeamFormController {
         payload.setNiveau(level);
         payload.setStatut("en attente");
         payload.setScore(score);
+        if (editingTeam == null) {
+            payload.setCreatorId(RankUpApp.getCurrentUserId());
+        }
 
-        boolean ok = editingTeam == null ? teamService.addTeam(payload) : teamService.updateTeam(payload);
-        if (!ok) {
-            feedbackLabel.setText("Impossible d'enregistrer l'équipe. Vérifiez les données ou la base.");
-            return;
+        int teamId = -1;
+        if (editingTeam == null) {
+            teamId = teamService.addTeam(payload);
+            if (teamId <= 0) {
+                feedbackLabel.setText("Impossible d'enregistrer l'équipe. Vérifiez les données ou la base.");
+                return;
+            }
+        } else {
+            boolean ok = teamService.updateTeam(payload);
+            if (!ok) {
+                feedbackLabel.setText("Impossible d'enregistrer l'équipe. Vérifiez les données ou la base.");
+                return;
+            }
+        }
+
+        // If new team, add creator as member
+        if (editingTeam == null && teamId > 0) {
+            int creatorId = RankUpApp.getCurrentUserId();
+            try {
+                // Update player's team_id to make them a member
+                String updatePlayerSql = "UPDATE player SET team_id = ? WHERE id = ?";
+                java.sql.Connection cnx = edu.connexion3a36.tools.MyConnection.getInstance().getCnx();
+                try (java.sql.PreparedStatement pst = cnx.prepareStatement(updatePlayerSql)) {
+                    pst.setInt(1, teamId);
+                    pst.setInt(2, creatorId);
+                    pst.executeUpdate();
+                }
+            } catch (Exception e) {
+                System.err.println("Could not add creator to team members: " + e.getMessage());
+            }
         }
 
         TeamFormState.clear();
-        RankUpApp.loadInBase("/views/teams/teams.fxml");
+        if (editingTeam == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Team created");
+            alert.setHeaderText(null);
+            alert.setContentText("Tu as cree ton team en attend de l'approvation de l'admin.");
+            alert.showAndWait();
+        }
+        RankUpApp.loadInBase("/views/manager/my-teams.fxml");
     }
 
     @FXML
@@ -134,6 +184,30 @@ public class TeamFormController {
 
     private String safe(String value) {
         return value == null ? "" : value.trim();
+    }
+
+    private boolean canManageTeams() {
+        if (SessionManager.isAdmin()) {
+            return true;
+        }
+        int currentUserId = RankUpApp.getCurrentUserId();
+        if (currentUserId <= 0) {
+            return false;
+        }
+        try {
+            return managerRequestService.hasApprovedManagerRequest(currentUserId);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void showAccessDenied() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Access denied");
+        alert.setHeaderText(null);
+        alert.setContentText("Only approved managers can create teams.");
+        alert.showAndWait();
+        RankUpApp.loadInBase("/views/dashboard/user-dashboard.fxml");
     }
 }
 

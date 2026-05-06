@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.tickets.BuyTicketController" spacing="16" styleClass="page-root matches-page">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <VBox spacing="8" styleClass="card matches-hero">
+            <children>
+                <Label text="Buy Tickets" styleClass="page-title" />
+                <Label text="Pick a match, choose an available ticket, and generate a payment QR code in one step." styleClass="muted" wrapText="true" />
+            </children>
+        </VBox>
+
+        <HBox spacing="16" VBox.vgrow="ALWAYS">
+            <children>
+                <VBox spacing="12" styleClass="card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox spacing="10">
+                            <children>
+                                <Label text="Match" styleClass="section-title" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="Refresh" onAction="#onRefresh" styleClass="btn-secondary" />
+                            </children>
+                        </HBox>
+                        <ComboBox fx:id="matchCombo" prefWidth="400" maxWidth="Infinity" />
+
+                        <TableView fx:id="availableTicketsTable" VBox.vgrow="ALWAYS" styleClass="tickets-table">
+                            <columns>
+                                <TableColumn fx:id="ticketNumberCol" text="Ticket Number" prefWidth="180" />
+                                <TableColumn fx:id="typeCol" text="Type" prefWidth="100" />
+                                <TableColumn fx:id="priceCol" text="Price" prefWidth="90" />
+                                <TableColumn fx:id="quantityCol" text="Quantity" prefWidth="90" />
+                                <TableColumn fx:id="soldCol" text="Sold" prefWidth="90" />
+                                <TableColumn fx:id="statusCol" text="Status" prefWidth="120" />
+                            </columns>
+                        </TableView>
+
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <children>
+                                <Label text="Quantity" />
+                                <TextField fx:id="quantityField" prefWidth="90" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="Buy Ticket" onAction="#onBuyTicket" styleClass="btn-primary" />
+                            </children>
+                        </HBox>
+                        <Label fx:id="statusLabel" text="Select a match to view tickets." styleClass="muted" wrapText="true" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="12" prefWidth="360" styleClass="card">
+                    <children>
+                        <Label text="Payment Details" styleClass="section-title" />
+                        <TextField fx:id="customerNameField" promptText="Customer name" />
+                        <TextField fx:id="customerEmailField" promptText="Customer email" />
+                        <TextField fx:id="customerPhoneField" promptText="Customer phone" />
+                        <TextArea fx:id="notesArea" promptText="Notes" prefRowCount="4" wrapText="true" />
+
+                        <Label fx:id="paymentIntentLabel" text="" styleClass="muted" wrapText="true" />
+                        <ImageView fx:id="qrImageView" fitWidth="260" fitHeight="260" preserveRatio="true" smooth="true" />
+                        <Label text="Scan this QR code to confirm the payment intent." styleClass="muted" wrapText="true" />
+                        <Button text="Back to Matches" onAction="#onBack" styleClass="btn-secondary" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>

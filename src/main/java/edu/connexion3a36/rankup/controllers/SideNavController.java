@@ -28,6 +28,11 @@ public class SideNavController {
     @FXML private VBox sideNavRoot;
     @FXML private ToggleButton collapseToggle;
     @FXML private FontIcon collapseIcon;
+       @FXML private Button depenseBtn;
+    @FXML private Button myBudgetBtn;
+    @FXML private Button myExpensesBtn;
+    @FXML private Button chatbotBtn;
+    @FXML private Button statBtn;
 
     private final Map<Button, String> buttonLabels = new LinkedHashMap<>();
     private final List<Label> sectionLabels = new ArrayList<>();
@@ -37,6 +42,29 @@ public class SideNavController {
     private void initialize() {
         sideNavRoot.setFillWidth(true);
         collectNodes(sideNavRoot);
+        // Show/hide manager-specific nav items
+        boolean isManager = SessionManager.isManager();
+        if (depenseBtn != null) {
+            depenseBtn.setVisible(isManager);
+            depenseBtn.setManaged(isManager);
+        }
+        if (myBudgetBtn != null) {
+            myBudgetBtn.setVisible(isManager);
+            myBudgetBtn.setManaged(isManager);
+        }
+        if (myExpensesBtn != null) {
+            myExpensesBtn.setVisible(isManager);
+            myExpensesBtn.setManaged(isManager);
+        }
+        if (chatbotBtn != null) {
+            // Make chatbot available to all users
+            chatbotBtn.setVisible(true);
+            chatbotBtn.setManaged(true);
+        }
+        if (statBtn != null) {
+            statBtn.setVisible(true);
+            statBtn.setManaged(true);
+        }
 
         buttonLabels.forEach((button, label) -> {
             button.setMaxWidth(Double.MAX_VALUE);
@@ -112,6 +140,9 @@ public class SideNavController {
     void goMatches(ActionEvent event) { RankUpApp.loadInBase("/views/matches/matches.fxml"); }
 
     @FXML
+    void goBuyTickets(ActionEvent event) { RankUpApp.loadInBase("/views/tickets/buy-tickets.fxml"); }
+
+    @FXML
     void goTeams(ActionEvent event) { RankUpApp.loadInBase("/views/teams/teams.fxml"); }
 
     @FXML
@@ -127,7 +158,45 @@ public class SideNavController {
     void goBudget(ActionEvent event) { RankUpApp.loadInBase("/views/budget/budget-list.fxml"); }
 
     @FXML
-    void goDepenses(ActionEvent event) { RankUpApp.loadInBase("/views/depense/depense-list.fxml"); }
+    void goMyBudget(ActionEvent event) {
+        if (!SessionManager.isManager()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/manager/manager-budget-depense.fxml");
+    }
+
+    @FXML
+    void goMyExpenses(ActionEvent event) {
+        if (!SessionManager.isManager()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/manager/manager-budget-depense.fxml");
+    }
+
+    @FXML
+    void goChatbot(ActionEvent event) {
+        RankUpApp.loadInBase("/views/chatbot/chatbot.fxml");
+    }
+
+    @FXML
+    void goStatistique(ActionEvent event) {
+        RankUpApp.loadInBase("/views/stats/budget-stats.fxml");
+    }
+
+    @FXML
+    void goDepenses(ActionEvent event) {
+        if (SessionManager.isAdmin()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Access Denied");
+            alert.setHeaderText(null);
+            alert.setContentText("Expense management is only available for managers. Admins manage budgets instead.");
+            alert.showAndWait();
+            return;
+        }
+        RankUpApp.loadInBase("/views/depense/depense-list.fxml");
+    }
 
     @FXML
     void goNotifications(ActionEvent event) { RankUpApp.loadInBase("/views/notifications/notifications.fxml"); }
@@ -160,6 +229,42 @@ public class SideNavController {
             return;
         }
         RankUpApp.loadInBase("/views/admin/admin-review-moderation.fxml");
+    }
+
+    @FXML
+    void goPlayerRequests(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-player-requests.fxml");
+    }
+
+    @FXML
+    void goManagerRequests(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-manager-requests.fxml");
+    }
+
+    @FXML
+    void goTeamApprovals(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-team-approvals.fxml");
+    }
+
+    @FXML
+    void goPaymentsDashboard(ActionEvent event) {
+        if (!SessionManager.isAdmin()) {
+            showAccessDenied();
+            return;
+        }
+        RankUpApp.loadInBase("/views/admin/admin-payments.fxml");
     }
 
     private void showAccessDenied() {

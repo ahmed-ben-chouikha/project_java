@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.players.PlayerApplicationController" spacing="14" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+        <Label text="Apply To Be A Player" styleClass="page-title" />
+        <Label text="Fill in your player details and submit the form. Your application will be saved with a pending status." styleClass="muted" wrapText="true" />
+
+        <GridPane hgap="12" vgap="12">
+            <children>
+                <Label text="Nickname" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <TextField fx:id="nicknameField" promptText="Nickname" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                <Label text="First Name" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                <TextField fx:id="firstNameField" promptText="First name" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                <Label text="Last Name" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                <TextField fx:id="lastNameField" promptText="Last name" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                <Label text="Birth Date" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                <DatePicker fx:id="birthDatePicker" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                <Label text="Role" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                <TextField fx:id="roleField" promptText="Example: attacker, defender, support" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+            </children>
+        </GridPane>
+
+        <HBox spacing="10">
+            <children>
+                <Button text="Submit Player Application" onAction="#onSubmit" styleClass="btn-primary" />
+                <Button text="Cancel" onAction="#onCancel" styleClass="btn-secondary" />
+            </children>
+        </HBox>
+
+        <Label fx:id="statusLabel" text="" styleClass="muted" wrapText="true" />
+    </children>
+</VBox>

@@ -39,12 +39,14 @@
                 <ComboBox fx:id="statusCombo" GridPane.rowIndex="6" GridPane.columnIndex="1" prefWidth="260"/>
 
                 <Label fx:id="feedbackLabel" text="" styleClass="muted" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                <Label fx:id="aiSuggestionLabel" text="" styleClass="muted" wrapText="true" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
             </children>
         </GridPane>
 
         <HBox spacing="8">
             <children>
                 <Button text="Save" onAction="#onSave" styleClass="btn-primary"/>
+                <Button text="Suggest Price" onAction="#onSuggestPrice" styleClass="btn-secondary"/>
                 <Button text="Cancel" onAction="#onCancel" styleClass="btn-secondary"/>
             </children>
         </HBox>

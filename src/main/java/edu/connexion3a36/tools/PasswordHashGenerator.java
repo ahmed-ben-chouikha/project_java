@@ -23,20 +23,16 @@ public class PasswordHashGenerator {
         if (password == null || password.isEmpty()) {
             return "";
         }
-        try {
-            // Generate random salt
-            SecureRandom random = new SecureRandom();
-            byte[] salt = new byte[SALT_LENGTH];
-            random.nextBytes(salt);
-            
-            // Hash password with salt
-            String hash = hashWithSalt(password, salt);
-            
-            // Return salt$hash format
-            return Base64.getEncoder().encodeToString(salt) + "$" + hash;
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("SHA-256 algorithm not available", e);
-        }
+        // Generate random salt
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[SALT_LENGTH];
+        random.nextBytes(salt);
+
+        // Hash password with salt
+        String hash = hashWithSalt(password, salt);
+
+        // Return salt$hash format
+        return Base64.getEncoder().encodeToString(salt) + "$" + hash;
     }
 
     /**
@@ -51,12 +47,12 @@ public class PasswordHashGenerator {
             if (parts.length != 2) {
                 return false;
             }
-            
+
             byte[] salt = Base64.getDecoder().decode(parts[0]);
             String expectedHash = hashWithSalt(password, salt);
-            
+
             return expectedHash.equals(parts[1]);
-        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException | java.security.NoSuchAlgorithmException e) {
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             return false;
         }
     }
@@ -64,11 +60,15 @@ public class PasswordHashGenerator {
     /**
      * Hash password with given salt
      */
-    private static String hashWithSalt(String password, byte[] salt) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(salt);
-        byte[] hashedPassword = md.digest(password.getBytes());
-        return Base64.getEncoder().encodeToString(hashedPassword);
+    private static String hashWithSalt(String password, byte[] salt) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
+            byte[] hashedPassword = md.digest(password.getBytes());
+            return Base64.getEncoder().encodeToString(hashedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not available", e);
+        }
     }
 
     /**

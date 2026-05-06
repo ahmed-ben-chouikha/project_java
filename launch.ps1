@@ -72,6 +72,44 @@ if ($javaVersionText -match 'version "([0-9]+)(?:\.([0-9]+))?') {
 
 Write-Host "[OK] Java pret" -ForegroundColor Green
 
+function Import-LocalEnvFile {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$FilePath
+    )
+
+    if (-not (Test-Path $FilePath)) {
+        return
+    }
+
+    Get-Content $FilePath | ForEach-Object {
+        $line = $_.Trim()
+        if ([string]::IsNullOrWhiteSpace($line) -or $line.StartsWith('#')) {
+            return
+        }
+
+        $parts = $line -split '=', 2
+        if ($parts.Length -ne 2) {
+            return
+        }
+
+        $name = $parts[0].Trim()
+        $value = $parts[1].Trim()
+
+        if ($value.StartsWith('"') -and $value.EndsWith('"') -and $value.Length -ge 2) {
+            $value = $value.Substring(1, $value.Length - 2)
+        }
+
+        if ($name) {
+            [System.Environment]::SetEnvironmentVariable($name, $value, 'Process')
+            Set-Item -Path "Env:$name" -Value $value
+        }
+    }
+}
+
+$localEnvPath = Join-Path $PSScriptRoot 'local.env'
+Import-LocalEnvFile -FilePath $localEnvPath
+
 Write-Host ""
 Write-Host "[2/2] Lancement de l'application JavaFX..." -ForegroundColor Yellow
 Write-Host "Le projet $((Get-Location).Path)" -ForegroundColor Gray
