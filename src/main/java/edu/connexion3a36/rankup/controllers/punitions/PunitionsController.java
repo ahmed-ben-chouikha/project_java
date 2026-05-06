@@ -31,11 +31,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.geometry.Pos;
 import javafx.util.Duration;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -108,15 +103,11 @@ public class PunitionsController {
     @FXML private ComboBox<ReclamationChoice> reclamationCombo;
     @FXML private VBox punitionCardsBox;
     @FXML private Button submitButton;
-<<<<<<< Updated upstream
-    @FXML private Button chatbotButton;
-=======
     @FXML private Button chatbotIconButton;
     @FXML private Label matchBanCount;
     @FXML private Label tournamentBanCount;
     @FXML private Label gameBanCount;
     @FXML private TableView<LeaderboardRow> bannedPlayersTable;
->>>>>>> Stashed changes
 
     private final PunitionService service = new PunitionService();
     private final ObservableList<Punition> rows = FXCollections.observableArrayList();
@@ -183,30 +174,6 @@ public class PunitionsController {
             chatbotStage.show();
         } catch (IOException e) {
             showError("Chatbot Error", "Unable to open chatbot: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    void onOpenChat(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/chatbot/chatbot.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 420, 520);
-            var styleUrl = getClass().getResource("/styles.css");
-            if (styleUrl != null) {
-                scene.getStylesheets().add(styleUrl.toExternalForm());
-            }
-
-            Stage dialog = new Stage();
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            // set owner from any known control
-            dialog.initOwner(submitButton.getScene().getWindow());
-            dialog.setTitle("Punition Advisor");
-            dialog.setScene(scene);
-            dialog.setResizable(false);
-            dialog.show();
-        } catch (Exception e) {
-            showError("Chatbot failed", "Unable to open chatbot: " + e.getMessage());
         }
     }
 

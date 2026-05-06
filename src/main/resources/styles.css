@@ -776,24 +776,32 @@
 }
 
 .punition-item-card {
-    -fx-padding: 12;
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
-    -fx-border-color: rgba(56, 189, 248, 0.22);
+    -fx-padding: 16;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(56, 189, 248, 0.35);
+    -fx-background-color: rgba(15, 23, 42, 0.88);
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0.0, 0, 2);
+    -fx-spacing: 12;
+    -fx-min-width: 300;
+    -fx-pref-width: 300;
 }
 
 .punition-meta-row {
+    -fx-spacing: 12;
+    -fx-alignment: center-left;
+    -fx-padding: 6 0;
+}
+
+.punition-date-range {
     -fx-spacing: 10;
     -fx-alignment: center-left;
+    -fx-padding: 6 0;
 }
 
 .punition-status-badge {
     -fx-border-color: rgba(148, 163, 184, 0.45);
-}
-
-.punition-date-range {
-    -fx-spacing: 8;
-    -fx-alignment: center-left;
 }
 
 .punition-date-chip {
@@ -886,31 +894,171 @@
     -fx-effect: dropshadow(gaussian, rgba(96, 165, 250, 0.55), 20, 0.15, 0, 0);
 }
 
-
-/* Chatbot floating button and messages */
-.chatbot-button {
-    -fx-font-size: 20px;
-    -fx-min-width: 56;
-    -fx-min-height: 56;
-    -fx-background-radius: 999;
-    -fx-background-color: linear-gradient(to right, #06b6d4, #7c3aed);
-    -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(124, 58, 237, 0.35), 12, 0.0, 0, 4);
-}
-
-.chatbot-message {
-    -fx-padding: 8 10 8 10;
+.punition-ban-row {
+    -fx-padding: 6 8;
+    -fx-background-color: rgba(30, 41, 59, 0.3);
     -fx-background-radius: 8;
+    -fx-border-color: rgba(56, 189, 248, 0.1);
+    -fx-border-width: 1;
 }
 
-.chatbot-message.user {
-    -fx-background-color: linear-gradient(to right, #60a5fa, #a78bfa);
-    -fx-text-fill: #021124;
+.punition-ban-row:hover {
+    -fx-background-color: rgba(56, 189, 248, 0.15);
+    -fx-border-color: rgba(56, 189, 248, 0.3);
 }
 
-.chatbot-message.bot {
-    -fx-background-color: rgba(255,255,255,0.04);
-    -fx-text-fill: #dbeafe;
+.icon-button-small {
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+    -fx-padding: 0;
+    -fx-background-radius: 8;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+    -fx-cursor: hand;
 }
 
+.punition-bans-list {
+    -fx-spacing: 8;
+    -fx-padding: 4 0;
+}
 
+.ai-agent-btn {
+    -fx-background-color: linear-gradient(to bottom right, #6366f1, #a855f7);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-padding: 6 12;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.4), 10, 0, 0, 2);
+    -fx-font-weight: bold;
+}
+
+.ai-agent-btn:hover {
+    -fx-background-color: linear-gradient(to bottom right, #4f46e5, #9333ea);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.6), 15, 0, 0, 0);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Premium AI Popup Container */
+.ai-popup-container {
+    -fx-background-color: #0f172a;
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 50, 0, 0, 25);
+}
+
+.ai-header-box {
+    -fx-spacing: 15;
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 20 0;
+}
+
+.ai-header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: 900;
+    -fx-text-fill: white;
+}
+
+.ai-analysis-grid {
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+    -fx-padding: 10 0;
+}
+
+.ai-card {
+    -fx-background-color: rgba(30, 41, 59, 0.6);
+    -fx-background-radius: 15;
+    -fx-padding: 15;
+    -fx-border-color: rgba(56, 189, 248, 0.15);
+    -fx-border-width: 1;
+}
+
+.ai-card-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #38bdf8;
+    -fx-text-transform: uppercase;
+}
+
+.ai-card-value {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f1f5f9;
+}
+
+.ai-summary-area {
+    -fx-background-color: rgba(15, 23, 42, 0.5);
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+    -fx-border-color: rgba(255, 255, 255, 0.05);
+}
+
+.ai-summary-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #94a3b8;
+    -fx-line-spacing: 5;
+}
+
+.ai-finish-btn {
+    -fx-background-color: linear-gradient(to right, #38bdf8, #818cf8);
+    -fx-text-fill: #0f172a;
+    -fx-font-weight: 900;
+    -fx-background-radius: 10;
+    -fx-padding: 12 35;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.ai-finish-btn:hover {
+    -fx-effect: dropshadow(gaussian, rgba(56, 189, 248, 0.5), 15, 0, 0, 0);
+}
+
+.ai-header-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+}
+
+.ai-metric-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #38bdf8;
+    -fx-text-transform: uppercase;
+    -fx-letter-spacing: 1px;
+}
+
+.ai-metric-value {
+    -fx-font-size: 14px;
+    -fx-text-fill: #f1f5f9;
+}
+
+.ai-close-btn {
+    -fx-background-color: #334155;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 10 25;
+    -fx-cursor: hand;
+}
+
+.ai-close-btn:hover {
+    -fx-background-color: #475569;
+}
+
+.search-field {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #334155;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-padding: 10 15;
+}
+
+.search-field:focused {
+    -fx-border-color: #6366f1;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 10, 0, 0, 0);
+}

@@ -8,6 +8,7 @@ public class Tournament {
     private int id;
     private String name;
     private String description;
+    private String gameType;
     private LocalDate startDate;
     private LocalDate endDate;
     private String status;
@@ -33,6 +34,15 @@ public class Tournament {
         this.location = location;
         this.prizePool = prizePool;
         this.rules = rules;
+    }
+
+    public Tournament(String name, String gameType, LocalDate startDate, LocalDate endDate, int maxTeams, String status) {
+        this.name = name;
+        this.gameType = gameType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.maxTeams = maxTeams;
+        this.status = status;
     }
 
     // Full constructor with id and timestamps
@@ -75,6 +85,14 @@ public class Tournament {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGameType() {
+        return gameType;
+    }
+
+    public void setGameType(String gameType) {
+        this.gameType = gameType;
     }
 
     public LocalDate getStartDate() {

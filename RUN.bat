@@ -10,6 +10,15 @@ echo   EsportDev Arena - JavaFX Esports Dashboard Launcher
 echo =====================================================================
 echo.
 
+<<<<<<< HEAD
+=======
+REM Set Java Home to JDK 22
+set "JAVA_HOME=C:\Program Files\Java\jdk-22"
+
+REM Add Maven to PATH
+set "PATH=C:\Apache\apache-maven-3.9.6\bin;%PATH%"
+
+>>>>>>> 7f657a918caddcbded589c06b3fb4fd3768eb79f
 REM Navigate to project
 set "PROJECT_ROOT=%~dp0"
 pushd "%PROJECT_ROOT%"

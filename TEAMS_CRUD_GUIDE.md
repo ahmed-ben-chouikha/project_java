@@ -1,30 +1,30 @@
 # Teams CRUD Implementation Guide
 
 ## Overview
-Une implémentation complète de CRUD (Create, Read, Update, Delete) pour les équipes esports dans l'application RankUp.
+Une implÃ©mentation complÃ¨te de CRUD (Create, Read, Update, Delete) pour les Ã©quipes esports dans l'application RankUp.
 
-## Fichiers créés
+## Fichiers crÃ©Ã©s
 
-### 1. Entité Team (`entities/Team.java`)
-- Classe de modèle pour représenter une équipe
-- Propriétés : id, name, region, roster, record, description
+### 1. EntitÃ© Team (`entities/Team.java`)
+- Classe de modÃ¨le pour reprÃ©senter une Ã©quipe
+- PropriÃ©tÃ©s : id, name, region, roster, record, description
 - Getters et setters complets
 
 ### 2. Service TeamService (`services/TeamService.java`)
-Implémente les opérations de base de données :
+ImplÃ©mente les opÃ©rations de base de donnÃ©es :
 
 #### CRUD Operations:
-- **`addTeam(Team)`** - Ajouter une nouvelle équipe
-- **`getAllTeams()`** - Récupérer toutes les équipes
-- **`getTeamById(int)`** - Récupérer une équipe spécifique
-- **`updateTeam(Team)`** - Modifier une équipe existante
-- **`deleteTeam(int)`** - Supprimer une équipe
-- **`searchTeamsByName(String)`** - Rechercher des équipes par nom
+- **`addTeam(Team)`** - Ajouter une nouvelle Ã©quipe
+- **`getAllTeams()`** - RÃ©cupÃ©rer toutes les Ã©quipes
+- **`getTeamById(int)`** - RÃ©cupÃ©rer une Ã©quipe spÃ©cifique
+- **`updateTeam(Team)`** - Modifier une Ã©quipe existante
+- **`deleteTeam(int)`** - Supprimer une Ã©quipe
+- **`searchTeamsByName(String)`** - Rechercher des Ã©quipes par nom
 
-### 3. Contrôleur TeamsController (`rankup/controllers/TeamsController.java`)
-Gère l'interface utilisateur avec :
-- **Affichage** : TableView avec colonnes (ID, Nom, Région, Roster, Record)
-- **Ajout** : Bouton "Add Team" ouvre un dialogue de création
+### 3. ContrÃ´leur TeamsController (`rankup/controllers/TeamsController.java`)
+GÃ¨re l'interface utilisateur avec :
+- **Affichage** : TableView avec colonnes (ID, Nom, RÃ©gion, Roster, Record)
+- **Ajout** : Bouton "Add Team" ouvre un dialogue de crÃ©ation
 - **Modification** : Bouton "Edit" pour chaque ligne
 - **Suppression** : Bouton "Delete" avec confirmation
 - **Recherche** : Champ de recherche par nom
@@ -35,13 +35,13 @@ Interface JavaFX avec :
 - Header avec titre et bouton d'ajout
 - Barre de recherche avec boutons Rechercher et Actualiser
 - TableView avec colonnes d'actions (Edit/Delete)
-- Thème dark neon (cohérent avec l'application)
+- ThÃ¨me dark neon (cohÃ©rent avec l'application)
 
 ## Installation
 
-### Étape 1 : Créer la table de base de données
+### Ã‰tape 1 : CrÃ©er la table de base de donnÃ©es
 
-Exécutez le script SQL dans MySQL :
+ExÃ©cutez le script SQL dans MySQL :
 
 ```sql
 CREATE TABLE IF NOT EXISTS team (
@@ -54,28 +54,28 @@ CREATE TABLE IF NOT EXISTS team (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Données d'exemple
+-- DonnÃ©es d'exemple
 INSERT IGNORE INTO team (name, region, roster, record, description) VALUES
-('Eclipse', 'EU West', 'Rex • Nova • Byte • Kaze • Lynx', '14W / 3L', 'A dominant EU West team'),
-('Apex Drift', 'NA Central', 'Milo • Vex • Raze • Sol • Flux', '11W / 5L', 'Rising stars from North America'),
-('Shadow Unit', 'APAC', 'Kai • Ember • Drift • Zen • Orion', '17W / 2L', 'Champions of APAC');
+('Eclipse', 'EU West', 'Rex â€¢ Nova â€¢ Byte â€¢ Kaze â€¢ Lynx', '14W / 3L', 'A dominant EU West team'),
+('Apex Drift', 'NA Central', 'Milo â€¢ Vex â€¢ Raze â€¢ Sol â€¢ Flux', '11W / 5L', 'Rising stars from North America'),
+('Shadow Unit', 'APAC', 'Kai â€¢ Ember â€¢ Drift â€¢ Zen â€¢ Orion', '17W / 2L', 'Champions of APAC');
 ```
 
-Ou exécutez directement le fichier fourni :
+Ou exÃ©cutez directement le fichier fourni :
 ```bash
-mysql -u root esportdevvvvvv < setup_team_table.sql
+mysql -u root esportdevvvvvv-2 < setup_team_table.sql
 ```
 
-### Étape 2 : Compiler le projet
+### Ã‰tape 2 : Compiler le projet
 
 ```bash
 cd C:\Users\melki\OneDrive\Bureau\pidev\project_java
 mvn clean compile
 ```
 
-### Étape 3 : Intégrer à la navigation
+### Ã‰tape 3 : IntÃ©grer Ã  la navigation
 
-Dans votre contrôleur de navigation principal, ajoutez le lien vers TeamsController :
+Dans votre contrÃ´leur de navigation principal, ajoutez le lien vers TeamsController :
 
 ```java
 @FXML
@@ -92,37 +92,37 @@ void showTeams(ActionEvent event) {
 
 ## Utilisation
 
-### Afficher les équipes
-- L'application charge automatiquement toutes les équipes au démarrage
-- La table affiche : ID, Nom, Région, Roster, Record
+### Afficher les Ã©quipes
+- L'application charge automatiquement toutes les Ã©quipes au dÃ©marrage
+- La table affiche : ID, Nom, RÃ©gion, Roster, Record
 
-### Ajouter une équipe
-1. Cliquez sur le bouton "➕ Add Team"
+### Ajouter une Ã©quipe
+1. Cliquez sur le bouton "âž• Add Team"
 2. Remplissez les champs du formulaire
 3. Cliquez sur "Save"
 
-### Modifier une équipe
+### Modifier une Ã©quipe
 1. Cliquez sur le bouton "Edit" de la ligne
 2. Modifiez les champs
 3. Cliquez sur "Save"
 
-### Supprimer une équipe
+### Supprimer une Ã©quipe
 1. Cliquez sur le bouton "Delete" de la ligne
 2. Confirmez la suppression
 
-### Rechercher une équipe
+### Rechercher une Ã©quipe
 1. Entrez le nom dans le champ de recherche
-2. Cliquez sur "🔍 Search"
-3. Cliquez sur "🔄 Refresh" pour réinitialiser
+2. Cliquez sur "ðŸ” Search"
+3. Cliquez sur "ðŸ”„ Refresh" pour rÃ©initialiser
 
-## Structure des données
+## Structure des donnÃ©es
 
 ### Table `team`
 ```
 id           INT AUTO_INCREMENT PRIMARY KEY
 name         VARCHAR(255) NOT NULL UNIQUE
 region       VARCHAR(100) NOT NULL
-roster       TEXT (joueurs séparés par •)
+roster       TEXT (joueurs sÃ©parÃ©s par â€¢)
 record       VARCHAR(50) (ex: 14W / 3L)
 description  TEXT
 created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -131,31 +131,31 @@ created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ## Exemple d'utilisation en code
 
 ```java
-// Ajouter une équipe
+// Ajouter une Ã©quipe
 TeamService teamService = new TeamService();
-Team team = new Team("Nova Crew", "EU East", "Player1 • Player2 • Player3", "10W / 2L", "Description");
+Team team = new Team("Nova Crew", "EU East", "Player1 â€¢ Player2 â€¢ Player3", "10W / 2L", "Description");
 teamService.addTeam(team);
 
-// Récupérer toutes les équipes
+// RÃ©cupÃ©rer toutes les Ã©quipes
 List<Team> allTeams = teamService.getAllTeams();
 
-// Récupérer une équipe spécifique
+// RÃ©cupÃ©rer une Ã©quipe spÃ©cifique
 Team team = teamService.getTeamById(1);
 
-// Modifier une équipe
+// Modifier une Ã©quipe
 team.setRecord("15W / 3L");
 teamService.updateTeam(team);
 
-// Supprimer une équipe
+// Supprimer une Ã©quipe
 teamService.deleteTeam(1);
 
-// Rechercher des équipes
+// Rechercher des Ã©quipes
 List<Team> results = teamService.searchTeamsByName("Eclipse");
 ```
 
-## Thème et Style
+## ThÃ¨me et Style
 
-L'interface utilise un thème dark neon cohérent avec l'application :
+L'interface utilise un thÃ¨me dark neon cohÃ©rent avec l'application :
 - Couleur primaire : `#00d4ff` (cyan neon)
 - Fond : `#1a1a2e` (dark blue/navy)
 - Accent : `#16213e` (dark blue)
@@ -163,17 +163,17 @@ L'interface utilise un thème dark neon cohérent avec l'application :
 
 ## Notes importantes
 
-1. **Connexion DB** : Assurez-vous que MySQL est démarré et que la base `esportdevvvvvv` existe
-2. **Validation** : Le nom et la région sont obligatoires
-3. **Unicité** : Le nom de l'équipe doit être unique
-4. **Confirmation** : La suppression nécessite une confirmation
-5. **Actualisation** : Les modifications s'appliquent immédiatement dans l'interface
+1. **Connexion DB** : Assurez-vous que MySQL est dÃ©marrÃ© et que la base `esportdevvvvvv-2` existe
+2. **Validation** : Le nom et la rÃ©gion sont obligatoires
+3. **UnicitÃ©** : Le nom de l'Ã©quipe doit Ãªtre unique
+4. **Confirmation** : La suppression nÃ©cessite une confirmation
+5. **Actualisation** : Les modifications s'appliquent immÃ©diatement dans l'interface
 
 ## Fichiers de support
 
-- `setup_team_table.sql` - Script SQL pour créer la table et les données d'exemple
+- `setup_team_table.sql` - Script SQL pour crÃ©er la table et les donnÃ©es d'exemple
 
 ---
 
-**Complément du projet RankUp Arena - Équipes Management System**
+**ComplÃ©ment du projet RankUp Arena - Ã‰quipes Management System**
 

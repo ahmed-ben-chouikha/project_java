@@ -75,7 +75,8 @@ public class MatchService {
             throw new SQLException("Database connection is not available.");
         }
 
-        try (PreparedStatement pst = connection.prepareStatement("DELETE FROM game WHERE id = ?")) {
+        String tableName = resolveMatchTable(connection);
+        try (PreparedStatement pst = connection.prepareStatement("DELETE FROM " + tableName + " WHERE id = ?")) {
             pst.setInt(1, matchId);
             pst.executeUpdate();
         }
@@ -87,7 +88,8 @@ public class MatchService {
             throw new SQLException("Database connection is not available.");
         }
 
-        String query = "UPDATE game SET team1_id = ?, team2_id = ?, score1 = ?, score2 = ?, matchdate = ?, status = ?, updated_at = ?, tournament_id = ? WHERE id = ?";
+        String tableName = resolveMatchTable(connection);
+        String query = "UPDATE " + tableName + " SET team1_id = ?, team2_id = ?, score1 = ?, score2 = ?, matchdate = ?, status = ?, updated_at = ?, tournament_id = ? WHERE id = ?";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setInt(1, match.getTeam1Id());
             pst.setInt(2, match.getTeam2Id());
@@ -112,7 +114,8 @@ public class MatchService {
             throw new SQLException("Database connection is not available.");
         }
 
-        String query = "INSERT INTO game (score1, score2, matchdate, status, created_at, updated_at, team1_id, team2_id, tournament_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String tableName = resolveMatchTable(connection);
+        String query = "INSERT INTO " + tableName + " (score1, score2, matchdate, status, created_at, updated_at, team1_id, team2_id, tournament_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Timestamp now = Timestamp.valueOf(java.time.LocalDateTime.now());
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setInt(1, match.getScore1());
@@ -337,6 +340,19 @@ public class MatchService {
             return new int[]{0, 0};
         }
         return new int[]{parseInt(parts[0].trim(), 0), parseInt(parts[1].trim(), 0)};
+    }
+
+    private String resolveMatchTable(Connection connection) throws SQLException {
+        SQLException lastError = null;
+        for (String tableName : new String[]{"game", "matches"}) {
+            try (PreparedStatement pst = connection.prepareStatement("SELECT id FROM " + tableName + " LIMIT 1")) {
+                pst.executeQuery();
+                return tableName;
+            } catch (SQLException e) {
+                lastError = e;
+            }
+        }
+        throw new SQLException("Could not find match table 'game' or 'matches'.", lastError);
     }
 }
 

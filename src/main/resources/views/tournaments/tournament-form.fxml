@@ -19,7 +19,7 @@
         <Insets top="18" right="18" bottom="18" left="18" />
     </padding>
     <children>
-        <Label text="Tournament Form" styleClass="page-title" />
+        <Label fx:id="titleLabel" text="Create Tournament" styleClass="page-title" />
 
         <ScrollPane fitToWidth="true">
             <VBox styleClass="card" spacing="12">
@@ -37,9 +37,9 @@
                         <Label text="Tournament Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                         <TextField fx:id="tournamentNameField" promptText="Enter tournament name" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                        <!-- Description -->
-                        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                        <TextArea fx:id="descriptionField" promptText="Enter tournament description" wrapText="true" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <!-- Game Type -->
+                        <Label text="Game Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="gameTypeField" promptText="e.g. Valorant, CS2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                         <!-- Start Date -->
                         <Label text="Start Date:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
@@ -49,21 +49,29 @@
                         <Label text="End Date:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                         <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                        <!-- Location -->
-                        <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                        <TextField fx:id="locationField" promptText="e.g. Dubai, Berlin, Online" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-                        <!-- Prize Pool -->
-                        <Label text="Prize Pool:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                        <TextField fx:id="prizePoolField" promptText="Enter prize amount" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-                        <!-- Rules -->
-                        <Label text="Rules:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                        <TextArea fx:id="rulesField" promptText="Enter tournament rules" wrapText="true" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <!-- Max Teams -->
+                        <Label text="Max Teams:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <TextField fx:id="maxTeamsField" promptText="8" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                         <!-- Status -->
-                        <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                        <ComboBox fx:id="statusComboBox" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ComboBox fx:id="statusComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                        <!-- Description -->
+                        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                        <TextArea fx:id="descriptionField" promptText="Enter tournament description" wrapText="true" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                        <!-- Location -->
+                        <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                        <TextField fx:id="locationField" promptText="e.g. Dubai, Berlin, Online" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                        <!-- Prize Pool -->
+                        <Label text="Prize Pool:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                        <TextField fx:id="prizePoolField" promptText="Enter prize amount" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+                        <!-- Rules -->
+                        <Label text="Rules:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                        <TextArea fx:id="rulesField" promptText="Enter tournament rules" wrapText="true" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                     </GridPane>
 
                     <!-- Error Label -->
