@@ -999,6 +999,123 @@
     -fx-border-color: rgba(56, 189, 248, 0.22);
 }
 
+/* Chat Styles */
+.chat-container {
+    -fx-background-color: rgba(8, 14, 28, 0.95);
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: rgba(148, 163, 184, 0.15);
+}
+
+.chat-header {
+    -fx-padding: 0 0 10 0;
+    -fx-border-color: rgba(148, 163, 184, 0.1);
+    -fx-border-width: 0 0 1 0;
+}
+
+.chat-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #60a5fa;
+}
+
+.messages-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10;
+}
+
+.messages-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.messages-container {
+    -fx-background-color: transparent;
+}
+
+.message-avatar {
+    -fx-fill: #60a5fa;
+    -fx-stroke: rgba(148, 163, 184, 0.2);
+    -fx-stroke-width: 2;
+}
+
+.message-username-own {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94a3b8;
+    -fx-alignment: center-right;
+}
+
+.message-username-other {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94a3b8;
+    -fx-alignment: center-left;
+}
+
+.own-message-bubble {
+    -fx-background-color: #60a5fa;
+    -fx-text-fill: white;
+    -fx-padding: 8 12 8 12;
+    -fx-background-radius: 18 18 4 18;
+    -fx-max-width: 300px;
+    -fx-wrap-text: true;
+}
+
+.other-message-bubble {
+    -fx-background-color: rgba(148, 163, 184, 0.15);
+    -fx-text-fill: #e7edf8;
+    -fx-padding: 8 12 8 12;
+    -fx-background-radius: 18 18 18 4;
+    -fx-max-width: 300px;
+    -fx-wrap-text: true;
+}
+
+.system-message {
+    -fx-text-fill: #94a3b8;
+    -fx-font-style: italic;
+    -fx-alignment: center;
+    -fx-padding: 5 10 5 10;
+}
+
+.input-area {
+    -fx-padding: 10 0 0 0;
+    -fx-border-color: rgba(148, 163, 184, 0.1);
+    -fx-border-width: 1 0 0 0;
+}
+
+.message-input {
+    -fx-background-color: rgba(15, 23, 42, 0.8);
+    -fx-text-fill: #e7edf8;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-border-color: rgba(148, 163, 184, 0.2);
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 8 15 8 15;
+    -fx-font-size: 14px;
+}
+
+.message-input:focused {
+    -fx-border-color: #60a5fa;
+    -fx-effect: dropshadow(gaussian, rgba(96, 165, 250, 0.3), 4, 0.0, 0, 0);
+}
+
+.send-button {
+    -fx-background-color: #60a5fa;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 8 20 8 20;
+    -fx-cursor: hand;
+}
+
+.send-button:hover {
+    -fx-background-color: #3b82f6;
+    -fx-effect: dropshadow(gaussian, rgba(96, 165, 250, 0.4), 6, 0.0, 0, 2);
+}
+
+.send-button:pressed {
+    -fx-background-color: #2563eb;
+}
+
 .punition-item-card {
     -fx-padding: 12;
     -fx-background-radius: 12;

@@ -14,6 +14,7 @@ public class UserSideNavController {
     @FXML private Button myTeamsButton;
     @FXML private Button myBudgetButton;
     @FXML private Button chatbotButton;
+    @FXML private Button teamChatButton;
     @FXML private Button statButton;
     @FXML private Button applyManagerButton;
 
@@ -87,13 +88,12 @@ public class UserSideNavController {
                 myBudgetButton.setManaged(approvedManager);
             }
             if (chatbotButton != null) {
-                // Make chatbot available to all users (not only approved managers)
-                chatbotButton.setVisible(true);
-                chatbotButton.setManaged(true);
+                chatbotButton.setVisible(approvedManager);
+                chatbotButton.setManaged(approvedManager);
             }
             if (statButton != null) {
-                statButton.setVisible(true);
-                statButton.setManaged(true);
+                statButton.setVisible(approvedManager);
+                statButton.setManaged(approvedManager);
             }
             if (applyManagerButton != null) {
                 applyManagerButton.setVisible(!approvedManager);
@@ -126,6 +126,11 @@ public class UserSideNavController {
     @FXML
     void goChatbot(ActionEvent event) {
         RankUpApp.loadInBase("/views/chatbot/chatbot.fxml");
+    }
+
+    @FXML
+    void goTeamChat(ActionEvent event) {
+        RankUpApp.loadInBase("/views/chat/chat-room.fxml");
     }
 
     @FXML
