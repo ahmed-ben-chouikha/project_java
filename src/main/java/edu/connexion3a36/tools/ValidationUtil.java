@@ -54,7 +54,8 @@ public class ValidationUtil {
 
     // Check if valid depense status
     public static boolean isValidDepenseStatut(String statut) {
-        return statut != null && (statut.equals("en attente") || statut.equals("refusé") || statut.equals("payée"));
+        return statut != null && (statut.equals("en attente") || statut.equals("approuvé") || 
+                                   statut.equals("refusé") || statut.equals("payée"));
     }
 
     // Check if valid categorie

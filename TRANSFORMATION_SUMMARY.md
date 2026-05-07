@@ -1,18 +1,18 @@
-# EsportDev Arena — Complete Transformation Summary
+# EsportDev Arena â€” Complete Transformation Summary
 
 ## Overview
 
 Your original simple "Person CRUD" JavaFX app has been transformed into a **modern, dark-themed esports dashboard** with the following capabilities:
 
-✅ **Dashboard** with live match overview, tournament highlights, and role-based snapshots
-✅ **Match Center** for browsing and managing esports matches  
-✅ **Tournament Hub** where users can register teams for open tournaments
-✅ **Teams Showcase** displaying competitive rosters and records
-✅ **User Area** for player profiles and tournament eligibility
-✅ **Admin Console** for operations, approvals, and moderation
-✅ **Role Toggle** to switch between user and admin modes
-✅ **Dark Neon Theme** with glass-morphism cards and modern color palette
-✅ **MySQL Integration** pointing to your `esportdevvvvvv` database
+âœ… **Dashboard** with live match overview, tournament highlights, and role-based snapshots
+âœ… **Match Center** for browsing and managing esports matches  
+âœ… **Tournament Hub** where users can register teams for open tournaments
+âœ… **Teams Showcase** displaying competitive rosters and records
+âœ… **User Area** for player profiles and tournament eligibility
+âœ… **Admin Console** for operations, approvals, and moderation
+âœ… **Role Toggle** to switch between user and admin modes
+âœ… **Dark Neon Theme** with glass-morphism cards and modern color palette
+âœ… **MySQL Integration** pointing to your `esportdevvvvvv-2` database
 
 ---
 
@@ -36,7 +36,7 @@ Your original simple "Person CRUD" JavaFX app has been transformed into a **mode
 | `AjouterPersonneController.java` | Handle person form submission | Main dashboard controller with 6 pages (dashboard, matches, teams, user, admin, tournament hub) |
 | `AfficherPersonne2Controller.java` | Load and display table | Tournament hub controller with registration logic |
 | `MainFx.java` | Launch form-based UI | Launch shell with dark theme applied |
-| `MyConnection.java` | (No changes to code, only config) | Still connects to MySQL, now using `esportdevvvvvv` database |
+| `MyConnection.java` | (No changes to code, only config) | Still connects to MySQL, now using `esportdevvvvvv-2` database |
 
 ### Files Kept As-Is (Compatible)
 
@@ -52,46 +52,46 @@ Your original simple "Person CRUD" JavaFX app has been transformed into a **mode
 ## Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   MainFx.java                       │
-│         (Launches AppShell + Dark Theme)            │
-└──────────────────┬──────────────────────────────────┘
-                   │
-        ┌──────────┴──────────┐
-        ▼                     ▼
-┌──────────────────┐  ┌────────────────────┐
-│ AjouterPersonne  │  │ AfficherPersonne2  │
-│     (FXML)       │  │      (FXML)        │
-│   Dashboard      │  │  Tournament Hub    │
-└──────────────────┘  └────────────────────┘
-        ▲                     ▲
-        │                     │
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                   MainFx.java                       â”‚
+â”‚         (Launches AppShell + Dark Theme)            â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                   â”‚
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â–¼                     â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ AjouterPersonne  â”‚  â”‚ AfficherPersonne2  â”‚
+â”‚     (FXML)       â”‚  â”‚      (FXML)        â”‚
+â”‚   Dashboard      â”‚  â”‚  Tournament Hub    â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+        â–²                     â–²
+        â”‚                     â”‚
    Controlled by         Controlled by
-        │                     │
-┌──────────────────────────────────────────┐
-│  AjouterPersonneController               │
-│  - Show Dashboard (6 sections)           │
-│  - Show Matches                          │
-│  - Show Teams                            │
-│  - Show User Area                        │
-│  - Show Admin Area                       │
-│  - Navigate to Tournament Hub            │
-└──────────────────────────────────────────┘
-        │
-        ▼
-┌──────────────────────────────────────────┐
-│  EsportsCatalogService                   │
-│  - Get featured matches                  │
-│  - Get upcoming tournaments              │
-│  - Get featured teams                    │
-│  - Get overview stats                    │
-└──────────────────────────────────────────┘
-        │
-        ▼
-┌──────────────────────────────────────────┐
-│  MyConnection                            │
-│  jdbc:mysql://localhost:3306/esportdevvvvvv
-└──────────────────────────────────────────┘
+        â”‚                     â”‚
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  AjouterPersonneController               â”‚
+â”‚  - Show Dashboard (6 sections)           â”‚
+â”‚  - Show Matches                          â”‚
+â”‚  - Show Teams                            â”‚
+â”‚  - Show User Area                        â”‚
+â”‚  - Show Admin Area                       â”‚
+â”‚  - Navigate to Tournament Hub            â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+        â”‚
+        â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  EsportsCatalogService                   â”‚
+â”‚  - Get featured matches                  â”‚
+â”‚  - Get upcoming tournaments              â”‚
+â”‚  - Get featured teams                    â”‚
+â”‚  - Get overview stats                    â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+        â”‚
+        â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  MyConnection                            â”‚
+â”‚  jdbc:mysql://localhost:3306/esportdevvvvvv-2
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -99,9 +99,9 @@ Your original simple "Person CRUD" JavaFX app has been transformed into a **mode
 ## UI Design Features
 
 ### Color Palette
-- **Background**: Dark blue gradient (#07111f → #111827)
+- **Background**: Dark blue gradient (#07111f â†’ #111827)
 - **Text**: Light blue (#e5eefb)
-- **Accent Primary**: Cyan to Purple gradient (#38bdf8 → #8b5cf6)
+- **Accent Primary**: Cyan to Purple gradient (#38bdf8 â†’ #8b5cf6)
 - **Accents Secondary**: Cyan (#8bd8ff), Light blue (#9fb1c7)
 - **Status Badges**: Red (LIVE), Green (OPEN), Gray (MUTED)
 
@@ -123,8 +123,8 @@ Your original simple "Person CRUD" JavaFX app has been transformed into a **mode
 ## Database
 
 ### Current Setup
-- **Database**: `esportdevvvvvv` (MySQL)
-- **Connection**: `jdbc:mysql://localhost:3306/esportdevvvvvv?useSSL=false&serverTimezone=UTC`
+- **Database**: `esportdevvvvvv-2` (MySQL)
+- **Connection**: `jdbc:mysql://localhost:3306/esportdevvvvvv-2?useSSL=false&serverTimezone=UTC`
 - **User**: `root`
 - **Password**: (empty)
 
@@ -252,13 +252,13 @@ mvn clean javafx:run
 ```
 
 ### Via IDE (IntelliJ)
-1. Open project (File → Open → pom.xml)
+1. Open project (File â†’ Open â†’ pom.xml)
 2. Configure JDK 22 and JavaFX SDK
 3. Run MainFx.java
 
 ### Verify Database Connection
-- Check console output for "Connection établie!"
-- If error: Ensure MySQL is running and `esportdevvvvvv` exists
+- Check console output for "Connection Ã©tablie!"
+- If error: Ensure MySQL is running and `esportdevvvvvv-2` exists
 
 ---
 
@@ -275,12 +275,12 @@ mvn clean javafx:run
 
 ## Next Steps
 
-1. ✅ **Build & Run**: Follow QUICKSTART.md
-2. 📊 **Connect Real Data**: Update EsportsCatalogService with database queries
-3. 🔐 **Add Auth**: Implement login/signup flow
-4. 🎮 **Expand Features**: Real-time updates, WebSocket, team management UI
-5. 📱 **Responsive Design**: Optimize for smaller screens
-6. 🎨 **Brand Customization**: Update colors, fonts, logos
+1. âœ… **Build & Run**: Follow QUICKSTART.md
+2. ðŸ“Š **Connect Real Data**: Update EsportsCatalogService with database queries
+3. ðŸ” **Add Auth**: Implement login/signup flow
+4. ðŸŽ® **Expand Features**: Real-time updates, WebSocket, team management UI
+5. ðŸ“± **Responsive Design**: Optimize for smaller screens
+6. ðŸŽ¨ **Brand Customization**: Update colors, fonts, logos
 
 ---
 
@@ -288,23 +288,23 @@ mvn clean javafx:run
 
 ```
 Connexion3A36/
-├── README.md                    (📖 Full documentation)
-├── QUICKSTART.md               (🚀 Build & run guide)
-├── pom.xml                     (📦 Maven config - ready to build)
-├── src/main/java/
-│   ├── AjouterPersonneController.java      (🎮 Main dashboard logic)
-│   ├── AfficherPersonne2Controller.java    (🎟️  Tournament hub logic)
-│   ├── EsportsCatalogService.java          (📦 Data service)
-│   ├── MainFx.java                        (🚀 Entry point)
-│   ├── MyConnection.java                  (💾 DB connection)
-│   ├── PersonneService.java               (📚 Service layer)
-│   └── Personne.java                      (📋 Entity model)
-├── src/main/resources/
-│   ├── AjouterPersonne.fxml               (🎨 Shell layout)
-│   ├── AfficherPersonne2.fxml             (🎨 Tournament layout)
-│   └── styles/
-│       └── esports.css                    (🌈 Dark neon theme)
-└── target/                                (📦 Build artifacts)
+â”œâ”€â”€ README.md                    (ðŸ“– Full documentation)
+â”œâ”€â”€ QUICKSTART.md               (ðŸš€ Build & run guide)
+â”œâ”€â”€ pom.xml                     (ðŸ“¦ Maven config - ready to build)
+â”œâ”€â”€ src/main/java/
+â”‚   â”œâ”€â”€ AjouterPersonneController.java      (ðŸŽ® Main dashboard logic)
+â”‚   â”œâ”€â”€ AfficherPersonne2Controller.java    (ðŸŽŸï¸  Tournament hub logic)
+â”‚   â”œâ”€â”€ EsportsCatalogService.java          (ðŸ“¦ Data service)
+â”‚   â”œâ”€â”€ MainFx.java                        (ðŸš€ Entry point)
+â”‚   â”œâ”€â”€ MyConnection.java                  (ðŸ’¾ DB connection)
+â”‚   â”œâ”€â”€ PersonneService.java               (ðŸ“š Service layer)
+â”‚   â””â”€â”€ Personne.java                      (ðŸ“‹ Entity model)
+â”œâ”€â”€ src/main/resources/
+â”‚   â”œâ”€â”€ AjouterPersonne.fxml               (ðŸŽ¨ Shell layout)
+â”‚   â”œâ”€â”€ AfficherPersonne2.fxml             (ðŸŽ¨ Tournament layout)
+â”‚   â””â”€â”€ styles/
+â”‚       â””â”€â”€ esports.css                    (ðŸŒˆ Dark neon theme)
+â””â”€â”€ target/                                (ðŸ“¦ Build artifacts)
 ```
 
 ---
@@ -313,8 +313,8 @@ Connexion3A36/
 
 See **QUICKSTART.md** for common issues and troubleshooting.
 
-**Built with**: JavaFX 21 • MySQL • Maven • Dark Neon Design
+**Built with**: JavaFX 21 â€¢ MySQL â€¢ Maven â€¢ Dark Neon Design
 
-**Status**: ✅ Ready to compile, run, and extend.
+**Status**: âœ… Ready to compile, run, and extend.
 
 

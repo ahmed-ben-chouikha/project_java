@@ -144,18 +144,33 @@ public class TournamentService implements IService<Tournament> {
             return false;
         }
         String status = normalizeStatus(tournament.getStatus());
-        return "open".equals(status) || "pending".equals(status);
+        return "planned".equals(status) || "upcoming".equals(status) || "open".equals(status) || "pending".equals(status);
     }
 
     public List<Tournament> getOpenTournaments() throws SQLException {
         List<Tournament> open = new ArrayList<>();
         for (Tournament tournament : getData()) {
             String status = normalizeStatus(tournament.getStatus());
-            if ("open".equals(status) || "pending".equals(status)) {
+            if ("planned".equals(status) || "upcoming".equals(status) || "open".equals(status) || "pending".equals(status)) {
                 open.add(tournament);
             }
         }
         return open;
+    }
+
+    public List<Tournament> getPlannedOrUpcomingTournaments() throws SQLException {
+        List<Tournament> available = new ArrayList<>();
+        for (Tournament tournament : getData()) {
+            String status = normalizeStatus(tournament.getStatus());
+            if ("planned".equals(status) || "upcoming".equals(status)) {
+                available.add(tournament);
+            }
+        }
+        return available;
+    }
+
+    public List<Tournament> getReviewEligibleTournaments() throws SQLException {
+        return getData();
     }
 
     private void validateTournament(Tournament tournament) throws SQLException {
@@ -182,14 +197,14 @@ public class TournamentService implements IService<Tournament> {
 
     private String normalizeStatus(String status) {
         if (status == null) {
-            return "open";
+            return "planned";
         }
         String normalized = status.trim().toLowerCase(Locale.ROOT);
-        if ("pending".equals(normalized)) {
-            return "open";
+        if ("pending".equals(normalized) || "open".equals(normalized)) {
+            return "planned";
         }
-        if ("ongoing".equals(normalized)) {
-            return "open";
+        if ("closed".equals(normalized) || "finished".equals(normalized)) {
+            return "completed";
         }
         return normalized;
     }

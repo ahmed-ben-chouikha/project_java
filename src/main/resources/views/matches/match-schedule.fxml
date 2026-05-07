@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="edu.connexion3a36.rankup.controllers.matches.MatchScheduleController"
+      spacing="16" styleClass="page-root">
+    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+    <children>
+
+        <!-- Header -->
+        <HBox spacing="12" styleClass="card" alignment="CENTER_LEFT">
+            <padding><Insets top="14" right="18" bottom="14" left="18"/></padding>
+            <children>
+                <FontIcon iconLiteral="fas-calendar-alt" styleClass="dashboard-stat-icon" />
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Match Schedule" styleClass="page-title" />
+                        <Label text="Plan and manage upcoming matches with date, time and team assignments." styleClass="muted" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <!-- Stats row -->
+        <HBox spacing="12">
+            <children>
+                <VBox styleClass="card stat-card" HBox.hgrow="ALWAYS" alignment="CENTER">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <Label fx:id="scheduledCount" text="0" styleClass="stat-value" />
+                        <Label text="Scheduled" styleClass="muted" />
+                    </children>
+                </VBox>
+                <VBox styleClass="card stat-card" HBox.hgrow="ALWAYS" alignment="CENTER">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <Label fx:id="todayCount" text="0" styleClass="stat-value" />
+                        <Label text="Today" styleClass="muted" />
+                    </children>
+                </VBox>
+                <VBox styleClass="card stat-card" HBox.hgrow="ALWAYS" alignment="CENTER">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <Label fx:id="liveCount" text="0" styleClass="stat-value" />
+                        <Label text="Live Now" styleClass="muted" />
+                    </children>
+                </VBox>
+                <VBox styleClass="card stat-card" HBox.hgrow="ALWAYS" alignment="CENTER">
+                    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+                    <children>
+                        <Label fx:id="finishedCount" text="0" styleClass="stat-value" />
+                        <Label text="Finished" styleClass="muted" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <!-- Schedule form -->
+        <VBox spacing="10" styleClass="card">
+            <padding><Insets top="14" right="18" bottom="14" left="18"/></padding>
+            <children>
+                <Label text="Schedule a New Match" styleClass="section-title" />
+                <GridPane hgap="12" vgap="10">
+                    <children>
+                        <Label text="Team 1:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="team1Combo" promptText="Select Team 1" prefWidth="200"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Team 2:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="team2Combo" promptText="Select Team 2" prefWidth="200"
+                                  GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                        <Label text="Date:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="matchDatePicker" prefWidth="200"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label text="Time (HH:mm):" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="matchTimeField" promptText="e.g. 18:30" prefWidth="200"
+                                   GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                        <Label text="Tournament:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="tournamentCombo" promptText="Optional" prefWidth="200"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label text="Status:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="statusCombo" prefWidth="200"
+                                  GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                    </children>
+                </GridPane>
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <children>
+                        <Button text="Clear" onAction="#onClearForm" styleClass="btn-secondary" />
+                        <Button text="📅 Schedule Match" onAction="#onScheduleMatch" styleClass="btn-primary" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Filter bar -->
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <children>
+                <TextField fx:id="searchField" promptText="Search by team name..." prefWidth="240" />
+                <ComboBox fx:id="statusFilter" promptText="All Statuses" prefWidth="160" />
+                <DatePicker fx:id="dateFilter" promptText="Filter by date" prefWidth="180" />
+                <Button text="✕ Clear Filter" onAction="#onClearFilter" styleClass="btn-secondary" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="🔄 Refresh" onAction="#onRefresh" styleClass="btn-secondary" />
+            </children>
+        </HBox>
+
+        <!-- Schedule table -->
+        <TableView fx:id="scheduleTable" VBox.vgrow="ALWAYS" styleClass="card">
+            <columns>
+                <TableColumn fx:id="dateTimeCol"  text="Date &amp; Time"  prefWidth="160" />
+                <TableColumn fx:id="team1Col"      text="Team 1"           prefWidth="170" />
+                <TableColumn fx:id="vsCol"         text="VS"               prefWidth="40"  />
+                <TableColumn fx:id="team2Col"      text="Team 2"           prefWidth="170" />
+                <TableColumn fx:id="tournamentCol" text="Tournament"       prefWidth="160" />
+                <TableColumn fx:id="statusCol"     text="Status"           prefWidth="110" />
+                <TableColumn fx:id="actionsCol"    text="Actions"          prefWidth="160" />
+            </columns>
+        </TableView>
+
+    </children>
+</VBox>

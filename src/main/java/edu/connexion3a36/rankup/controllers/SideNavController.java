@@ -1,49 +1,51 @@
 package edu.connexion3a36.rankup.controllers;
 
 import edu.connexion3a36.rankup.app.RankUpApp;
+import edu.connexion3a36.services.ReclamationService;
 import edu.connexion3a36.rankup.app.SessionManager;
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.Tooltip;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
+import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.time.LocalDateTime;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Controller for sidebar navigation with real-time reclamation badge
+ */
 public class SideNavController {
-
-    private static final double EXPANDED_WIDTH = 220;
-    private static final double COLLAPSED_WIDTH = 76;
 
     @FXML private VBox sideNavRoot;
     @FXML private ToggleButton collapseToggle;
     @FXML private FontIcon collapseIcon;
-       @FXML private Button depenseBtn;
+    @FXML private Label reclamationsBadge;
+    @FXML private StackPane reclamationsBtnStack;
+    @FXML private Button teamChatBtn;
     @FXML private Button myBudgetBtn;
     @FXML private Button myExpensesBtn;
     @FXML private Button chatbotBtn;
-    @FXML private Button teamChatBtn;
     @FXML private Button statBtn;
+    @FXML private Button depenseBtn;
 
-    private final Map<Button, String> buttonLabels = new LinkedHashMap<>();
-    private final List<Label> sectionLabels = new ArrayList<>();
-    private boolean collapsed;
+    private ScheduledExecutorService executorService;
+    private LocalDateTime lastCheckedTime;
+    private int unreadReclamationCount = 0;
+    private final ReclamationService reclamationService = new ReclamationService();
 
     @FXML
-    private void initialize() {
-        sideNavRoot.setFillWidth(true);
-        collectNodes(sideNavRoot);
-        // Show/hide manager-specific nav items
+    void initialize() {
+        // Show/hide role-specific nav items
         boolean isManager = SessionManager.isManager();
         if (depenseBtn != null) {
             depenseBtn.setVisible(isManager);
@@ -58,12 +60,10 @@ public class SideNavController {
             myExpensesBtn.setManaged(isManager);
         }
         if (chatbotBtn != null) {
-            // Make chatbot available to all users
             chatbotBtn.setVisible(true);
             chatbotBtn.setManaged(true);
         }
         if (teamChatBtn != null) {
-            // Make team chat available to all users
             teamChatBtn.setVisible(true);
             teamChatBtn.setManaged(true);
         }
@@ -72,113 +72,142 @@ public class SideNavController {
             statBtn.setManaged(true);
         }
 
-        buttonLabels.forEach((button, label) -> {
-            button.setMaxWidth(Double.MAX_VALUE);
-            button.setTooltip(new Tooltip(label));
-        });
-
-        applySidebarState(false);
+        // Initialize last checked time and start polling
+        lastCheckedTime = LocalDateTime.now();
+        startReclamationPolling();
     }
 
-    private void collectNodes(Parent parent) {
-        parent.getChildrenUnmodifiable().forEach(node -> {
-            if (node instanceof Button button && button.getStyleClass().contains("nav-btn")) {
-                buttonLabels.putIfAbsent(button, button.getText());
-            } else if (node instanceof Label label && label.getStyleClass().contains("nav-section-label")) {
-                sectionLabels.add(label);
-            } else if (node instanceof Parent childParent) {
-                collectNodes(childParent);
-            }
+    /**
+     * Start polling for new reclamations every 10 seconds
+     */
+    private void startReclamationPolling() {
+        executorService = Executors.newScheduledThreadPool(1, runnable -> {
+            Thread thread = new Thread(runnable, "ReclamationPoller");
+            thread.setDaemon(true);
+            return thread;
         });
+
+        executorService.scheduleAtFixedRate(() -> {
+            try {
+                checkForNewReclamations();
+            } catch (Exception e) {
+                System.err.println("Error checking for new reclamations: " + e.getMessage());
+            }
+        }, 0, 10, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Check for new reclamations since last check
+     */
+    private void checkForNewReclamations() {
+        try {
+            var allReclamations = reclamationService.getData();
+            int pendingCount = (int) allReclamations.stream()
+                    .filter(r -> r.getCreatedAt() != null && r.getCreatedAt().isAfter(lastCheckedTime))
+                    .count();
+
+            if (pendingCount > 0) {
+                unreadReclamationCount = pendingCount;
+                Platform.runLater(() -> updateBadge(unreadReclamationCount));
+            }
+
+            lastCheckedTime = LocalDateTime.now();
+
+        } catch (Exception e) {
+            System.err.println("Error in reclamation polling: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Update badge display
+     */
+    private void updateBadge(int count) {
+        if (count > 0) {
+            reclamationsBadge.setText(String.valueOf(count));
+            if (!reclamationsBadge.isVisible()) {
+                reclamationsBadge.setVisible(true);
+                reclamationsBadge.setManaged(true);
+                animateBadge();
+            }
+        } else {
+            reclamationsBadge.setVisible(false);
+            reclamationsBadge.setManaged(false);
+        }
+    }
+
+    /**
+     * Animate badge with pulse effect
+     */
+    private void animateBadge() {
+        FadeTransition fade = new FadeTransition(Duration.millis(600), reclamationsBadge);
+        fade.setFromValue(0.3);
+        fade.setToValue(1.0);
+        fade.setCycleCount(FadeTransition.INDEFINITE);
+        fade.setAutoReverse(true);
+        fade.play();
     }
 
     @FXML
     void toggleSidebar(ActionEvent event) {
-        collapsed = collapseToggle.isSelected();
-        applySidebarState(collapsed);
-    }
-
-    private void applySidebarState(boolean isCollapsed) {
-        collapsed = isCollapsed;
-        sideNavRoot.setPrefWidth(isCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH);
-        sideNavRoot.setMinWidth(isCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH);
-        sideNavRoot.setMaxWidth(isCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH);
-        sideNavRoot.getStyleClass().remove("side-nav-collapsed");
-        if (isCollapsed) {
-            sideNavRoot.getStyleClass().add("side-nav-collapsed");
-        }
-
-        if (collapseToggle != null) {
-            collapseToggle.setSelected(isCollapsed);
-        }
-        if (collapseIcon != null) {
-            collapseIcon.setIconLiteral(isCollapsed ? "fas-angle-right" : "fas-angle-left");
-        }
-
-        sectionLabels.forEach(label -> {
-            label.setVisible(!isCollapsed);
-            label.setManaged(!isCollapsed);
-        });
-
-        buttonLabels.forEach((button, originalText) -> {
-            if (isCollapsed) {
-                button.setText("");
-                button.setAlignment(Pos.CENTER);
-                button.setContentDisplay(javafx.scene.control.ContentDisplay.GRAPHIC_ONLY);
-                button.setPrefWidth(COLLAPSED_WIDTH - 18);
-                button.setMinWidth(COLLAPSED_WIDTH - 18);
-                button.setTooltip(new Tooltip(originalText));
-            } else {
-                button.setText(originalText);
-                button.setAlignment(Pos.CENTER_LEFT);
-                button.setContentDisplay(javafx.scene.control.ContentDisplay.LEFT);
-                button.setPrefWidth(EXPANDED_WIDTH - 24);
-                button.setMinWidth(EXPANDED_WIDTH - 24);
-                button.setTooltip(new Tooltip(originalText));
-            }
-        });
+        // vide pour l'instant
     }
 
     @FXML
-    void goHome(ActionEvent event) { RankUpApp.loadInBase("/views/dashboard/home.fxml"); }
+    void goHome(ActionEvent event) {
+        RankUpApp.loadInBase("/views/dashboard/home.fxml");
+    }
 
     @FXML
-    void goMatches(ActionEvent event) { RankUpApp.loadInBase("/views/matches/matches.fxml"); }
+    void goMatches(ActionEvent event) {
+        RankUpApp.loadInBase("/views/matches/matches.fxml");
+    }
 
     @FXML
-    void goBuyTickets(ActionEvent event) { RankUpApp.loadInBase("/views/tickets/buy-tickets.fxml"); }
+    void goBuyTickets(ActionEvent event) {
+        RankUpApp.loadInBase("/views/tickets/buy-ticket.fxml");
+    }
 
     @FXML
-    void goTeams(ActionEvent event) { RankUpApp.loadInBase("/views/teams/teams.fxml"); }
+    void goTeams(ActionEvent event) {
+        RankUpApp.loadInBase("/views/teams/teams.fxml");
+    }
 
     @FXML
-    void goPlayers(ActionEvent event) { RankUpApp.loadInBase("/views/players/player-profile.fxml"); }
+    void goPlayers(ActionEvent event) {
+        RankUpApp.loadInBase("/views/players/player-profile.fxml");
+    }
 
     @FXML
-    void goTournaments(ActionEvent event) { RankUpApp.loadInBase("/views/tournaments/tournaments.fxml"); }
+    void goTournaments(ActionEvent event) {
+        RankUpApp.loadInBase("/views/tournaments/tournaments.fxml");
+    }
 
     @FXML
-    void goTournamentReviews(ActionEvent event) { RankUpApp.loadInBase("/views/tournaments/tournament-reviews.fxml"); }
+    void goTeamChat(ActionEvent event) {
+        if (SessionManager.getCurrentUserId() <= 0) {
+            return;
+        }
+        RankUpApp.loadInBase("/views/chat/chat-room.fxml");
+    }
 
     @FXML
-    void goBudget(ActionEvent event) { RankUpApp.loadInBase("/views/budget/budget-list.fxml"); }
+    void goTournamentReviews(ActionEvent event) {
+        RankUpApp.loadInBase("/views/tournaments/tournament-reviews.fxml");
+    }
+
+    @FXML
+    void goBudget(ActionEvent event) {
+        RankUpApp.loadInBase("/views/budget/budget-dashboard.fxml");
+    }
 
     @FXML
     void goMyBudget(ActionEvent event) {
-        if (!SessionManager.isManager()) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/manager/manager-budget-depense.fxml");
+        RankUpApp.loadInBase("/views/budget/budget-dashboard.fxml");
     }
 
     @FXML
     void goMyExpenses(ActionEvent event) {
-        if (!SessionManager.isManager()) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/manager/manager-budget-depense.fxml");
+        RankUpApp.loadInBase("/views/depense/depenses.fxml");
     }
 
     @FXML
@@ -187,109 +216,87 @@ public class SideNavController {
     }
 
     @FXML
-    void goTeamChat(ActionEvent event) {
-        // allow any logged-in user to open team chat; chat controller will pick the team
-        if (SessionManager.getCurrentUserId() <= 0) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/chat/chat-room.fxml");
-    }
-
-    @FXML
     void goStatistique(ActionEvent event) {
-        RankUpApp.loadInBase("/views/stats/budget-stats.fxml");
+        RankUpApp.loadInBase("/views/budget/budget-stats.fxml");
     }
 
     @FXML
     void goDepenses(ActionEvent event) {
-        if (SessionManager.isAdmin()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Access Denied");
-            alert.setHeaderText(null);
-            alert.setContentText("Expense management is only available for managers. Admins manage budgets instead.");
-            alert.showAndWait();
-            return;
-        }
-        RankUpApp.loadInBase("/views/depense/depense-list.fxml");
+        RankUpApp.loadInBase("/views/depense/depenses.fxml");
     }
 
     @FXML
-    void goNotifications(ActionEvent event) { RankUpApp.loadInBase("/views/notifications/notifications.fxml"); }
+    void goNotifications(ActionEvent event) {
+        RankUpApp.loadInBase("/views/notifications/notifications.fxml");
+    }
 
     @FXML
-    void goTickets(ActionEvent event) { RankUpApp.loadInBase("/views/tickets/tickets.fxml"); }
+    void goTickets(ActionEvent event) {
+        RankUpApp.loadInBase("/views/tickets/tickets.fxml");
+    }
 
     @FXML
-    void goReclamations(ActionEvent event) { RankUpApp.loadInBase("/views/reclamations/reclamations.fxml"); }
+    void goReclamations(ActionEvent event) {
+        unreadReclamationCount = 0;
+        updateBadge(0);
+        lastCheckedTime = LocalDateTime.now();
+        RankUpApp.loadInBase("/views/reclamations/reclamations.fxml");
+    }
 
     @FXML
-    void goAdminResponses(ActionEvent event) { RankUpApp.loadInBase("/views/adminresponses/admin-responses.fxml"); }
+    void goAdminResponses(ActionEvent event) {
+        RankUpApp.loadInBase("/views/adminresponses/admin-responses.fxml");
+    }
 
     @FXML
-    void goPunitions(ActionEvent event) { RankUpApp.loadInBase("/views/punitions/punitions.fxml"); }
-
-    @FXML
-    void goAdmin(ActionEvent event) {
-        if (!SessionManager.isAdmin()) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/admin/admin-dashboard.fxml");
+    void goPunitions(ActionEvent event) {
+        RankUpApp.loadInBase("/views/punitions/punitions.fxml");
     }
 
     @FXML
     void goReviewModeration(ActionEvent event) {
-        if (!SessionManager.isAdmin()) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/admin/admin-review-moderation.fxml");
+        RankUpApp.loadInBase("/views/admin/review-moderation.fxml");
+    }
+
+    @FXML
+    void goAdmin(ActionEvent event) {
+        RankUpApp.loadInBase("/views/admin/admin-dashboard.fxml");
     }
 
     @FXML
     void goPlayerRequests(ActionEvent event) {
-        if (!SessionManager.isAdmin()) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/admin/admin-player-requests.fxml");
+        RankUpApp.loadInBase("/views/admin/player-requests.fxml");
     }
 
     @FXML
     void goManagerRequests(ActionEvent event) {
-        if (!SessionManager.isAdmin()) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/admin/admin-manager-requests.fxml");
+        RankUpApp.loadInBase("/views/admin/manager-requests.fxml");
     }
 
     @FXML
     void goTeamApprovals(ActionEvent event) {
-        if (!SessionManager.isAdmin()) {
-            showAccessDenied();
-            return;
-        }
-        RankUpApp.loadInBase("/views/admin/admin-team-approvals.fxml");
+        RankUpApp.loadInBase("/views/admin/team-approvals.fxml");
     }
 
     @FXML
     void goPaymentsDashboard(ActionEvent event) {
-        if (!SessionManager.isAdmin()) {
-            showAccessDenied();
-            return;
+        RankUpApp.loadInBase("/views/admin/payments.fxml");
+    }
+
+    /**
+     * Stop polling when view is closed
+     */
+    public void stopPolling() {
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+            try {
+                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                    executorService.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executorService.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
         }
-        RankUpApp.loadInBase("/views/admin/admin-payments.fxml");
     }
-
-    private void showAccessDenied() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Access denied");
-        alert.setHeaderText(null);
-        alert.setContentText("Admin access is required for this section.");
-        alert.showAndWait();
-    }
-
 }
-

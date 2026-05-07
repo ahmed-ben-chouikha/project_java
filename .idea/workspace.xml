@@ -5,17 +5,180 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6802d2e4-bd25-42ea-a95b-38e00b5b27cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/START_APP.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvn-wrapper.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvn.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project-direct.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-project.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-with-java8.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.run/Run JavaFX (Maven).run.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI_SETUP_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API_KEY_VISUAL_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BAN_CHATBOT_IMPLEMENTATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHANGELOG_CHATBOT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_AI_SETUP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_API_SETUP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_ARCHITECTURE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_COMPLETE_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_DOCS_INDEX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_DOCUMENTATION_INDEX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_FINAL_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_IMPLEMENTATION_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_PUNITIONS_UPDATE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_QUICKSTART.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_QUICK_REFERENCE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_READY_FOR_USE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_V2.1_FIX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_V2_COMPLETE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_V2_QUICKSTART.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_V2_UPGRADE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_VERIFICATION_CHECKLIST.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHATBOT_VISUAL_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CODE_CHANGES_DETAILED.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/COMPLETION_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DELIVERABLES_COMPLETE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EXECUTIVE_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FINAL_INTEGRATION_STEPS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FINAL_SIMPLE_FIX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FINAL_STATUS_REPORT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FIX_ACTION_STEPS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IMPLEMENTATION_REPORT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IMPLEMENTATION_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/INPUT_VALIDATION_QUICK_REFERENCE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/INPUT_VALIDATION_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/INTEGRATION_CHECKLIST.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/INTEGRATION_COMPLETE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LEADERBOARD_IMPLEMENTATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MERGE_DOCUMENTATION_INDEX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MERGE_FILES_REFERENCE.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MERGE_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MERGE_VISUAL_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MISTRAL_AI_SETUP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MISTRAL_SETUP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_COMPARISON.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_FINAL.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_FINAL_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_IMPLEMENTATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_OPTIMIZED.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_UPDATE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NOTIFICATIONS_VISUAL_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OPENAI_INTEGRATION_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OPENAI_QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PASTE_API_KEY_HERE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PROJECT_ARCHITECTURE_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PROJECT_MERGE_ANALYSIS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PUNITION_CHATBOT_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/QUICK_REFERENCE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/QUICK_START_INTEGRATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RAWG_API_SETUP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RAWG_QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README_CHATBOT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/START_HERE_CHATBOT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/START_HERE_MERGE_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/STATUS_FINAL.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TITRE_VALIDATION_CARD.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TITRE_VALIDATION_ENHANCEMENT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TITRE_VALIDATION_IMPLEMENTATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TITRE_VALIDATION_QUICK_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TITRE_VALIDATION_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TOURNAMENT_REGISTRATION_FIX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TOURNAMENT_REGISTRATION_FIX_QUICK_START.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TOURNAMENT_REGISTRATION_SIMPLIFIED_FIX.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VISUAL_REFERENCE_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/add_team_members_contact_to_registrations.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fix_punition_unique_constraint.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/RankUpFxApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/config/AIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/config/GamesNewsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/ChatbotPaneController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/GameSearchController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/chatbot/ChatbotController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/punitions/GamesNewsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentRegistrationState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/models/ReclamationNotification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/models/TournamentTier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/AIApiClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/BanRecommendationChatbot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/services/ChatbotService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/RAWGGameService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/OpenAIToxicityChecker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/adminresponses/response-form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/games/game-search.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/punitions/chatbot-pane.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/punitions/games-news.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/punitions/punition-form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/views/reclamations/reclamation-form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/claudeCodeTabState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/claudeCodeTabState.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHENTICATION_COMPLETE.md" beforeDir="false" afterPath="$PROJECT_DIR$/AUTHENTICATION_COMPLETE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHENTICATION_FINAL_CHECKLIST.md" beforeDir="false" afterPath="$PROJECT_DIR$/AUTHENTICATION_FINAL_CHECKLIST.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHENTICATION_IMPLEMENTATION.md" beforeDir="false" afterPath="$PROJECT_DIR$/AUTHENTICATION_IMPLEMENTATION.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHENTICATION_QUICK_START.md" beforeDir="false" afterPath="$PROJECT_DIR$/AUTHENTICATION_QUICK_START.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BUDGET_DEPENSE_README.md" beforeDir="false" afterPath="$PROJECT_DIR$/BUDGET_DEPENSE_README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COMPLETION_CHECKLIST.md" beforeDir="false" afterPath="$PROJECT_DIR$/COMPLETION_CHECKLIST.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINAL_IMPLEMENTATION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/FINAL_IMPLEMENTATION_SUMMARY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IMPLEMENTATION_COMPLETE.md" beforeDir="false" afterPath="$PROJECT_DIR$/IMPLEMENTATION_COMPLETE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/INDEX.md" beforeDir="false" afterPath="$PROJECT_DIR$/INDEX.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/INTEGRATION_ROADMAP.md" beforeDir="false" afterPath="$PROJECT_DIR$/INTEGRATION_ROADMAP.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LOGIN_GUIDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/LOGIN_GUIDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MANIFEST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MANIFEST.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QUICKSTART.md" beforeDir="false" afterPath="$PROJECT_DIR$/QUICKSTART.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REVIEW_SYSTEM_CHECKLIST.md" beforeDir="false" afterPath="$PROJECT_DIR$/REVIEW_SYSTEM_CHECKLIST.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RUN.bat" beforeDir="false" afterPath="$PROJECT_DIR$/RUN.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/START_HERE_AUTHENTICATION.md" beforeDir="false" afterPath="$PROJECT_DIR$/START_HERE_AUTHENTICATION.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/STATUS.md" beforeDir="false" afterPath="$PROJECT_DIR$/STATUS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TEAMS_CRUD_GUIDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/TEAMS_CRUD_GUIDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TEAMS_QUICK_START.md" beforeDir="false" afterPath="$PROJECT_DIR$/TEAMS_QUICK_START.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TEAMS_UPGRADE_GUIDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/TEAMS_UPGRADE_GUIDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TRANSFORMATION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/TRANSFORMATION_SUMMARY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/tournament_registrations_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/tournament_registrations_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launch.bat" beforeDir="false" afterPath="$PROJECT_DIR$/launch.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launch.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/launch.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/Controller/AfficherPersonne2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/Controller/AfficherPersonne2Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Punition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Punition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Reclamation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Reclamation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/TournamentRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/entities/TournamentRegistration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/interfaces/ITournamentRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/interfaces/ITournamentRegistration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/app/SessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/AdminReviewModerationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/AdminReviewModerationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/ChatbotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/ChatbotController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/DepenseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/DepenseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/SideNavController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentRegistrationUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentRegistrationUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentReviewsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/TournamentReviewsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/UserBaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/UserBaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/adminresponses/AdminResponsesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/adminresponses/AdminResponsesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/dashboard/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/dashboard/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/punitions/PunitionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/punitions/PunitionsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/reclamations/ReclamationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/reclamations/ReclamationsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/rankup/controllers/tournaments/TournamentsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/AdminResponseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/AdminResponseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/PunitionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/PunitionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/ReclamationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/ReclamationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/ReviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentRegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentRegistrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/services/TournamentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/MyConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/MyConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/ValidationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/connexion3a36/tools/ValidationUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/esports.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/esports.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/admin/admin-dashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/admin/admin-dashboard.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/adminresponses/admin-responses.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/adminresponses/admin-responses.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/auth/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/auth/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/base.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/base.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/chatbot/chatbot.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/chatbot/chatbot.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/common/SideNavigation.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/dashboard/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/matches/matches.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/players/player-profile.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/players/player-profile.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/punitions/punitions.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/punitions/punitions.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/reclamations/reclamations.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/reclamations/reclamations.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/tournament_registration.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/tournament_registration.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournaments.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/tournaments/tournaments.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/user-base.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/user-base.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +187,8 @@
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
+      <entry key="_C:/Users/DIDA/Desktop/esportsnew/project_java" value="3D3EjrWm51YlHgb9OCQjtzahbrg" />
+      <entry key="_C:/Users/DIDA/Documents/project_java" value="3DMZlJ5In2UP0MN9aZDnzpWhKxS" />
       <entry key="_C:/Users/melki/OneDrive/Bureau/pidev/project_java" value="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
     </persistenceIdMap>
   </component>
@@ -32,8 +197,8 @@
   </component>
   <component name="CopilotUserSelectedModel">
     <selectedModels>
-      <entry key="chat-panel" value="Claude Haiku 4.5" />
-      <entry key="agent-panel" value="Claude Haiku 4.5" />
+      <entry key="chat-panel" value="Auto" />
+      <entry key="agent-panel" value="Auto" />
     </selectedModels>
   </component>
   <component name="Git.Settings">
@@ -46,28 +211,42 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="3CMgxtmpI7zWgyWcxJDS72w2NsW" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Maven.Run JavaFX (Maven).executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Merging ghassenslatestwork",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/ammar/OneDrive/Desktop/esportsnew",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ghass\OneDrive\Desktop\project_java" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
       </set>
     </attachedChunks>
   </component>
@@ -81,6 +260,26 @@
       <updated>1776201103115</updated>
       <workItem from="1776201104121" duration="28000" />
       <workItem from="1776286448230" duration="281000" />
+      <workItem from="1777502485089" duration="4903000" />
+      <workItem from="1777525319201" duration="4541000" />
+      <workItem from="1777538668912" duration="564000" />
+      <workItem from="1777539263425" duration="2910000" />
+      <workItem from="1777986251570" duration="441000" />
+      <workItem from="1777987212691" duration="767000" />
+      <workItem from="1777990457165" duration="2811000" />
+      <workItem from="1778005227456" duration="2831000" />
+      <workItem from="1778070484423" duration="3247000" />
+      <workItem from="1778074004935" duration="2365000" />
+      <workItem from="1778077383673" duration="602000" />
+      <workItem from="1778078684187" duration="1213000" />
+      <workItem from="1778081790856" duration="3487000" />
+      <workItem from="1778087238031" duration="352000" />
+      <workItem from="1778088064711" duration="1461000" />
+      <workItem from="1778089690396" duration="2558000" />
+      <workItem from="1778094039742" duration="137000" />
+      <workItem from="1778094215536" duration="3000" />
+      <workItem from="1778094293863" duration="2220000" />
+      <workItem from="1778099014621" duration="417000" />
     </task>
     <servers />
   </component>

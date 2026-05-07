@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
-
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3a36.rankup.controllers.UserBaseController" styleClass="app-root user-app-root">
     <top>
         <fx:include source="common/TopNavBar.fxml" />
@@ -13,13 +11,15 @@
         <fx:include source="common/UserSideNavigation.fxml" />
     </left>
     <center>
-        <ScrollPane fitToWidth="true" styleClass="content-scroll user-content-scroll" pannable="false">
-            <StackPane styleClass="content-shell user-content-shell">
-                <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
-                <children>
-                    <StackPane fx:id="contentPane" styleClass="content-pane user-content-pane" />
-                </children>
-            </StackPane>
-        </ScrollPane>
+        <StackPane fx:id="rootStack">
+            <ScrollPane fitToWidth="true" styleClass="content-scroll user-content-scroll" pannable="false">
+                <StackPane styleClass="content-shell user-content-shell">
+                    <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+                    <children>
+                        <StackPane fx:id="contentPane" styleClass="content-pane user-content-pane" />
+                    </children>
+                </StackPane>
+            </ScrollPane>
+        </StackPane>
     </center>
 </BorderPane>

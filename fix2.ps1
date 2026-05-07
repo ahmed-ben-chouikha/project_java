@@ -1,0 +1,2 @@
+$content = Get-Content restored_AuthController.java -Raw -Encoding Unicode
+[System.IO.File]::WriteAllText("src/main/java/edu/connexion3a36/rankup/controllers/AuthController.java", $content, [System.Text.UTF8Encoding]::new($false))

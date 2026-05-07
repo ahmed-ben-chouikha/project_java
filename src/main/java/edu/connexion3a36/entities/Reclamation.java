@@ -1,6 +1,8 @@
 package edu.connexion3a36.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Reclamation {
@@ -15,7 +17,7 @@ public class Reclamation {
     protected String attachmentFilename;
     protected Integer playerId;
     protected AdminResponse adminResponse;
-    protected Punition punition;
+    protected List<Punition> punitions = new ArrayList<>();
 
     public Reclamation() {
     }
@@ -108,12 +110,18 @@ public class Reclamation {
         this.adminResponse = adminResponse;
     }
 
-    public Punition getPunition() {
-        return punition;
+    public List<Punition> getPunitions() {
+        return punitions;
     }
 
-    public void setPunition(Punition punition) {
-        this.punition = punition;
+    public void setPunitions(List<Punition> punitions) {
+        this.punitions = punitions != null ? punitions : new ArrayList<>();
+    }
+
+    public void addPunition(Punition punition) {
+        if (punition != null) {
+            this.punitions.add(punition);
+        }
     }
 
     @Override
@@ -129,7 +137,7 @@ public class Reclamation {
                 ", attachmentFilename='" + attachmentFilename + '\'' +
                 ", playerId=" + playerId +
                 ", adminResponseId=" + (adminResponse != null ? adminResponse.getId() : null) +
-                ", punitionId=" + (punition != null ? punition.getId() : null) +
+                ", punitionCount=" + (punitions != null ? punitions.size() : 0) +
                 '}';
     }
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="edu.connexion3a36.rankup.controllers.ChatbotPaneController"
+      spacing="12" styleClass="chatbot-container">
+    <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+
+    <!-- Header -->
+    <Label text="🤖 Ban Recommendation Chatbot" styleClass="chatbot-title" />
+    <Label text="Ask about suitable bans for eSports violations"
+            styleClass="chatbot-subtitle" wrapText="true" />
+
+    <!-- Chat Messages Area -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="chatbot-messages-scroll">
+        <content>
+            <VBox fx:id="messagesBox" spacing="10" styleClass="chatbot-messages-panel">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            </VBox>
+        </content>
+    </ScrollPane>
+
+    <!-- Input Area -->
+    <HBox spacing="10" styleClass="chatbot-input-area">
+        <TextField fx:id="inputField"
+                   promptText="Ask about eSports violations..."
+                   HBox.hgrow="ALWAYS"
+                   onAction="#onSendMessage" />
+        <Button text="Send" onAction="#onSendMessage" styleClass="btn-primary" />
+        <Button text="Help" onAction="#onHelpClicked" styleClass="btn-secondary" />
+    </HBox>
+</VBox>
+

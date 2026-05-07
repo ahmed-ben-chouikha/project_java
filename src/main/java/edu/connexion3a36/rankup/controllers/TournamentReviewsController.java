@@ -2,11 +2,9 @@ package edu.connexion3a36.rankup.controllers;
 
 import edu.connexion3a36.entities.Review;
 import edu.connexion3a36.entities.Tournament;
-import edu.connexion3a36.entities.TournamentRegistration;
 import edu.connexion3a36.rankup.app.SessionManager;
 import edu.connexion3a36.rankup.controllers.tournaments.TournamentReviewState;
 import edu.connexion3a36.services.ReviewService;
-import edu.connexion3a36.services.TournamentRegistrationService;
 import edu.connexion3a36.services.TournamentService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,7 +40,6 @@ public class TournamentReviewsController implements Initializable {
 
     private ReviewService reviewService;
     private TournamentService tournamentService;
-    private TournamentRegistrationService registrationService;
     private int selectedRating = 0;
     private List<Button> starButtons = new ArrayList<>();
 
@@ -51,14 +48,13 @@ public class TournamentReviewsController implements Initializable {
         initializeServices();
         setupUI();
         setupEventHandlers();
-        loadConfirmedTournaments();
+        loadEligibleTournaments();
         loadUserReviews();
     }
 
     private void initializeServices() {
         reviewService = new ReviewService();
         tournamentService = new TournamentService();
-        registrationService = new TournamentRegistrationService();
     }
 
     private void setupUI() {
@@ -71,6 +67,7 @@ public class TournamentReviewsController implements Initializable {
         playerNameField.setText(currentPlayerName());
 
         // Set up tournament ComboBox to display tournament names
+        tournamentComboBox.setPlaceholder(new Label("No eligible tournaments found"));
         tournamentComboBox.setCellFactory(lv -> new ListCell<Tournament>() {
             @Override
             protected void updateItem(Tournament item, boolean empty) {
@@ -175,30 +172,28 @@ public class TournamentReviewsController implements Initializable {
         });
     }
 
-    private void loadConfirmedTournaments() {
+    private void loadEligibleTournaments() {
         try {
-            String currentPlayer = currentPlayerName();
-            playerNameField.setText(currentPlayer);
-            List<TournamentRegistration> registrations = registrationService.getPlayerRegistrations(currentPlayer);
-            List<Tournament> confirmedTournaments = new ArrayList<>();
+            playerNameField.setText(currentPlayerName());
+            // Load ALL tournaments - no registration required to review
+            List<Tournament> allTournaments = tournamentService.getData();
 
-            for (TournamentRegistration reg : registrations) {
-                if ("confirmed".equalsIgnoreCase(reg.getStatus())) {
-                    // Get tournament details by ID
-                    Tournament tournament = tournamentService.getTournamentById(reg.getTournamentId());
-                    if (tournament != null) {
-                        confirmedTournaments.add(tournament);
-                    }
-                }
-            }
-
-            tournamentComboBox.getItems().setAll(confirmedTournaments);
-            if (TournamentReviewState.hasSelectedTournament()) {
-                Tournament selected = TournamentReviewState.getSelectedTournament();
-                for (Tournament tournament : confirmedTournaments) {
-                    if (tournament.getId() == selected.getId()) {
-                        tournamentComboBox.setValue(tournament);
-                        break;
+            tournamentComboBox.getItems().setAll(allTournaments);
+            if (allTournaments.isEmpty()) {
+                showError("No tournaments available to review.");
+                tournamentComboBox.setDisable(true);
+                submitButton.setDisable(true);
+            } else {
+                clearErrorMessages();
+                tournamentComboBox.setDisable(false);
+                submitButton.setDisable(false);
+                if (TournamentReviewState.hasSelectedTournament()) {
+                    Tournament selected = TournamentReviewState.getSelectedTournament();
+                    for (Tournament tournament : allTournaments) {
+                        if (tournament.getId() == selected.getId()) {
+                            tournamentComboBox.setValue(tournament);
+                            break;
+                        }
                     }
                 }
             }
@@ -228,6 +223,27 @@ public class TournamentReviewsController implements Initializable {
 
     private void populateReviewsTable(List<Review> reviews) {
         reviewsTableView.getItems().setAll(reviews);
+
+        // Custom cell factory for tournament column to display name
+        TableColumn<Review, String> tournamentColumn =
+                (TableColumn<Review, String>) reviewsTableView.getColumns().get(0);
+        tournamentColumn.setCellFactory(column -> new TableCell<Review, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    Review review = getTableView().getItems().get(getIndex());
+                    try {
+                        Tournament tournament = tournamentService.getTournamentById(review.getTournamentId());
+                        setText(tournament != null ? tournament.getName() : "Unknown Tournament");
+                    } catch (SQLException e) {
+                        setText("Error loading tournament");
+                    }
+                }
+            }
+        });
 
         // Custom cell factory for rating column to display stars
         TableColumn<Review, Integer> ratingColumn =
@@ -317,7 +333,7 @@ public class TournamentReviewsController implements Initializable {
 
         // Create review object
         Review review = new Review(playerName, selectedTournament.getId(),
-                selectedTournament.getName(), selectedRating, comment, LocalDate.now());
+                selectedRating, comment, LocalDate.now());
 
         try {
             reviewService.addEntity(review);
@@ -326,7 +342,12 @@ public class TournamentReviewsController implements Initializable {
             clearForm();
             loadUserReviews();
         } catch (SQLException e) {
-            showError("Error submitting review: " + e.getMessage());
+            String msg = e.getMessage();
+            if (msg != null && msg.contains("Bad review blocked automatically")) {
+                showError("Bad review blocked automatically. Please avoid toxic or abusive language.");
+            } else {
+                showError("Error submitting review: " + msg);
+            }
         }
     }
 

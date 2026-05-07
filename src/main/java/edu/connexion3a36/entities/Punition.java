@@ -11,15 +11,17 @@ public class Punition {
     protected String playerStatus;
     protected int reclamationId;
     protected Reclamation reclamation;
+    protected boolean isAutomatic;
 
     public Punition() {
     }
 
-    public Punition(LocalDateTime startAt, LocalDateTime endAt, String playerStatus, int reclamationId) {
+    public Punition(LocalDateTime startAt, LocalDateTime endAt, String playerStatus, int reclamationId, boolean isAutomatic) {
         this.startAt = startAt;
         this.endAt = endAt;
         this.playerStatus = playerStatus;
         this.reclamationId = reclamationId;
+        this.isAutomatic = isAutomatic;
     }
 
     public int getId() {
@@ -70,6 +72,14 @@ public class Punition {
         this.reclamation = reclamation;
     }
 
+    public boolean isAutomatic() {
+        return isAutomatic;
+    }
+
+    public void setAutomatic(boolean automatic) {
+        isAutomatic = automatic;
+    }
+
     @Override
     public String toString() {
         return "Punition{" +
@@ -79,6 +89,7 @@ public class Punition {
                 ", playerStatus='" + playerStatus + '\'' +
                 ", reclamationId=" + reclamationId +
                 ", reclamationRefId=" + (reclamation != null ? reclamation.getId() : null) +
+                ", isAutomatic=" + isAutomatic +
                 '}';
     }
 
@@ -87,12 +98,12 @@ public class Punition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Punition punition = (Punition) o;
-        return id == punition.id && reclamationId == punition.reclamationId && Objects.equals(startAt, punition.startAt) && Objects.equals(endAt, punition.endAt) && Objects.equals(playerStatus, punition.playerStatus);
+        return id == punition.id && reclamationId == punition.reclamationId && isAutomatic == punition.isAutomatic && Objects.equals(startAt, punition.startAt) && Objects.equals(endAt, punition.endAt) && Objects.equals(playerStatus, punition.playerStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, startAt, endAt, playerStatus, reclamationId);
+        return Objects.hash(id, startAt, endAt, playerStatus, reclamationId, isAutomatic);
     }
 }
 

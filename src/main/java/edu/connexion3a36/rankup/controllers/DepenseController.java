@@ -12,8 +12,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,17 +20,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import javafx.util.Duration;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import edu.connexion3a36.services.BudgetService;
-import edu.connexion3a36.services.BrevoMailService;
-import edu.connexion3a36.services.GroqChatbotService;
-import edu.connexion3a36.rankup.app.SessionManager;
 
 public class DepenseController {
 
@@ -62,52 +55,19 @@ public class DepenseController {
     @FXML
     private ComboBox<String> sortCombo;
 
-    @FXML
-    private Label allocatedLabel;
-    @FXML
-    private Label usedLabel;
-    @FXML
-    private Label remainingLabel;
-    @FXML
-    private Label totalDepensesLabel;
-    @FXML
-    private Label depensesApproveesLabel;
-    @FXML
-    private Label depensesAttenteLabel;
-    @FXML
-    private Label nombreDepensesLabel;
-
-    @FXML
-    private TextArea chatDisplayArea;
-    @FXML
-    private TextField chatInputField;
-    @FXML
-    private Button chatSendBtn;
-
     private DepenseService depenseService;
     private TeamService teamService;
-    private BudgetService budgetService;
     private ObservableList<Depense> depenseList;
     private FilteredList<Depense> filteredDepenses;
     private SortedList<Depense> sortedDepenses;
-    private Timeline autoRefreshTimeline;
 
     @FXML
     public void initialize() {
         depenseService = new DepenseService();
         teamService = new TeamService();
-        budgetService = new BudgetService();
         setupTableColumns();
         setupFilters();
         loadDepenses();
-        startAutoRefresh();
-        // Chat removed from expenses page — UI would be loaded from standalone Chatbot view
-    }
-
-    private void startAutoRefresh() {
-        autoRefreshTimeline = new Timeline(new KeyFrame(Duration.seconds(15), event -> loadDepenses()));
-        autoRefreshTimeline.setCycleCount(Timeline.INDEFINITE);
-        autoRefreshTimeline.play();
     }
 
     private void setupTableColumns() {
@@ -169,7 +129,6 @@ public class DepenseController {
         if (teamFilterCombo != null) {
             teamFilterCombo.setItems(FXCollections.observableArrayList("Toutes les équipes"));
             teamFilterCombo.setValue("Toutes les équipes");
-            teamFilterCombo.valueProperty().addListener((obs, oldV, newV) -> updateBudgetStats(newV));
         }
 
         if (categoryFilterCombo != null) {
@@ -225,181 +184,6 @@ public class DepenseController {
 
         applyFilters();
         applySorting();
-        updateBudgetStats(teamFilterCombo != null ? teamFilterCombo.getValue() : null);
-        updateExpenseStats();
-    }
-
-    private void updateExpenseStats() {
-        if (depenseList == null) {
-            return;
-        }
-
-        float totalDepenses = depenseList.stream().map(Depense::getMontant).reduce(0f, Float::sum);
-        float depensesApprouvees = depenseList.stream()
-            .filter(d -> "approuvé".equalsIgnoreCase(d.getStatut()) || "payée".equalsIgnoreCase(d.getStatut()))
-            .map(Depense::getMontant)
-            .reduce(0f, Float::sum);
-        long depensesAttente = depenseList.stream().filter(d -> "en attente".equalsIgnoreCase(d.getStatut())).count();
-
-        if (totalDepensesLabel != null) {
-            totalDepensesLabel.setText(String.format("%.2f€", totalDepenses));
-        }
-        if (depensesApproveesLabel != null) {
-            depensesApproveesLabel.setText(String.format("%.2f€", depensesApprouvees));
-        }
-        if (depensesAttenteLabel != null) {
-            depensesAttenteLabel.setText(String.valueOf(depensesAttente));
-        }
-        if (nombreDepensesLabel != null) {
-            nombreDepensesLabel.setText(String.valueOf(depenseList.size()));
-        }
-    }
-
-    private void updateBudgetStats(String teamSelection) {
-        try {
-            if (teamSelection == null || "Toutes les équipes".equals(teamSelection)) {
-                // Sum all budgets
-                float totalAllocated = 0f;
-                float totalUsed = 0f;
-                var all = budgetService.getAllBudgets();
-                
-                if (all != null && !all.isEmpty()) {
-                    for (var b : all) {
-                        if (b != null) {
-                            totalAllocated += b.getMontantAlloue();
-                            totalUsed += b.getMontantUtilise();
-                        }
-                    }
-                }
-                
-                float remaining = totalAllocated - totalUsed;
-                
-                // Update labels with better formatting
-                if (allocatedLabel != null) {
-                    allocatedLabel.setText(String.format("%.2f€", totalAllocated));
-                    allocatedLabel.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;");
-                }
-                if (usedLabel != null) {
-                    usedLabel.setText(String.format("%.2f€", totalUsed));
-                    usedLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold;");
-                }
-                if (remainingLabel != null) {
-                    remainingLabel.setText(String.format("%.2f€", remaining));
-                    
-                    // Color code based on budget health
-                    float usagePercent = totalAllocated > 0 ? (totalUsed / totalAllocated) * 100 : 0;
-                    if (usagePercent < 50) {
-                        remainingLabel.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;"); // Green
-                    } else if (usagePercent < 80) {
-                        remainingLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold;"); // Orange
-                    } else {
-                        remainingLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;"); // Red
-                    }
-                }
-                
-                System.out.println("[STATS] All Teams - Allocated: " + totalAllocated + "€, Used: " + totalUsed + "€, Remaining: " + remaining + "€");
-            } else {
-                String teamName = teamSelection;
-                Team t = teamService.getAllTeams().stream().filter(x -> x.getName().equals(teamName)).findFirst().orElse(null);
-                if (t != null) {
-                    var b = budgetService.getBudgetByTeamId(t.getId());
-                    if (b != null) {
-                        float totalAllocated = b.getMontantAlloue();
-                        float totalUsed = b.getMontantUtilise();
-                        float remaining = totalAllocated - totalUsed;
-                        
-                        if (allocatedLabel != null) {
-                            allocatedLabel.setText(String.format("%.2f€", totalAllocated));
-                            allocatedLabel.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;");
-                        }
-                        if (usedLabel != null) {
-                            usedLabel.setText(String.format("%.2f€", totalUsed));
-                            usedLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold;");
-                        }
-                        if (remainingLabel != null) {
-                            remainingLabel.setText(String.format("%.2f€", remaining));
-                            
-                            // Color code based on budget health
-                            float usagePercent = totalAllocated > 0 ? (totalUsed / totalAllocated) * 100 : 0;
-                            if (usagePercent < 50) {
-                                remainingLabel.setStyle("-fx-text-fill: #10b981; -fx-font-weight: bold;"); // Green
-                            } else if (usagePercent < 80) {
-                                remainingLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold;"); // Orange
-                            } else {
-                                remainingLabel.setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;"); // Red
-                            }
-                        }
-                        
-                        System.out.println("[STATS] Team: " + teamName + " - Allocated: " + totalAllocated + "€, Used: " + totalUsed + "€, Remaining: " + remaining + "€");
-                    } else {
-                        // No budget found for this team
-                        resetBudgetStats();
-                        System.out.println("[STATS] No budget found for team: " + teamName);
-                    }
-                } else {
-                    resetBudgetStats();
-                    System.out.println("[STATS] Team not found: " + teamName);
-                }
-            }
-        } catch (Exception ex) {
-            System.err.println("[ERROR] Failed to update budget stats: " + ex.getMessage());
-            ex.printStackTrace();
-            resetBudgetStats();
-        }
-    }
-    
-    private void resetBudgetStats() {
-        if (allocatedLabel != null) allocatedLabel.setText("0.00€");
-        if (usedLabel != null) usedLabel.setText("0.00€");
-        if (remainingLabel != null) remainingLabel.setText("0.00€");
-    }
-    
-    /**
-     * Generates a detailed budget analysis for the chatbot
-     */
-    private String generateBudgetAnalysis(String teamName) {
-        try {
-            StringBuilder analysis = new StringBuilder();
-            
-            if (depenseList == null || depenseList.isEmpty()) {
-                return "Aucune dépense enregistrée pour l'analyse.";
-            }
-            
-            // Filter by team if specific team selected
-            List<Depense> teamDepenses = depenseList.stream()
-                .filter(d -> "Toutes les équipes".equals(teamName) || 
-                    (d.getTeamName() != null && d.getTeamName().equals(teamName)))
-                .toList();
-            
-            if (teamDepenses.isEmpty()) {
-                return "Aucune dépense trouvée pour cette équipe.";
-            }
-            
-            // Category breakdown
-            analysis.append("\n📊 RÉPARTITION PAR CATÉGORIE:\n");
-            teamDepenses.stream()
-                .collect(java.util.stream.Collectors.groupingBy(
-                    Depense::getCategorie,
-                    java.util.stream.Collectors.summingDouble(Depense::getMontant)
-                ))
-                .forEach((cat, total) -> 
-                    analysis.append("  • ").append(cat != null ? cat : "Autre").append(": ").append(String.format("%.2f€", total)).append("\n")
-                );
-            
-            // Top expenses
-            analysis.append("\n💸 TOP 5 DÉPENSES:\n");
-            teamDepenses.stream()
-                .sorted(Comparator.comparing(Depense::getMontant).reversed())
-                .limit(5)
-                .forEach(d -> 
-                    analysis.append("  • ").append(d.getTitre()).append(": ").append(String.format("%.2f€", d.getMontant())).append("\n")
-                );
-            
-            return analysis.toString();
-        } catch (Exception e) {
-            System.err.println("[ANALYSIS] Error generating budget analysis: " + e.getMessage());
-            return "";
-        }
     }
 
     private void applyFilters() {
@@ -694,6 +478,11 @@ public class DepenseController {
         applyFilters();
     }
 
+    @FXML
+    private void onRefresh(ActionEvent event) {
+        loadDepenses();
+    }
+
     private void showInfo(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -744,117 +533,6 @@ public class DepenseController {
         }
 
         return true;
-    }
-
-    @FXML
-    private void onChatSend(ActionEvent event) {
-        String userMessage = chatInputField.getText().trim();
-        if (userMessage.isEmpty()) {
-            return;
-        }
-
-        // Display user message
-        appendToChatDisplay("Vous: " + userMessage);
-        chatInputField.clear();
-        chatSendBtn.setDisable(true);
-
-        // Get current team budget info with enhanced context
-        String selectedTeam = teamFilterCombo != null ? teamFilterCombo.getValue() : "Toutes les équipes";
-        String teamName = "votre équipe";
-        float allocatedBudget = 0f;
-        float usedBudget = 0f;
-        float remainingBudget = 0f;
-        int expenseCount = depenseList != null ? depenseList.size() : 0;
-
-        try {
-            if (selectedTeam != null && !"Toutes les équipes".equals(selectedTeam)) {
-                teamName = selectedTeam;
-                Team t = teamService.getAllTeams().stream()
-                    .filter(x -> x != null && selectedTeam.equals(x.getName()))
-                    .findFirst()
-                    .orElse(null);
-                
-                if (t != null) {
-                    var b = budgetService.getBudgetByTeamId(t.getId());
-                    if (b != null) {
-                        allocatedBudget = b.getMontantAlloue();
-                        usedBudget = b.getMontantUtilise();
-                        remainingBudget = allocatedBudget - usedBudget;
-                    }
-                    
-                    // Count expenses for this team
-                    if (depenseList != null) {
-                        expenseCount = (int) depenseList.stream()
-                            .filter(d -> d.getTeamName() != null && selectedTeam.equals(d.getTeamName()))
-                            .count();
-                    }
-                } else {
-                    System.out.println("[CHAT] Team not found: " + selectedTeam);
-                }
-            } else {
-                // All teams - sum the budgets
-                var allBudgets = budgetService.getAllBudgets();
-                if (allBudgets != null && !allBudgets.isEmpty()) {
-                    for (var b : allBudgets) {
-                        if (b != null) {
-                            allocatedBudget += b.getMontantAlloue();
-                            usedBudget += b.getMontantUtilise();
-                        }
-                    }
-                    remainingBudget = allocatedBudget - usedBudget;
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("[CHAT] Error fetching budget data: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        // Call Groq chatbot in background with enhanced context
-        final String finalTeamName = teamName;
-        final float finalAllocated = allocatedBudget;
-        final float finalUsed = usedBudget;
-        final float finalRemaining = remainingBudget;
-        final int finalExpenseCount = expenseCount;
-        
-        new Thread(() -> {
-            try {
-                System.out.println("[CHAT] Sending request - Team: " + finalTeamName + 
-                    ", Allocated: " + finalAllocated + ", Used: " + finalUsed + 
-                    ", Remaining: " + finalRemaining + ", Expenses: " + finalExpenseCount);
-                
-                String response = GroqChatbotService.chat(
-                    userMessage, 
-                    finalTeamName, 
-                    finalAllocated, 
-                    finalUsed, 
-                    finalRemaining, 
-                    finalExpenseCount
-                );
-                
-                javafx.application.Platform.runLater(() -> {
-                    appendToChatDisplay("Assistant IA: " + response);
-                    chatSendBtn.setDisable(false);
-                    System.out.println("[CHAT] Response displayed successfully");
-                });
-            } catch (Exception e) {
-                System.err.println("[CHAT] Error: " + e.getMessage());
-                e.printStackTrace();
-                javafx.application.Platform.runLater(() -> {
-                    appendToChatDisplay("Assistant IA: Désolé, une erreur est survenue. " + 
-                        (e.getMessage() != null ? e.getMessage() : "Veuillez réessayer."));
-                    chatSendBtn.setDisable(false);
-                });
-            }
-        }).start();
-    }
-
-    private void appendToChatDisplay(String message) {
-        if (chatDisplayArea != null) {
-            String current = chatDisplayArea.getText();
-            String separator = current.isEmpty() ? "" : "\n\n";
-            chatDisplayArea.appendText(separator + message);
-            chatDisplayArea.setScrollTop(Double.MAX_VALUE); // Auto-scroll to bottom
-        }
     }
 }
 

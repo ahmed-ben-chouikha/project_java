@@ -3,6 +3,8 @@ package edu.connexion3a36.rankup.controllers;
 import edu.connexion3a36.entities.Tournament;
 import edu.connexion3a36.entities.TournamentRegistration;
 import edu.connexion3a36.rankup.app.RankUpApp;
+import edu.connexion3a36.rankup.app.SessionManager;
+import edu.connexion3a36.rankup.controllers.tournaments.TournamentRegistrationState;
 import edu.connexion3a36.services.TournamentRegistrationService;
 import edu.connexion3a36.services.TournamentService;
 import javafx.collections.FXCollections;
@@ -52,8 +54,17 @@ public class TournamentRegistrationUserController {
         cancelErrorLabel.setStyle("-fx-text-fill: #ef4444;");
         successLabel.setStyle("-fx-text-fill: #10b981;");
 
-        // Load open tournaments for registration form
+        // Load planned/upcoming tournaments for registration form
         loadOpenTournaments();
+        playerNameField.setText(SessionManager.getCurrentPlayerName());
+        playerNameField.setEditable(false);
+
+        // Pre-select tournament if coming from tournament list
+        Tournament selectedTournament = TournamentRegistrationState.getSelectedTournament();
+        if (selectedTournament != null) {
+            selectTournamentInCombo(selectedTournament.getId());
+            TournamentRegistrationState.clear();
+        }
 
         // Setup my registrations table
         setupRegistrationsTable();
@@ -69,9 +80,18 @@ public class TournamentRegistrationUserController {
         searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilter());
     }
 
+    private void selectTournamentInCombo(int tournamentId) {
+        for (TournamentComboItem item : tournamentComboBox.getItems()) {
+            if (item.getId() == tournamentId) {
+                tournamentComboBox.setValue(item);
+                break;
+            }
+        }
+    }
+
     private void loadOpenTournaments() {
         try {
-            List<Tournament> openTournaments = tournamentService.getOpenTournaments();
+            List<Tournament> openTournaments = tournamentService.getPlannedOrUpcomingTournaments();
             tournamentComboBox.setItems(FXCollections.observableArrayList(
                 openTournaments.stream()
                     .map(t -> new TournamentComboItem(t.getId(), t.getName()))
@@ -94,7 +114,7 @@ public class TournamentRegistrationUserController {
 
     private void loadMyRegistrations() {
         try {
-            String playerName = System.getProperty("user.name");
+            String playerName = SessionManager.getCurrentPlayerName();
             List<TournamentRegistration> registrations = registrationService.getPlayerRegistrations(playerName);
             filteredRegistrations = new FilteredList<>(FXCollections.observableArrayList(
                 registrations.stream().map(RegistrationRow::fromRegistration).toArray(RegistrationRow[]::new)
@@ -110,15 +130,21 @@ public class TournamentRegistrationUserController {
     void onRegister(ActionEvent event) {
         if (validateRegistrationForm()) {
             try {
-                String playerName = playerNameField.getText().trim();
+                String playerName = SessionManager.getCurrentPlayerName();
                 String teamName = teamNameField.getText().trim();
                 int tournamentId = tournamentComboBox.getValue().getId();
 
-                TournamentRegistration registration = new TournamentRegistration(playerName, teamName, tournamentId, "pending");
+                Tournament selectedTournament = tournamentService.getTournamentById(tournamentId);
+                if (selectedTournament == null || !"planned".equalsIgnoreCase(selectedTournament.getStatus())) {
+                    showErrorForm("Registration is only allowed for tournaments in planned status.");
+                    return;
+                }
+
+                TournamentRegistration registration = new TournamentRegistration(playerName, teamName, "", "", tournamentId, "pending");
                 registrationService.addEntity(registration);
 
-                showSuccessForm("Registration successful! Your registration is pending admin review.");
-                clearRegistrationForm();
+                showSuccessForm("Registration submitted. Waiting for admin approval.");
+                clearRegistrationFormInternal();
                 loadMyRegistrations();
             } catch (SQLException e) {
                 showErrorForm(e.getMessage());
@@ -146,17 +172,7 @@ public class TournamentRegistrationUserController {
         if (confirmDialog.showAndWait().get() == ButtonType.OK) {
             try {
                 TournamentRegistration reg = new TournamentRegistration();
-                // Find the full registration object to get the ID
-                List<TournamentRegistration> registrations = registrationService.getPlayerRegistrations(
-                    System.getProperty("user.name"));
-                for (TournamentRegistration r : registrations) {
-                    if (r.getTeamName().equals(selectedRegistration.getTeamName()) &&
-                        r.getTournamentName().equals(selectedRegistration.getTournamentName())) {
-                        reg.setId(r.getId());
-                        break;
-                    }
-                }
-
+                reg.setId(selectedRegistration.getId());
                 registrationService.deleteEntity(reg);
                 showSuccessForm("Registration cancelled successfully");
                 loadMyRegistrations();
@@ -219,8 +235,17 @@ public class TournamentRegistrationUserController {
         cancelErrorLabel.setText(message);
     }
 
-    private void clearRegistrationForm() {
-        playerNameField.clear();
+    @FXML
+    void clearRegistrationForm(ActionEvent event) {
+        playerNameField.setText(SessionManager.getCurrentPlayerName());
+        teamNameField.clear();
+        tournamentComboBox.setValue(null);
+        formErrorLabel.setText("");
+        successLabel.setText("");
+    }
+
+    private void clearRegistrationFormInternal() {
+        playerNameField.setText(SessionManager.getCurrentPlayerName());
         teamNameField.clear();
         tournamentComboBox.setValue(null);
         formErrorLabel.setText("");
@@ -248,12 +273,15 @@ public class TournamentRegistrationUserController {
     }
 
     public static class RegistrationRow {
+        private final int id;
         private final String tournamentName;
         private final String teamName;
         private final String registrationDate;
         private final String status;
 
-        public RegistrationRow(String tournamentName, String teamName, String registrationDate, String status) {
+        public RegistrationRow(int id, String tournamentName, String teamName,
+                               String registrationDate, String status) {
+            this.id = id;
             this.tournamentName = tournamentName;
             this.teamName = teamName;
             this.registrationDate = registrationDate;
@@ -261,10 +289,11 @@ public class TournamentRegistrationUserController {
         }
 
         public static RegistrationRow fromRegistration(TournamentRegistration tr) {
-            return new RegistrationRow(tr.getTournamentName(), tr.getTeamName(),
+            return new RegistrationRow(tr.getId(), tr.getTournamentName(), tr.getTeamName(),
                 tr.getRegistrationDate().format(DATE_FORMATTER), tr.getStatus());
         }
 
+        public int getId() { return id; }
         public String getTournamentName() { return tournamentName; }
         public String getTeamName() { return teamName; }
         public String getRegistrationDate() { return registrationDate; }

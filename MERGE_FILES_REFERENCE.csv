@@ -1,0 +1,60 @@
+Category,File Name,Type,Path,Purpose,Priority
+Authentication,User.java,Entity,entities/User.java,User entity with roles (admin/player),P1
+Authentication,UserService.java,Service,services/UserService.java,User authentication & CRUD operations,P1
+Authentication,SessionManager.java,Utility,rankup/app/SessionManager.java,Session tracking & user state management,P1
+Authentication,PasswordHashGenerator.java,Utility,tools/PasswordHashGenerator.java,SHA-256 password hashing utility,P1
+Authentication,RegisterController.java,Controller,rankup/controllers/RegisterController.java,User registration form controller,P1
+Budget Management,Budget.java,Entity,entities/Budget.java,Budget allocation entity,P2
+Budget Management,BudgetService.java,Service,services/BudgetService.java,Budget CRUD with search & filtering,P2
+Budget Management,BudgetController.java,Controller,rankup/controllers/BudgetController.java,Budget UI with TableView & modals,P2
+Budget Management,Depense.java,Entity,entities/Depense.java,Expense tracking entity,P2
+Budget Management,DepenseService.java,Service,services/DepenseService.java,Expense CRUD with calculations,P2
+Budget Management,DepenseController.java,Controller,rankup/controllers/DepenseController.java,Expense UI with TableView & modals,P2
+Matches,Match.java,Entity,entities/Match.java,Match entity (expanded model),P2
+Matches,MatchService.java,Service,services/MatchService.java,Match CRUD operations,P2
+Matches,MatchFormController.java,Controller,rankup/controllers/MatchFormController.java,Match creation/editing UI,P2
+Matches,MatchFormState.java,Utility,rankup/controllers/MatchFormState.java,Form state management for matches,P2
+Teams,Team.java,Entity,entities/Team.java,Enhanced team entity with 14 fields,P2
+Teams,TeamFormController.java,Controller,rankup/controllers/TeamFormController.java,Team form UI,P2
+Teams,TeamFormState.java,Utility,rankup/controllers/TeamFormState.java,Form state management for teams,P2
+Support - Tickets,Ticket.java,Entity,entities/Ticket.java,Support ticket entity,P3
+Support - Tickets,TicketService.java,Service,services/TicketService.java,Ticket CRUD & lifecycle,P3
+Support - Tickets,TicketsController.java,Controller,rankup/controllers/TicketsController.java,Ticket UI management,P3
+Support - Tickets,TicketFormController.java,Controller,rankup/controllers/TicketFormController.java,Ticket creation/editing UI,P3
+Support - Tickets,TicketFormState.java,Utility,rankup/controllers/TicketFormState.java,Ticket form state management,P3
+Support - Reclamations,Reclamation.java,Entity,entities/Reclamation.java,Complaint entity,P3
+Support - Reclamations,ReclamationService.java,Service,services/ReclamationService.java,Complaint CRUD & tracking,P3
+Support - Reclamations,ReclamationsController.java,Controller,rankup/controllers/ReclamationsController.java,Complaint UI & management,P3
+Support - Punitions,Punition.java,Entity,entities/Punition.java,Disciplinary penalty entity,P3
+Support - Punitions,PunitionService.java,Service,services/PunitionService.java,Punition CRUD operations,P3
+Support - Punitions,PunitionsController.java,Controller,rankup/controllers/PunitionsController.java,Punition UI management,P3
+Admin,AdminResponse.java,Entity,entities/AdminResponse.java,Admin response entity,P3
+Admin,AdminResponseService.java,Service,services/AdminResponseService.java,Admin response CRUD,P3
+Admin,AdminResponsesController.java,Controller,rankup/controllers/admin/AdminResponsesController.java,Admin response handling,P3
+Utilities,ValidationUtil.java,Utility,tools/ValidationUtil.java,Centralized input validation,P4
+Utilities,MainFxApp.java,App,rankup/app/MainFxApp.java,Alternative app launcher,P4
+---
+UI Views,register.fxml,FXML,views/auth/register.fxml,User self-registration screen,P1
+UI Views,admin-responses.fxml,FXML,views/adminresponses/admin-responses.fxml,Admin response management screen,P2
+UI Views,budget-list.fxml,FXML,views/budget/budget-list.fxml,Budget list & management screen,P2
+UI Views,depense-list.fxml,FXML,views/depense/depense-list.fxml,Expense list & management screen,P2
+UI Views,punitions.fxml,FXML,views/punitions/punitions.fxml,Punitions/penalties management screen,P3
+UI Views,reclamations.fxml,FXML,views/reclamations/reclamations.fxml,Complaints/reclamations screen,P3
+UI Views,tickets.fxml,FXML,views/tickets/tickets.fxml,Support tickets list screen,P3
+UI Views,ticket-form.fxml,FXML,views/tickets/ticket-form.fxml,Support ticket creation/edit screen,P3
+---
+Database,users_table.sql,SQL,database/users_table.sql,User authentication table,P1
+Database,setup_budget_depense_tables.sql,SQL,database/setup_budget_depense_tables.sql,Budget & Depense tables,P2
+Database,setup_team_table.sql,SQL,database/setup_team_table.sql,Enhanced Team table,P2
+Database,INSERT_TEST_USERS.sql,SQL,database/INSERT_TEST_USERS.sql,Test data for authentication,P1
+Database,fix_role_default.sql,SQL,database/fix_role_default.sql,Database migration - fix role,P2
+Database,fix_tournament_timestamps.sql,SQL,database/fix_tournament_timestamps.sql,Database migration - timestamps,P2
+Database,fix_budget_unique_team.sql,SQL,database/fix_budget_unique_team.sql,Database migration - budget constraint,P2
+Database,add_country_column.sql,SQL,database/add_country_column.sql,Database migration - add country to teams,P2
+---
+Maven,pom.xml (modified),Config,pom.xml,Updated dependencies & plugins,P4
+---
+Dependencies,controlsfx,Library,pom.xml dependency,UI enhancement library (11.2.1),P4
+Dependencies,ikonli-javafx,Library,pom.xml dependency,Icon library JavaFX module (12.3.1),P4
+Dependencies,ikonli-fontawesome5-pack,Library,pom.xml dependency,FontAwesome icons pack (12.3.1),P4
+Dependencies,exec-maven-plugin,Plugin,pom.xml plugin,Maven execution plugin (3.1.0),P4

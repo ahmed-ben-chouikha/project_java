@@ -143,13 +143,14 @@ public class PunitionService implements IService<Punition> {
         validate(punition);
         ensureReclamationCanBePunished(punition.getReclamationId());
 
-        String query = "INSERT INTO punition (start_at, end_at, player_status, reclamation_id) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO punition (start_at, end_at, player_status, reclamation_id, is_automatic) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pst = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pst.setTimestamp(1, toTimestamp(punition.getStartAt()));
             pst.setTimestamp(2, toTimestamp(punition.getEndAt()));
-            pst.setString(3, punition.getPlayerStatus());
+            pst.setString(3, punition.getPlayerStatus().toLowerCase());
             pst.setInt(4, punition.getReclamationId());
+            pst.setBoolean(5, punition.isAutomatic());
             pst.executeUpdate();
 
             try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
@@ -180,14 +181,15 @@ public class PunitionService implements IService<Punition> {
         validate(punition);
         ensureReclamationCanBePunished(punition.getReclamationId());
 
-        String query = "UPDATE punition SET start_at = ?, end_at = ?, player_status = ?, reclamation_id = ? WHERE id = ?";
+        String query = "UPDATE punition SET start_at = ?, end_at = ?, player_status = ?, reclamation_id = ?, is_automatic = ? WHERE id = ?";
 
         try (PreparedStatement pst = getConnection().prepareStatement(query)) {
             pst.setTimestamp(1, toTimestamp(punition.getStartAt()));
             pst.setTimestamp(2, toTimestamp(punition.getEndAt()));
-            pst.setString(3, punition.getPlayerStatus());
+            pst.setString(3, punition.getPlayerStatus().toLowerCase());
             pst.setInt(4, punition.getReclamationId());
-            pst.setInt(5, id);
+            pst.setBoolean(5, punition.isAutomatic());
+            pst.setInt(6, id);
             pst.executeUpdate();
         }
 
@@ -226,11 +228,12 @@ public class PunitionService implements IService<Punition> {
 
     public List<Punition> getDataWithReclamation() throws SQLException {
         List<Punition> data = new ArrayList<>();
-        String query = "SELECT p.id, p.start_at, p.end_at, p.player_status, p.reclamation_id, "
-                + "r.id AS r_id, r.titre AS r_titre, r.description AS r_description, r.type AS r_type, r.etat AS r_etat, "
-                + "r.created_at AS r_created_at, r.updated_at AS r_updated_at, r.attachment_filename AS r_attachment_filename, r.player_id AS r_player_id "
+        String query = "SELECT p.id, p.start_at, p.end_at, p.player_status, p.reclamation_id, p.is_automatic, "
+                + "r.id as rec_id, r.titre as rec_titre, r.description as rec_description, r.type as rec_type, "
+                + "r.etat as rec_etat, r.created_at as rec_created_at, r.updated_at as rec_updated_at, "
+                + "r.attachment_filename as rec_attachment_filename, r.player_id as rec_player_id "
                 + "FROM punition p "
-                + "INNER JOIN reclamation r ON r.id = p.reclamation_id "
+                + "JOIN reclamation r ON p.reclamation_id = r.id "
                 + "ORDER BY p.start_at DESC, p.id DESC";
 
         try (Statement st = getConnection().createStatement();
@@ -251,7 +254,8 @@ public class PunitionService implements IService<Punition> {
 
                 punition.setPlayerStatus(rs.getString("player_status"));
                 punition.setReclamationId(rs.getInt("reclamation_id"));
-                punition.setReclamation(mapReclamation(rs, "r_"));
+                punition.setAutomatic(rs.getBoolean("is_automatic"));
+                punition.setReclamation(mapReclamation(rs, "rec_"));
                 data.add(punition);
             }
         }
@@ -308,7 +312,82 @@ public class PunitionService implements IService<Punition> {
         }
         return null;
     }
+
+    /**
+     * Get count of bans by status type
+     */
+    public long getBanCountByStatus(String status) throws SQLException {
+        String query = "SELECT COUNT(*) as count FROM punition WHERE LOWER(player_status) LIKE LOWER(?)";
+        try (PreparedStatement pst = getConnection().prepareStatement(query)) {
+            pst.setString(1, "%" + status + "%");
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("count");
+                }
+            }
+        }
+        return 0L;
+    }
+
+    /**
+     * Get the top N most banned players (by count of punitions)
+     * Returns a list of [playerId, nickname, banCount]
+     */
+    public List<Object[]> getMostBannedPlayers(int limit) throws SQLException {
+        List<Object[]> results = new ArrayList<>();
+        String query = "SELECT r.player_id, COUNT(*) as ban_count FROM punition p "
+                + "INNER JOIN reclamation r ON r.id = p.reclamation_id "
+                + "GROUP BY r.player_id "
+                + "ORDER BY ban_count DESC "
+                + "LIMIT ?";
+        try (PreparedStatement pst = getConnection().prepareStatement(query)) {
+            pst.setInt(1, limit);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    int playerId = rs.getInt("player_id");
+                    long banCount = rs.getLong("ban_count");
+                    results.add(new Object[]{playerId, banCount});
+                }
+            }
+        }
+        return results;
+    }
+
+    public long getBanCountByPlayerAndStatus(int playerId, String status) throws SQLException {
+        String keyword = status.contains("match") ? "%match%" : 
+                         status.contains("tournament") ? "%tournament%" : 
+                         status.contains("game") ? "%game%" : "%" + status + "%";
+
+        String sql = "SELECT COUNT(*) FROM punition p " +
+                     "JOIN reclamation r ON p.reclamation_id = r.id " +
+                     "WHERE r.player_id = ? AND LOWER(p.player_status) LIKE ?";
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, playerId);
+            ps.setString(2, keyword.toLowerCase());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong(1);
+                }
+            }
+            return 0;
+        }
+    }
+
+    /**
+     * Look up the player_id from a reclamation.
+     * Returns null if the reclamation has no player or doesn't exist.
+     */
+    public Integer getPlayerIdByReclamationId(int reclamationId) throws SQLException {
+        String sql = "SELECT player_id FROM reclamation WHERE id = ?";
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, reclamationId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int playerId = rs.getInt("player_id");
+                    return rs.wasNull() ? null : playerId;
+                }
+            }
+        }
+        return null;
+    }
 }
-
-
-

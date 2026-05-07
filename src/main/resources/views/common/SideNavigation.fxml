@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
@@ -24,84 +25,92 @@
                 </children>
             </HBox>
 
-        <Button text="Dashboard" onAction="#goHome" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Matches" onAction="#goMatches" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-play-circle" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Buy Tickets" onAction="#goBuyTickets" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-shopping-cart" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Teams" onAction="#goTeams" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-users" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Players" onAction="#goPlayers" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-user-astronaut" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Tournaments" onAction="#goTournaments" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-trophy" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Tournament Reviews" onAction="#goTournamentReviews" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-star-half-alt" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button fx:id="teamChatBtn" text="My Chat" onAction="#goTeamChat" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-comments" styleClass="nav-btn-icon" /></graphic>
-        </Button>
+            <Button text="Dashboard" onAction="#goHome" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-chart-line" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Matches" onAction="#goMatches" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-play-circle" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Buy Tickets" onAction="#goBuyTickets" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-shopping-cart" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Teams" onAction="#goTeams" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-users" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Players" onAction="#goPlayers" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-user-astronaut" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Tournaments" onAction="#goTournaments" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-trophy" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Tournament Reviews" onAction="#goTournamentReviews" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-star-half-alt" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="teamChatBtn" text="My Chat" onAction="#goTeamChat" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-comments" styleClass="nav-btn-icon" /></graphic>
+            </Button>
 
-        <Label text="MANAGEMENT" styleClass="nav-section-label" />
+            <Label text="MANAGEMENT" styleClass="nav-section-label" />
 
-        <Button text="Budget" onAction="#goBudget" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-wallet" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button fx:id="myBudgetBtn" text="My Budget" onAction="#goMyBudget" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-wallet" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button fx:id="myExpensesBtn" text="My Expenses" onAction="#goMyExpenses" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-receipt" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button fx:id="chatbotBtn" text="Chatbot" onAction="#goChatbot" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-robot" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button fx:id="statBtn" text="Statistique" onAction="#goStatistique" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-chart-pie" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-           <Button fx:id="depenseBtn" text="💸 Expenses" onAction="#goDepenses" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-receipt" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Notifications" onAction="#goNotifications" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-bell" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Tickets" onAction="#goTickets" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-ticket-alt" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Reclamations" onAction="#goReclamations" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-exclamation-triangle" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Admin Responses" onAction="#goAdminResponses" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-inbox" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Punitions" onAction="#goPunitions" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-gavel" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Review Moderation" onAction="#goReviewModeration" styleClass="nav-btn">
-            <graphic><FontIcon iconLiteral="fas-shield-alt" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Player Requests" onAction="#goPlayerRequests" styleClass="nav-btn nav-btn-admin">
-            <graphic><FontIcon iconLiteral="fas-id-card" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Manager Requests" onAction="#goManagerRequests" styleClass="nav-btn nav-btn-admin">
-            <graphic><FontIcon iconLiteral="fas-user-tie" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Team Approvals" onAction="#goTeamApprovals" styleClass="nav-btn nav-btn-admin">
-            <graphic><FontIcon iconLiteral="fas-clipboard-check" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Payments" onAction="#goPaymentsDashboard" styleClass="nav-btn nav-btn-admin">
-            <graphic><FontIcon iconLiteral="fas-credit-card" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-        <Button text="Admin Panel" onAction="#goAdmin" styleClass="nav-btn nav-btn-admin">
-            <graphic><FontIcon iconLiteral="fas-user-shield" styleClass="nav-btn-icon" /></graphic>
-        </Button>
-    </children>
-</VBox>
+            <Button text="Budget" onAction="#goBudget" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-wallet" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="myBudgetBtn" text="My Budget" onAction="#goMyBudget" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-wallet" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="myExpensesBtn" text="My Expenses" onAction="#goMyExpenses" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-receipt" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="chatbotBtn" text="Chatbot" onAction="#goChatbot" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-robot" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="statBtn" text="Statistique" onAction="#goStatistique" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-chart-pie" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button fx:id="depenseBtn" text="Expenses" onAction="#goDepenses" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-receipt" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Notifications" onAction="#goNotifications" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-bell" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Tickets" onAction="#goTickets" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-ticket-alt" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+
+            <!-- Reclamations Button with Badge -->
+            <StackPane fx:id="reclamationsBtnStack" styleClass="badge-container">
+                <children>
+                    <Button text="Reclamations" onAction="#goReclamations" styleClass="nav-btn" StackPane.alignment="CENTER_LEFT">
+                        <graphic><FontIcon iconLiteral="fas-exclamation-triangle" styleClass="nav-btn-icon" /></graphic>
+                    </Button>
+                    <Label fx:id="reclamationsBadge" styleClass="notification-badge" text="0" managed="false" visible="false" StackPane.alignment="TOP_RIGHT" />
+                </children>
+            </StackPane>
+
+            <Button text="Admin Responses" onAction="#goAdminResponses" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-inbox" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Punitions" onAction="#goPunitions" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-gavel" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Review Moderation" onAction="#goReviewModeration" styleClass="nav-btn">
+                <graphic><FontIcon iconLiteral="fas-shield-alt" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Player Requests" onAction="#goPlayerRequests" styleClass="nav-btn nav-btn-admin">
+                <graphic><FontIcon iconLiteral="fas-id-card" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Manager Requests" onAction="#goManagerRequests" styleClass="nav-btn nav-btn-admin">
+                <graphic><FontIcon iconLiteral="fas-user-tie" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Team Approvals" onAction="#goTeamApprovals" styleClass="nav-btn nav-btn-admin">
+                <graphic><FontIcon iconLiteral="fas-clipboard-check" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Payments" onAction="#goPaymentsDashboard" styleClass="nav-btn nav-btn-admin">
+                <graphic><FontIcon iconLiteral="fas-credit-card" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+            <Button text="Admin Panel" onAction="#goAdmin" styleClass="nav-btn nav-btn-admin">
+                <graphic><FontIcon iconLiteral="fas-user-shield" styleClass="nav-btn-icon" /></graphic>
+            </Button>
+        </children>
+    </VBox>
 </ScrollPane>
